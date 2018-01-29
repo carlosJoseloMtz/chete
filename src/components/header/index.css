@@ -1,0 +1,62 @@
+.header {
+  color: white;
+  background-color: #03A9F4;
+  box-shadow: 0 2px 5px rgba(0,0,0,.26);
+}
+
+.header .auto-complete {
+  margin: 0 auto;
+  width: 80%;
+  padding: 20px 0;
+}
+
+.header nav {
+  background-color: #0288D1;
+}
+
+.header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header ul {
+  padding: 0;
+  margin: 0;
+}
+
+.header ul li {
+  display: block;
+}
+
+.header a {
+  display: block;
+  padding: 20px 27px;
+}
+
+.header a:hover {
+  background-color: #03A9F4;
+}
+
+@media (min-width: 768px) {
+
+  .header .auto-complete {
+    width: 70%;
+  }
+
+  .header .links {
+    display: flex;
+    text-align: center;
+  }
+
+  .header .links nav {
+    flex: 2;
+  }
+
+  .header .links nav ul {
+    display: flex;
+  }
+
+  .header .links nav ul li {
+    flex: 1;
+  }
+}
