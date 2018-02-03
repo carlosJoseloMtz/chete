@@ -52,3 +52,4 @@ Sería genial poder construir esto de forma modular, importar código custom que
 * Registro de clientes
 * Grupos de clientes
 * Integración con un CMS (de preferencia uno que sea con API)
+
