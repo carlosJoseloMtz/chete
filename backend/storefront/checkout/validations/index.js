@@ -5,7 +5,9 @@
  * @param {Object} cart - The cart to be validated.
  * @returns {Boolean} - True if the cart is valid, false otherwise.
  */
-module.exports = cart => {
+const validator = cart => {
   // TODO: implement the validators
   return true
 }
+
+export { validator } 

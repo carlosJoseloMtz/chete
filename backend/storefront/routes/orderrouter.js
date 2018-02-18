@@ -1,6 +1,6 @@
 import winston from 'winston'
 import { success, failed } from '../../services/responses'
-import validator from './checkout/validations'
+import { validator } from '../checkout/validations'
 
 const BASE = '/storefront/api/orders'
 
