@@ -3,6 +3,7 @@ import path from 'path'
 
 module.exports = app => {
   app.set('port', process.env.PORT || 3030)
+  // app  dbconection  pasar archivo
 
   // application / json EVERYTHING <3
   app.set('json spaces', 2)
