@@ -1,9 +1,15 @@
 import bodyParser from 'body-parser'
 import path from 'path'
+import mongoose from 'mongoose'
+import dbconection from '../core/database/database.js'
+
 
 module.exports = app => {
   app.set('port', process.env.PORT || 3030)
-  // app  dbconection  pasar archivo
+
+  // database conection
+  app.set('dbconection',mongoose.connect(dbconection.setConfig))
+
 
   // application / json EVERYTHING <3
   app.set('json spaces', 2)

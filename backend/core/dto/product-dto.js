@@ -14,3 +14,4 @@ product.update(res,req, item, function(result){
   return next(result)
 })
 }
+// esto es la capa de servicio

@@ -1,7 +1,5 @@
 import cors from 'cors'
 
-app.use(bodyParser())
-
 module.exports = app => {
   // enable CORS :V
   app.use(cors())
