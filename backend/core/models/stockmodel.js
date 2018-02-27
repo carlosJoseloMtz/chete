@@ -13,7 +13,7 @@ const StockSchema = new Schema ({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product'
-  }
+  },
 
   stock: {
     type: Number

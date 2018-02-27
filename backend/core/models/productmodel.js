@@ -22,7 +22,7 @@ const ProductSchema = new Schema({
       dueDate: {
         type: Date,
         required: true
-      }
+      },
 
       price: {
         type: Number,

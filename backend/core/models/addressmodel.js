@@ -29,4 +29,4 @@ const AddressModel = {
 
 }
 
-export default { AddressModel }
+export default {AddressModel}

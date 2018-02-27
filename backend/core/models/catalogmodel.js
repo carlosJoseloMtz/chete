@@ -8,7 +8,7 @@ const CatalogSchema = new Schema ({
     type: Number,
     autoIncrement: true,
     primaryKey:  true
-  }
+  },
 
   name: {
     type: String,
