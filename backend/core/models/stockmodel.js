@@ -12,7 +12,7 @@ const StockSchema = new Schema ({
 
   product: {
     type: Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'Products'
   },
 
   stock: {
@@ -20,4 +20,4 @@ const StockSchema = new Schema ({
   }
 })
 
-module.exports = mongoose.model('Stock', StockSchema)
+module.exports = mongoose.model('Stocks', StockSchema)

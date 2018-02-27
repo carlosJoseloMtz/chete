@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const AddressModel = {
+const AddressModel = new Schema({
 
     street: {
       type: String,
@@ -27,6 +27,17 @@ const AddressModel = {
       required: true
     }
 
-}
+    geopoint: {
+      latitude: {
+        type: Number,
+        required: true
+      },
+      longitude: {
+        type: Number,
+        required: true
+      }
+    }
 
-export default {AddressModel}
+})
+
+module.exports = mongoose.model('Address', AddresSchema)

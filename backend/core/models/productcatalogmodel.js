@@ -16,23 +16,22 @@ const CatalogSchema = new Schema ({
   },
 
   description: {
-    type: String,
-    required: true
+    type: String
   },
 
   products: [
     {
-      type: Number,
-      ref: 'Product'
+      type: Schema.Types.ObjectId,
+      ref: 'Products'
     }
   ],
 
   category: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: 'Categories'
     }
   ]
 })
 
-module.exports = mongoose.model('Catalog', CatalogSchema)
+module.exports = mongoose.model('Catalogs', CatalogSchema)

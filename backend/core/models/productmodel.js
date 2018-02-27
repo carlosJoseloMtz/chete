@@ -31,25 +31,63 @@ const ProductSchema = new Schema({
     }
   ],
 
-  discount : {
-    type: Boolean
-  },
+  discounts : [{
+     beginDate {
+      type: Date,
+      required: true
+      },
+
+    dueDate: {
+      type: Date,
+      required: true
+    },
+
+    price: {
+      type: Number,
+      required: true
+    },
+
+    useAsPrice: {
+      type: Boolean,
+      default: false
+    },
+
+    discount: {
+      value: {
+        type: Number
+      },
+      net: {
+        type: Boolean,
+        default: false
+      }
+    }
+  }],
 
   description: {
-    type: String,
-    required: true
+    type: String
   },
 
-  stock: {
+  stock: [{
     type: Schema.Types.ObjectId,
-    ref: 'Stock'
-  },
+    ref: 'Stocks'
+  }],
 
   catalog: {
     type: Schema.Types.ObjectId,
-    ref: 'Catalog'
+    ref: 'Catalogs'
+  }
+
+  code: {
+    type: String,
+    unique: true,
+    index: true
+  }
+
+  name: {
+    type: String,
+    required:  true
   }
 
 })
 
-module.exportes = mongoose.model('Product', ProductSchema)
+module.exportes = mongoose.model('Products', ProductSchema)

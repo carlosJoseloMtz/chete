@@ -1,14 +1,13 @@
 import bodyParser from 'body-parser'
 import path from 'path'
 import mongoose from 'mongoose'
-import dbconection from '../core/database/database.js'
 
 
 module.exports = app => {
   app.set('port', process.env.PORT || 3030)
 
   // database conection
-  app.set('dbconection',mongoose.connect(dbconection.setConfig))
+  app.set('dbconection',process.env.DB_CONNECTION || 'mongodb://localhost/cheteDB')
 
 
   // application / json EVERYTHING <3
