@@ -12,6 +12,11 @@ const ProductSchema = new Schema({
     primaryKey:  true
   },
 
+  /**
+   * Collection price have begin date,
+   * expired date and the price valid on
+   * dates (begin,expired)
+   */
   price: [
     {
       beginDate{
@@ -31,6 +36,11 @@ const ProductSchema = new Schema({
     }
   ],
 
+  /**
+   * discounts collection have due date date
+   * it is a important parameter for say
+   * what price we have to use
+   */
   discounts : [{
      beginDate {
       type: Date,

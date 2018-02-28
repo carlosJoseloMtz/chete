@@ -27,6 +27,11 @@ const AddressModel = new Schema({
       required: true
     }
 
+    /**
+     * Geopoint is for geolocation
+     * we need provide latitude and longitude
+     */
+    
     geopoint: {
       latitude: {
         type: Number,
