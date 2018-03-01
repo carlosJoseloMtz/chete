@@ -4,7 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-Vue.config.productionTip = false
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
+
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
+Vue.config.productionTip = true
+
+// Say Vue use material-vue
+Vue.use(VueMaterial)
 
 /* eslint-disable no-new */
 new Vue({
