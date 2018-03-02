@@ -3,19 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
-
 import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate)
-
-Vue.config.productionTip = true
-
-// Say Vue use material-vue
 Vue.use(VueMaterial)
-
+Vue.use(Vuelidate)
+Vue.config.productionTip = false
 /* eslint-disable no-new */
+if (process.BROWSER_BUILD) {
+  Vue.use(VueMaterial.mdCore)
+  Vue.use(VueMaterial.mdButton)
+  Vue.use(VueMaterial.mdIcon)
+  Vue.use(VueMaterial.mdInputContainer)
+  Vue.use(VueMaterial.mdSelect)
+}
 new Vue({
   el: '#app',
   router,

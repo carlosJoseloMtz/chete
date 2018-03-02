@@ -116,7 +116,6 @@ export default {
     },
     saveUser () {
       this.sending = true
-
       // Instead of this timeout, here you can call your API
       window.setTimeout(() => {
         this.lastUser = `${this.form.firstName} ${this.form.lastName}`
@@ -127,30 +126,17 @@ export default {
     },
     validateUser () {
       this.$v.$touch()
-
       if (!this.$v.$invalid) {
         this.saveUser()
       }
+
+      this.$router.push('Welcome')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~vue-material/dist/theme/engine"; // Import the theme engine
-
-@include md-register-theme("default", (
-  primary: md-get-palette-color(blue, A200), // The primary color of your application
-  accent: md-get-palette-color(red, A200), // The accent or secondary color
-));
-
-@import "~vue-material/dist/theme/all"; // Apply the theme
-  .md-progress-bar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
 
   .full-control > .md-list {
    width: 320px;
