@@ -6,9 +6,12 @@ import router from './router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import Vuelidate from 'vuelidate'
+import { store } from './store/index'
+
 Vue.use(VueMaterial)
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
+
 /* eslint-disable no-new */
 if (process.BROWSER_BUILD) {
   Vue.use(VueMaterial.mdCore)
@@ -17,9 +20,11 @@ if (process.BROWSER_BUILD) {
   Vue.use(VueMaterial.mdInputContainer)
   Vue.use(VueMaterial.mdSelect)
 }
+
 new Vue({
   el: '#app',
   router,
+  store: store,
   components: { App },
   template: '<App/>'
 })

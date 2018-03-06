@@ -5,12 +5,12 @@
       </md-app-toolbar>
 
       <md-app-drawer md-permanent="full">
-        <md-toolbar class="title text" md-elevation="0">
+        <md-toolbar class="title texttitle" md-elevation="0">
           Administration
         </md-toolbar>
 
         <md-list>
-          <md-list-item md-expand :md-expanded.sync="expandNews">
+          <md-list-item md-expand>
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text" >Users</span>
             <md-list slot="md-expand">
@@ -18,7 +18,7 @@
             </md-list>
           </md-list-item>
 
-          <md-list-item md-expand :md-expanded.sync="expandNews">
+          <md-list-item md-expand >
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Commerce</span>
             <md-list slot="md-expand">
@@ -29,7 +29,7 @@
             </md-list>
           </md-list-item>
 
-          <md-list-item md-expand :md-expanded.sync="expandNews">
+          <md-list-item md-expand>
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Store</span>
             <md-list slot="md-expand">
@@ -37,7 +37,7 @@
             </md-list>
           </md-list-item>
 
-          <md-list-item md-expand :md-expanded.sync="expandNews">
+          <md-list-item md-expand>
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Marketing</span>
             <md-list slot="md-expand">
@@ -74,6 +74,10 @@
     color: black !important;
   }
 
+  .texttitle {
+    color: white !important;
+  }
+
   .md-app {
    height: 100vh;
 }
@@ -83,7 +87,6 @@
 export default {
   name: 'AdminPage',
   data: () => ({
-    menuVisible: true
   })
 }
 </script>
