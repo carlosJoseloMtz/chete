@@ -5,6 +5,11 @@
       <li>{{product.description}}</li>
     </ul>
     <button v-on:click="reducePrice('actions button')">Reduce Price</button>
+
+    <md-field>
+       <label>Initial Value</label>
+       <md-input v-model="initial"></md-input>
+    </md-field>
   </div>
 </template>
 
@@ -20,22 +25,24 @@ export default {
       return this.$store.state.products
     },
     // es una forma fea de un getter
-    /*saleProducts () {
-      return this.$store.getters.saleProducts
-    }*/
-    ...mapGetters ([
+    /**
+      *saleProducts () {
+      *return this.$store.getters.saleProducts
+    } */
+    ...mapGetters([
       'saleProducts'
     ])
   },
   methods: {
-    ...mapActions ([
+    ...mapActions([
       'reducePrice'
     ])
-    /* forma fea de implementar una accion/mutacion
-    reducePrice: function (amount) {
-      this.$store.dispatch('reducePrice', amount)
-    }*/
   }
+  /*
+   * forma fea de implementar una accion/mutacion
+    reducePrice: function (amount) {
+    this.$store.dispatch('reducePrice', amount)
+  } */
   /* forma de hacer una mutacion
   methods: {
     reducePrice: function () {

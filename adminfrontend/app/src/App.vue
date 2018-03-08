@@ -4,6 +4,7 @@
 
 <script>
 import Login from './components/Login.vue'
+
 export default {
   name: 'App',
   data: () => ({
@@ -14,16 +15,10 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="sass">
 @import "~vue-material/dist/theme/engine"; // Import the theme engine
 
-@include md-register-theme("default", (
-  primary: md-get-palette-color(white, A200), // The primary color of your application
-  accent: md-get-palette-color(red, A200), // The accent or secondary color
-));
+@include md-register-theme("default", ( primary: md-get-palette-color(blue, A200), accent: md-get-palette-color(red, A200), checkbox: md-get-palette-color(lightgreen,500)));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
-  .md-app {
-    border: 1px solid rgba(#000, .12);
-  }
 </style>

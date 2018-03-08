@@ -78,5 +78,6 @@ export default new Router({
       path: '/Logout',
       name: 'Logout',
       component: Logout
-    }]
+    }],
+  mode: 'history'
 })
