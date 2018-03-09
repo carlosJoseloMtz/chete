@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step id="first" md-label="Category" :md-done.sync="first">
+      <md-step id="first" md-label="Catalogs" :md-done.sync="first">
         <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
           <h2 class="md-layout-item md-size-50">Provide next information</h2>
           <md-field class="md-layout-item md-size-90">
@@ -18,7 +18,7 @@
         </div>
       </md-step>
 
-      <md-step id="second" md-label="Catalogs" :md-error="secondStepError" :md-done.sync="second">
+      <md-step id="second" md-label="Categories" :md-error="secondStepError" :md-done.sync="second">
         <div class="md-layout md-gutter md-alignment-left-space-around">
           <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
             <h2 class="md-layout-item md-size-50">Chose categories depend </h2>

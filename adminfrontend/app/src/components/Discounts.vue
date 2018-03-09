@@ -1,17 +1,12 @@
 <template>
   <div>
-    <md-card>
-      <md-card-header>
-        <div class="md-title">
-          Discounts
-        </div>
-      </md-card-header>
-      <md-card-content>
-          <md-button class="md-raised md-primary">
-            algOOOOOOOOOOOOoo
-          </md-button>
-      </md-card-content>
-    </md-card>
+    <md-empty-state
+      md-icon="devices_other"
+      md-label="We are working on this module"
+      md-description="Please not go other app we love you.">
+      <md-button class="md-primary md-raised">Donate $1,000,000,000,000</md-button>
+      <md-subheader>It's a joke</md-subheader>
+    </md-empty-state>
   </div>
 </template>
 <script>

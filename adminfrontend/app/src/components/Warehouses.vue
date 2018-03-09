@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step class="md-layout md-alignment-center-center" id="first" md-label="Stock" :md-done.sync="first">
+      <md-step class="md-layout md-alignment-center-center" id="first" md-label="Warehouse/Store" :md-done.sync="first">
         <div class="md-layout-item md-size-100 md-alignment-center-center">
           <h2 class="md-layout-item md-size-100">Plese select one</h2>
             <md-checkbox v-model="store" ref="store">Store</md-checkbox>
@@ -20,15 +20,15 @@
                <label>Street</label>
                <md-input></md-input>
             </md-field>
-            <md-field class="md-layout-item md-size-40">
+            <md-field class="md-layout-item md-size-20">
                <label>City</label>
                <md-input></md-input>
             </md-field>
-            <md-field class="md-layout-item md-size-40">
+            <md-field class="md-layout-item md-size-20">
                <label>State</label>
                <md-input></md-input>
             </md-field>
-            <md-field class="md-layout-item md-size-30">
+            <md-field class="md-layout-item md-size-60">
                <label>Country</label>
                <md-input></md-input>
             </md-field>
