@@ -9,6 +9,7 @@ import Employees from '@/components/Employees'
 import Categories from '@/components/Categories'
 import Prices from '@/components/Prices'
 import Warehouses from '@/components/Warehouses'
+import Stocks from '@/components/Stock'
 import Discounts from '@/components/Discounts'
 import Logout from '@/components/Logout'
 import Welcome from '@/components/Welcome'
@@ -51,6 +52,11 @@ export default new Router({
           path: '/Warehouses',
           name: 'Warehouses',
           component: Warehouses
+        },
+        {
+          path: '/Stocks',
+          name: 'Stocks',
+          component: Stocks
         },
         {
           path: '/Discounts',

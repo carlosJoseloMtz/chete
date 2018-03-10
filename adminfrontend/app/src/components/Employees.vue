@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step id="first" md-label="Catalogs" :md-done.sync="first">
+      <md-step id="first" md-label="Employee" :md-done.sync="first">
         <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
           <h2 class="md-layout-item md-size-50">Provide employee information</h2>
           <md-field class="md-layout-item md-size-80">
@@ -15,7 +15,7 @@
           <md-field class="md-layout-item md-size-80">
              <label>Email</label>
              <md-input v-model="password"></md-input>
-          </md-field>
+          </md-field>        
           <div class="md-layout-item md-size-80">
             <md-button class="md-raised md-primary" @click="setDone('first','second')">Continue</md-button>
           </div>

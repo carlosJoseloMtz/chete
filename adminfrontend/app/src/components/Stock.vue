@@ -1,45 +1,37 @@
 <template>
   <div>
     <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step id="first" md-label="Catalogs" :md-done.sync="first">
+      <md-step id="first" md-label="Stok" :md-done.sync="first">
         <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
-          <h2 class="md-layout-item md-size-50">Provide next information</h2>
+          <h2 class="md-layout-item md-size-50">Provide information</h2>
           <md-field class="md-layout-item md-size-90">
-             <label>Name</label>
-             <md-input v-model="name"></md-input>
+             <label>Cantidad</label>
+             <md-input v-model="cantidad"></md-input>
           </md-field>
+          <md-autocomplete
+                  class="md-layout-item md-size-90"
+                  v-model="selectedEmployee"
+                  :md-options="catalogs"
+                  md-layout="box">
+            <label>Products...</label>
+          </md-autocomplete>
           <md-field class="md-layout-item md-size-90">
-            <label>Description</label>
-            <md-textarea v-model="textarea"></md-textarea>
+            <label for="catalogs">Warehouse</label>
+            <md-select v-model="warehouses" name="catalogs" id="catalogs" md-dense multiple>
+              <md-option v-for="warehouse in warehouses" :Key="warehouse.id">{{warehouse.name}}</md-option>
+            </md-select>
           </md-field>
           <div class="md-layout-item md-size-80">
             <md-button class="md-raised md-primary" @click="setDone('first','second')">Continue</md-button>
           </div>
         </div>
       </md-step>
-
-      <md-step id="second" md-label="Categories" :md-error="secondStepError" :md-done.sync="second">
-        <div class="md-layout md-gutter md-alignment-left-space-around">
-          <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
-            <h2 class="md-layout-item md-size-50">Chose categories depend </h2>
-            <md-autocomplete
-                    v-model="selectedEmployee"
-                    :md-options="catalogs"
-                    md-layout="box">
-              <label>Search...</label>
-            </md-autocomplete>
-            <div class="md-layout-item md-size-80">
-              <md-button class="md-raised md-primary" @click="setDone('second','second')">Continue</md-button>
-            </div>
-        </div>
-      </div>
-      </md-step>
     </md-steppers>
   </div>
 </template>
 <script>
 export default {
-  name: 'Catalogs',
+  name: 'Stocks',
   methods: {
     setDone (id, index) {
       this[id] = true
@@ -61,16 +53,13 @@ export default {
     }
   },
   data: () => ({
-    name: null,
     warehouse: false,
     active: 'first',
     first: false,
-    second: false,
-    third: false,
     secondStepError: null,
     selectedItem: String,
     textarea: null,
-    catalogs: [{
+    warehouses: [{
       id: '1',
       name: 'Star Wars'
     },

@@ -49,20 +49,9 @@
             </md-field>
           </div>
           <div>
-            <md-button class="md-raised md-primary" @click="setDone('second','third')">Continue</md-button>
+            <md-button class="md-raised md-primary" @click="setDone('second','second')">Continue</md-button>
           </div>
         </div>
-      </md-step>
-      <md-step id="third" md-label="Stck" :md-done.sync="third">
-        <div>
-          <md-field>
-             <label>Stock</label>
-             <md-input></md-input>
-          </md-field>
-        </div>
-           <div>
-             <md-button class="md-raised md-primary" @click="setDone('third','third')">Guardar</md-button>
-           </div>
       </md-step>
     </md-steppers>
   </div>

@@ -34,6 +34,7 @@
             <span class="md-list-item-text">Store</span>
             <md-list slot="md-expand">
               <md-list-item class="md-inset"><router-link class="text" to="/Warehouses">warehouses</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" to="/Stocks">stocks</router-link></md-list-item>
             </md-list>
           </md-list-item>
 
