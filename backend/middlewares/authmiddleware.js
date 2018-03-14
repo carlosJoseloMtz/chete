@@ -1,4 +1,4 @@
-import { authService } from '../services/authservice'
+import { authService } from '../core/services/authservice'
 import authRequired from '../app/authroutes'
 
 const generateError = (res, status) => {

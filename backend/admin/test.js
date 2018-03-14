@@ -1,5 +1,5 @@
 import winston from 'winston'
-import { authService } from '../services/authservice'
+import { authService } from '../core/services/authservice'
 
 const LOG = winston
 

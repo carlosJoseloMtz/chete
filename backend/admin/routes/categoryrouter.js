@@ -1,5 +1,5 @@
 import winston from 'winston'
-import { success } from '../../services/responses'
+import { success } from '../../commons/responses'
 
 const BASE = '/admin/api/categories'
 

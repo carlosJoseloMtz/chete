@@ -6,6 +6,8 @@ import { authService } from '../services/authservice'
  */
 module.exports = app => {
 
+  console.log('remove me :V')
+
   authService.secret = app.get('secret')
   authService.expiryTime = app.get('expiryTime')
   authService.expiryFactor = app.get('expiryFactor')
