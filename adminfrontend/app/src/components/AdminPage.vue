@@ -1,7 +1,8 @@
 <template>
   <div class="page-container">
     <md-app md-waterfall md-mode="fixed">
-      <md-app-toolbar class="">
+      <md-app-toolbar class="principal-title">
+          {{title}}
       </md-app-toolbar>
 
       <md-app-drawer md-permanent="full">
@@ -14,7 +15,7 @@
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text" >Users</span>
             <md-list slot="md-expand">
-              <md-list-item class="md-inset"><router-link class="text" to="/Employees">employees</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Employee')" to="/Employees">employees</router-link></md-list-item>
             </md-list>
           </md-list-item>
 
@@ -22,10 +23,10 @@
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Commerce</span>
             <md-list slot="md-expand">
-              <md-list-item class="md-inset"><router-link class="text" to="/Catalogs">catalog</router-link></md-list-item>
-              <md-list-item class="md-inset"><router-link class="text" to="/Categories">categories</router-link></md-list-item>
-              <md-list-item class="md-inset"><router-link class="text" to="/Products">products</router-link></md-list-item>
-              <md-list-item class="md-inset"><router-link class="text" to="/Prices">prices</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Catalog')" to="/Catalogs">catalog</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Categories')" to="/Categories">categories</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Products')" to="/Products">products</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Prices')" to="/Prices">prices</router-link></md-list-item>
             </md-list>
           </md-list-item>
 
@@ -33,8 +34,8 @@
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Store</span>
             <md-list slot="md-expand">
-              <md-list-item class="md-inset"><router-link class="text" to="/Warehouses">warehouses</router-link></md-list-item>
-              <md-list-item class="md-inset"><router-link class="text" to="/Stocks">stocks</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Warehouse')" to="/Warehouses">warehouses</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Stock')" to="/Stocks">stocks</router-link></md-list-item>
             </md-list>
           </md-list-item>
 
@@ -42,7 +43,7 @@
             <md-icon>whatshot</md-icon>
             <span class="md-list-item-text">Marketing</span>
             <md-list slot="md-expand">
-              <md-list-item class="md-inset"><router-link class="text" to="/Discounts">discounts</router-link></md-list-item>
+              <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Discounts')" to="/Discounts">discounts</router-link></md-list-item>
             </md-list>
           </md-list-item>
           <md-list-item>
@@ -82,12 +83,24 @@
   .md-app {
    height: 100vh;
 }
+
+.principal-title {
+  font-weight: bold;
+  font-size: 25px;
+  padding-left: 40%;
+}
 </style>
 
 <script>
 export default {
   name: 'AdminPage',
+  methods: {
+    verifyTitle (value) {
+      this.title = value
+    }
+  },
   data: () => ({
+    title: null
   })
 }
 </script>

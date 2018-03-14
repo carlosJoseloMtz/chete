@@ -17,8 +17,8 @@
           </md-autocomplete>
           <md-field class="md-layout-item md-size-90">
             <label for="catalogs">Warehouse</label>
-            <md-select v-model="warehouses" name="catalogs" id="catalogs" md-dense multiple>
-              <md-option v-for="warehouse in warehouses" :Key="warehouse.id">{{warehouse.name}}</md-option>
+            <md-select v-model="warehouses" name="warehouses" id="warehouses" md-dense multiple>
+              <md-option v-for="warehouse in warehouses" :data="warehouse" :Key="warehouse.id">{{warehouse.name}}</md-option>
             </md-select>
           </md-field>
           <div class="md-layout-item md-size-80">
@@ -31,7 +31,7 @@
 </template>
 <script>
 export default {
-  name: 'Stocks',
+  name: 'Stocks-form',
   methods: {
     setDone (id, index) {
       this[id] = true

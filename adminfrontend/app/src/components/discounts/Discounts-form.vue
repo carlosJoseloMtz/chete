@@ -6,8 +6,8 @@
           <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
             <h2 class="md-layout-item md-size-50">Select product</h2>
             <md-autocomplete
-                    v-model="selectedEmployee"
-                    :md-options="products"
+                    v-model="selectedDiscount"
+                    :md-options="discounts"
                     md-layout="box">
               <label>Search...</label>
             </md-autocomplete>
@@ -30,6 +30,12 @@
              <md-datepicker v-model="dueDate">
              </md-datepicker>
           </div>
+          <div  class="md-layout-item md-size-80">
+            <md-checkbox v-model="discount" ref="warehouse">Use as Price</md-checkbox>
+          </div>
+          <div  class="md-layout-item md-size-80">
+            <md-checkbox v-model="net" ref="warehouse">Use as Net</md-checkbox>
+          </div>
           <md-field class="md-layout-item md-size-50">
              <label>$ Price</label>
              <md-input v-model="price"></md-input>
@@ -44,7 +50,7 @@
 </template>
 <script>
 export default {
-  name: 'Prices',
+  name: 'Discounts-form',
   computed: {
     products () {
       return this.$store.state.products
@@ -71,17 +77,38 @@ export default {
     beginDate: Date.now(),
     dueDate: null,
     price: null,
-    name: null,
-    warehouse: false,
     active: 'first',
     first: false,
     second: false,
-    third: false,
-    secondStepError: null,
-    selectedItem: String,
-    textarea: null,
+    net: false,
     discount: false,
-    description: null
+    secondStepError: null,
+    selectedDiscount: null,
+    selectedItem: String,
+    discounts: [{
+      id: '1',
+      name: 'Star Wars'
+    },
+    {
+      id: '2',
+      name: 'Fast and Furios'
+    },
+    {
+      id: '3',
+      name: 'Avengers'
+    },
+    {
+      id: '4',
+      name: 'Thor'
+    },
+    {
+      id: '5',
+      name: 'Iron Man'
+    },
+    {
+      id: '6',
+      name: 'Wolverine'
+    }]
   })
 }
 </script>

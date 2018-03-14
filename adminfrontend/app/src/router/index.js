@@ -2,15 +2,22 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import AdminPage from '@/components/AdminPage'
 import Login from '@/components/Login'
-import Test from '@/components/test'
-import Catalogs from '@/components/Catalogs'
-import Products from '@/components/Products'
-import Employees from '@/components/Employees'
-import Categories from '@/components/Categories'
-import Prices from '@/components/Prices'
-import Warehouses from '@/components/Warehouses'
-import Stocks from '@/components/Stock'
-import Discounts from '@/components/Discounts'
+import Catalogs from '@/components/catalogs/Catalogs'
+import CatalogsForm from '@/components/catalogs/Catalogs-form'
+import Products from '@/components/products/Products'
+import ProductsForm from '@/components/products/Products-form'
+import Employees from '@/components/employee/Employees'
+import EmployeesForm from '@/components/employee/Employees-form'
+import Categories from '@/components/categories/Categories'
+import CategoriesForm from '@/components/categories/Categories-form'
+import Prices from '@/components/prices/Prices'
+import PricesForm from '@/components/prices/Prices-form'
+import Warehouses from '@/components/warehouses/Warehouses'
+import WarehousesForm from '@/components/warehouses/Warehouses-form'
+import Stocks from '@/components/stocks/Stock'
+import StocksForm from '@/components/stocks/Stocks-form'
+import Discounts from '@/components/discounts/Discounts'
+import DiscountsForm from '@/components/discounts/Discounts-form'
 import Logout from '@/components/Logout'
 import Welcome from '@/components/Welcome'
 
@@ -29,9 +36,19 @@ export default new Router({
           component: Employees
         },
         {
+          path: '/Employees-form',
+          name: 'EmployeesForm',
+          component: EmployeesForm
+        },
+        {
           path: '/Catalogs',
           name: 'Catalogs',
           component: Catalogs
+        },
+        {
+          path: '/Catalogs-form',
+          name: 'CatalogsForm',
+          component: CatalogsForm
         },
         {
           path: '/Categories',
@@ -39,9 +56,19 @@ export default new Router({
           component: Categories
         },
         {
+          path: '/Categories-form',
+          name: 'CategoriesForm',
+          component: CategoriesForm
+        },
+        {
           path: '/Products',
           name: 'Products',
           component: Products
+        },
+        {
+          path: '/Products-form',
+          name: 'ProductsForm',
+          component: ProductsForm
         },
         {
           path: '/Prices',
@@ -49,9 +76,19 @@ export default new Router({
           component: Prices
         },
         {
+          path: '/Prices-form',
+          name: 'PricesForm',
+          component: PricesForm
+        },
+        {
           path: '/Warehouses',
           name: 'Warehouses',
           component: Warehouses
+        },
+        {
+          path: '/Warehouses-form',
+          name: 'WarehousesForm',
+          component: WarehousesForm
         },
         {
           path: '/Stocks',
@@ -59,9 +96,19 @@ export default new Router({
           component: Stocks
         },
         {
+          path: '/Stocks-form',
+          name: 'StocksForm',
+          component: StocksForm
+        },
+        {
           path: '/Discounts',
           name: 'Discounts',
           component: Discounts
+        },
+        {
+          path: '/Discounts-form',
+          name: 'DiscountsForm',
+          component: DiscountsForm
         },
         {
           path: '/Welcome',
@@ -74,11 +121,6 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
-    },
-    {
-      path: '/Test',
-      name: 'Test',
-      component: Test
     },
     {
       path: '/Logout',

@@ -58,10 +58,10 @@
 
 <script>
 // para hacer un mapeo de getters. actions
-import {mapActions, mapGetters} from 'vuex'
+// import {mapActions, mapGetters} from 'vuex'
 
 export default {
-  name: 'Products',
+  name: 'Products-form',
   computed: {
     products () {
       return this.$store.state.products
@@ -101,7 +101,7 @@ export default {
     description: null
   })
   // forma de traer el state product del store
-  /*computed: {
+  /* computed: {
     products () {
       return this.$store.state.products
     },
@@ -110,7 +110,7 @@ export default {
       *saleProducts () {
       *return this.$store.getters.saleProducts
     } */
-    /*...mapGetters([
+  /* ...mapGetters([
       'saleProducts'
     /*])
   },

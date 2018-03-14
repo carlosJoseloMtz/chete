@@ -58,7 +58,7 @@
 </template>
 <script>
 export default {
-  name: 'Warehouses',
+  name: 'Warehouses-form',
   methods: {
     setDone (id, index) {
       this[id] = true
@@ -97,8 +97,8 @@ export default {
     selectedItem: String
   })
 }
-
 </script>
+
 <style>
 .center {
   padding-top: 30px;

@@ -30,9 +30,6 @@
              <md-datepicker v-model="dueDate">
              </md-datepicker>
           </div>
-          <div  class="md-layout-item md-size-80">
-            <md-checkbox v-model="discount" ref="warehouse">Use as Price</md-checkbox>
-          </div>
           <md-field class="md-layout-item md-size-50">
              <label>$ Price</label>
              <md-input v-model="price"></md-input>
@@ -47,7 +44,7 @@
 </template>
 <script>
 export default {
-  name: 'Discounts',
+  name: 'Prices-form',
   computed: {
     products () {
       return this.$store.state.products
@@ -74,12 +71,17 @@ export default {
     beginDate: Date.now(),
     dueDate: null,
     price: null,
+    name: null,
+    warehouse: false,
     active: 'first',
     first: false,
     second: false,
-    discount: false,
+    third: false,
     secondStepError: null,
-    selectedItem: String
+    selectedItem: String,
+    textarea: null,
+    discount: false,
+    description: null
   })
 }
 </script>
