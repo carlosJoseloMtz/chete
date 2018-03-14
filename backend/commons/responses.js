@@ -20,7 +20,8 @@ const success = (data) => {
 }
 
 const failed = (errors) => {
-  return new TransactionResponse(STATUS.FAIL, null, errors)
+  return new TransactionResponse(STATUS.FAIL, null, errors || 'Transaction could not be processed')
 }
 
 export { success, failed }
+

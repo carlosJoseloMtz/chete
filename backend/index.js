@@ -6,10 +6,10 @@ const mongoose = require("mongoose")
 
 load('app/config',
   { verbose: true })
-  .then('app/serviceloader')
   .then('app/bootloader')
   .then('app/loggerloader')
   .then('app/dbloader')
+  .then('core/loaders')
   .then('middlewares')
   .then('admin')
   .then('storefront')
