@@ -7,7 +7,7 @@ module.exports = app => {
   app.set('port', process.env.PORT || 3030)
 
   // database conection
-  app.set('dbconection',process.env.DB_CONNECTION || 'mongodb://localhost/cheteDB')
+  app.set('dbconection',process.env.DB_CONNECTION || 'mongodb://127.0.0.1:27017/cheteDB',{useMongoClient: true})
 
 
   // application / json EVERYTHING <3

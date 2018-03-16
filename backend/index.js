@@ -3,6 +3,7 @@ import load from 'express-load'
 
 const app = express()
 const mongoose = require("mongoose")
+mongoose.Promise = global.Promise;
 
 load('app/config',
   { verbose: true })

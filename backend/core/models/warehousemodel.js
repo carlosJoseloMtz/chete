@@ -1,15 +1,10 @@
 import mongoose  from 'mongoose'
 import BaseModel from './basemodel'
 import AddressModel from './addressmodel'
+const Schema = mongoose.Schema
 
 const WareHouseSchema = new Schema({
   ...BaseModel,
-
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
 
   stock: [{
     type: Schema.Types.ObjectId,
@@ -26,5 +21,5 @@ const WareHouseSchema = new Schema({
     enum: ['store','warehouse']
   }
 })
-
-module.exports = mongoose.model('WareHouses', WareHouseSchema)
+let Warehouses = mongoose.model('WareHouses', WareHouseSchema)
+module.exports = Warehouses
