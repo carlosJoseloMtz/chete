@@ -1,3 +1,4 @@
+
 const convert = (warehouses) => {
   return {
     id: warehouses._id,
@@ -6,4 +7,5 @@ const convert = (warehouses) => {
     type: warehouses.type
   }
 }
+
 export { convert }

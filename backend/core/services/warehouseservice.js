@@ -1,6 +1,6 @@
 import jwt from 'jwt-simple'
 import moment from 'moment'
-import { warehousesDao } from '../../admin/dao/warehousedao'
+import { warehousesDao } from '../dao/warehousedao'
 
 class WarehousesService {
 

@@ -1,8 +1,9 @@
 import winston from 'winston'
 import { success,failed } from '../../commons/responses'
 import { warehousesService } from '../../core/services/warehouseservice'
-import {convert as convertWarehouse } from '../converters/warehousesconverter'
+import {convert as convertWarehouse } from '../converters/warehouseconverter'
 import { convertAll } from '../../commons/utilconverter'
+import * as LOG from 'winston'
 
 const BASE = '/admin/api/v1/warehouses'
 
@@ -21,12 +22,12 @@ module.exports = app => {
   app.post(`${BASE}`, (req, res) => {
     console.log(req.body)
     warehousesService.create(req.body).then(warehouses =>
-      convertAll(warehouses, convertWarehouse)
-    ).then(warehouses => {
-      console.log(warehouses)
-      res.json(success(warehouses))
+      convertWarehouse(warehouses)
+    ).then(wh => {
+      LOG.debug(wh)
+      res.json(success(wh))
     }).catch(error => {
-      console.log(error)
+      LOG.error(error)
       res.status(500).json(failed())
     })
   })
@@ -50,8 +51,8 @@ module.exports = app => {
   })
 
   app.put(`${BASE}`, (req, res) => {
-    warehousesService.update(req.body).then(respuesta => {
-      res.json(success(respuesta))
+    warehousesService.update(req.body).then(_ => {
+      res.json(success())
     }).catch(error => {
       res.status(500).json(failed())
     })

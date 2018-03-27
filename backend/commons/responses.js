@@ -16,7 +16,7 @@ class TransactionResponse {
 }
 
 const success = (data) => {
-  return new TransactionResponse(STATUS.OK, data)
+  return new TransactionResponse(STATUS.OK, data || 'Transaction successful')
 }
 
 const failed = (errors) => {
