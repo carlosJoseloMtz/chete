@@ -11,7 +11,7 @@ class WarehousesDao {
      } else {
        response = warehouse
      }
-   })
+   }).populate('address')
    return response || []
   }
 
