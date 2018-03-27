@@ -77,9 +77,8 @@ class WarehousesDao {
    }
 
    update (warehouse) {
-     return WarehouseModel.update({ _id: warehouse.id }, warehouse})
+     return WarehouseModel.update({ _id: warehouse.id }, warehouse)
    }
 }
 
 export let warehousesDao = new WarehousesDao()
-

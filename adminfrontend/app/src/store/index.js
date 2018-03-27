@@ -29,8 +29,11 @@ export const store = new Vuex.Store({
     },
 
     removeWarehouse: (context, index) => {
-      console.log(context)
       context.commit('removeWarehouse', index)
+    },
+
+    addOneWarehouse: (context, warehouse) => {
+      context.commit('addOneWarehouse', index)
     }
   },
 
@@ -41,6 +44,10 @@ export const store = new Vuex.Store({
           warehouseResponse.push(data.data[element])
         }
       })
+    },
+
+    addOneWarehouse: (state, index) => {
+      state.warehouses.splice(index, 1)
     },
 
     removeWarehouse: (state, index) => {
