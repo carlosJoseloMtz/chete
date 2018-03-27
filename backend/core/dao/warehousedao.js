@@ -32,16 +32,8 @@ class WarehousesDao {
    return response || []
   }
 
-  async delete (id) {
-  let msj
-  await  WarehouseModel.remove({_id: id},function(err){
-     if(err){
-       console.log(' No se borro')
-     } else {
-       msj = 'se borro la wea esa '
-     }
-   })
-   return msj
+  delete (id) {
+    return WarehouseModel.remove({ _id: id })
   }
 
   async create (warehouse) {
