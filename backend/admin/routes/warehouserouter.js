@@ -43,8 +43,8 @@ module.exports = app => {
   })
 
   app.delete(`${BASE}/:id`, (req, res) => {
-    warehousesService.delete(req.param('id')).then(respuesta => {
-      res.json(success(respuesta))
+    warehousesService.delete(req.param('id')).then(_ => {
+      res.json(success())
     }).catch(error => {
       res.status(500).json(failed())
     })
