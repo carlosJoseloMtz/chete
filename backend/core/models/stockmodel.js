@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import BaseModel from './basemodel'
+const Schema = mongoose.Schema
 
 const StockSchema = new Schema ({
   ... BaseModel,

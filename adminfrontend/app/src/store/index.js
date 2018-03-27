@@ -1,64 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import WarehouseService from '../services/warehouse-service'
 
 Vue.use(Vuex)
-
+let warehouseResponse = []
 export const store = new Vuex.Store({
-  strict: true,
   state: {
-    products: [{
-      id: 1,
-      name: 'some',
-      price: [{
-        beginDate: Date.now(),
-        dueDate: Date.now(),
-        price: 1.00
-      }],
-      discounts: [{
-        beginDate: Date.now(),
-        dueDate: Date.now(),
-        price: 1.00,
-        useAsPrice: false,
-        discount: {
-          value: 0,
-          net: false
-        }
-      }],
-      description: 'First Test Product',
-      stock: [{
-        stock: 1
-      }],
-      catalog: [{
-        catalog: 12312
-      }]
-    },
-    {
-      id: 2,
-      name: 'some 2',
-      price: [{
-        beginDate: Date.now(),
-        dueDate: Date.now(),
-        price: 123.00
-      }],
-      discounts: [{
-        beginDate: Date.now(),
-        dueDate: Date.now(),
-        price: 1.00,
-        useAsPrice: false,
-        discount: {
-          value: 0,
-          net: false
-        }
-      }],
-      description: 'Second Test Product',
-      stock: [{
-        stock: 1
-      }],
-      catalog: [{
-        catalog: 12312
-      }]
-    }]
+    warehouses: warehouseResponse
   },
+
   getters: {
     saleProducts: state => {
       var saleProducts = state.products.map(product => {
@@ -70,14 +20,33 @@ export const store = new Vuex.Store({
       return saleProducts
     }
   },
+
   actions: {
     reducePrice: (context, text) => {
       setTimeout(function () {
         context.commit('reducePrice', text)
       }, 2000)
+    },
+
+    removeWarehouse: (context, index) => {
+      console.log(context)
+      context.commit('removeWarehouse', index)
     }
   },
+
   mutations: {
+    addWarehouse: (state) => {
+      WarehouseService.getAll().then(data => {
+        for (const element in data.data) {
+          warehouseResponse.push(data.data[element])
+        }
+      })
+    },
+
+    removeWarehouse: (state, index) => {
+      state.warehouses.splice(index, 1)
+    },
+
     reducePrice: (state, text) => {
       state.products.forEach(product => {
         product.description = text

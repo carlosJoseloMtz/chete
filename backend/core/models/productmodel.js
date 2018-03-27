@@ -1,6 +1,7 @@
 // es5 use this not required because for es5
 import mongoose from 'mongoose'
 import BaseModel from './basemodel'
+const Schema = mongoose.Schema
 
 //Model for product
 const ProductSchema = new Schema({

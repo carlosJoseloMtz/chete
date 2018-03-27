@@ -18,9 +18,22 @@ module.exports = app => {
     })
   })
 
-  app.get(`${BASE}`, (req, res) => {
-    warehousesService.create().then(warehouses =>
+  app.post(`${BASE}`, (req, res) => {
+    console.log(req.body)
+    warehousesService.create(req.body).then(warehouses =>
       convertAll(warehouses, convertWarehouse)
+    ).then(warehouses => {
+      console.log(warehouses)
+      res.json(success(warehouses))
+    }).catch(error => {
+      console.log(error)
+      res.status(500).json(failed())
+    })
+  })
+
+  app.get(`${BASE}/:id`, (req, res) => {
+    warehousesService.findById(req.param('id')).then(warehouses =>
+      convertWarehouse(warehouses)
     ).then(warehouses => {
       res.json(success(warehouses))
     }).catch(error => {
@@ -28,30 +41,16 @@ module.exports = app => {
     })
   })
 
-  app.get(`${BASE}/findById`, (req, res) => {
-    warehousesService.findById('5aab6692d55c2c170fa834cf').then(warehouses =>
-      convertAll(warehouses, convertWarehouse)
-    ).then(warehouses => {
-      res.json(success(warehouses))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
-  })
-
-  app.get(`${BASE}/delete`, (req, res) => {
-    warehousesService.delete('5aab554424261b7fdbb5ef2e').then(respuesta => {
-      console.log(respuesta)
+  app.delete(`${BASE}/:id`, (req, res) => {
+    warehousesService.delete(req.param('id')).then(respuesta => {
       res.json(success(respuesta))
     }).catch(error => {
       res.status(500).json(failed())
     })
   })
 
-  app.get(`${BASE}/update`, (req, res) => {
-    warehousesService.update({
-      "id": "5aab555a79c0c5013b5ec6ae",
-      "type": "warehouses"
-    }).then(respuesta => {
+  app.put(`${BASE}`, (req, res) => {
+    warehousesService.update(req.body).then(respuesta => {
       res.json(success(respuesta))
     }).catch(error => {
       res.status(500).json(failed())

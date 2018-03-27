@@ -1,9 +1,10 @@
 import WarehouseModel from '../../core/models/warehousemodel'
-
+import AddressModel from '../../core/models/addressmodel'
+import StockModel from '../../core/models/stockmodel'
 
 class WarehousesDao {
-  async getAll() {
-  var response = []
+  async getAll () {
+  var response
   await  WarehouseModel.find({},function(err, warehouse){
      if(err){
        console.log('no hay nada por mostrar')
@@ -11,11 +12,11 @@ class WarehousesDao {
        response = warehouse
      }
    })
-   return response
+   return response || []
   }
 
-  async findById(id) {
-  var response
+  async findById (id) {
+  let response
   await  WarehouseModel.findById(id,function(err, warehouse){
      if(err){
        console.log('no lo encontre :()')
@@ -23,12 +24,11 @@ class WarehousesDao {
        response = warehouse
      }
    })
-   return [response]
+   return response || []
   }
 
-  async delete(id) {
+  async delete (id) {
   var msj
-  console.log('dentro del delete')
   await  WarehouseModel.remove({_id: id},function(err){
      if(err){
        console.log(' No se borro')
@@ -36,41 +36,42 @@ class WarehousesDao {
        msj = 'se borro la wea esa '
      }
    })
-   console.log(msj)
    return msj
   }
 
-  async create() {
-    var newWarehouse = new WarehouseModel({
-      stock: [],
-      address: [],
-      type: 'warehouse'
+  async create (warehouse) {
+    var newAddressModel = new AddressModel(warehouse.address)
+    await newAddressModel.save(function(err,doc){
+     if(err){
+          console.log('no se pudo guardar el modelo')
+     }
     })
 
-    let response = []
-     await newWarehouse.save(function(err,warehouse){
-       if(err){
+    var newWarehouse = new WarehouseModel({
+                              "type": warehouse.type,
+                              "address": newAddressModel,
+                              "stock": []})
+    await newWarehouse.save(function(err,doc){
+      if(err){
         console.log('no se pudo guardar el warehouse')
+      } else {
+        console.log(doc)
       }
      })
      return [newWarehouse]
    }
 
-   async update(warehouse) {
+   async update (warehouse) {
      var msj = ''
-     var model = {
-       type: warehouse.type
-     }
-    await  WarehouseModel.update({_id: warehouse.id},model,function(err, warehouses){
-     if(err){
-       console.log('no lo encontre :()')
-     } else {
-       msj = 'se actualizo'
-     }
-    })
-    return 'se actualizo'
+     await  WarehouseModel.update({_id: warehouse.id},warehouse,function(err, warehouses){
+       if(err){
+         console.log('no lo encontre :()')
+       } else {
+         msj = 'se actualizo'
+       }
+      })
+      return msj
   }
-
 }
 
 export let warehousesDao = new WarehousesDao

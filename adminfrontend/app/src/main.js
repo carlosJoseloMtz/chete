@@ -7,15 +7,20 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import Vuelidate from 'vuelidate'
 import { store } from './store/index'
+import VueFetch from 'vue-fetch'
 
 Vue.use(VueMaterial)
 Vue.use(Vuelidate)
+Vue.use(VueFetch, {
+  polyfill: true
+})
 
 Vue.config.productionTip = false;
 
 (() => new Vue({
   el: '#app',
   router,
+  fetch: VueFetch,
   store: store,
   components: { App },
   template: '<App/>'

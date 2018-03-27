@@ -8,8 +8,8 @@ class WarehousesService {
     return warehousesDao.getAll()
   }
 
-  create () {
-    return warehousesDao.create()
+  create (warehouse) {
+    return warehousesDao.create(warehouse)
   }
   delete (id) {
     return warehousesDao.delete(id)

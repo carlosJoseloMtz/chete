@@ -4,7 +4,6 @@
 
 <script>
 import Login from './components/Login.vue'
-
 export default {
   name: 'App',
   data: () => ({
@@ -12,6 +11,9 @@ export default {
   }),
   components: {
     'login': Login
+  },
+  beforeMount () {
+    this.$store.commit('addWarehouse')
   }
 }
 </script>
