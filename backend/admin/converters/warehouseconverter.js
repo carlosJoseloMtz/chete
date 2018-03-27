@@ -7,5 +7,6 @@ const convert = (warehouses) => {
     type: warehouses.type
   }
 }
+    
 
 export { convert }

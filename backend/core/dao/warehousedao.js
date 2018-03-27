@@ -19,7 +19,7 @@ class WarehousesDao {
 
   async findById (id) {
     let response
-    await WarehouseModel.findById(id, (err, warehouse) => {
+    await WarehouseModel.findById(id, function (err, warehouse) {
 
       if(err){
         LOG.error('Error while trying to find a warehouse by id')

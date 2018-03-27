@@ -1,27 +1,32 @@
 import jwt from 'jwt-simple'
 import moment from 'moment'
-import { warehousesDao } from '../dao/warehousedao'
 
 class WarehousesService {
 
-  async getAll () {
-    return warehousesDao.getAll()
+  constructor (warehousesDao) {
+    this.warehousesDao = warehousesDao
+  }
+
+  getAll () {
+    return this.warehousesDao.getAll()
   }
 
   create (warehouse) {
-    return warehousesDao.create(warehouse)
+    return this.warehousesDao.create(warehouse)
   }
+
   delete (id) {
-    return warehousesDao.delete(id)
+    return this.warehousesDao.delete(id)
   }
 
   update (warehouse) {
-    return warehousesDao.update(warehouse)
+    return this.warehousesDao.update(warehouse)
   }
 
   findById (id) {
-    return warehousesDao.findById(id)
+    return this.warehousesDao.findById(id)
   }
 }
 
-export let warehousesService = new WarehousesService
+export let warehousesService = new WarehousesService()
+
