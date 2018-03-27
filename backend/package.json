@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
+    "hell": "node ./scripts/codecheck.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,6 +24,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
+    "colors": "^1.2.1",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-load": "^1.1.16",
@@ -34,6 +36,8 @@
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-es5": "^1.2.0"
   }
 }

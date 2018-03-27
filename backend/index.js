@@ -1,17 +1,17 @@
 import express from 'express'
 import load from 'express-load'
+import plugins from './plugins'
 
 const app = express()
-const mongoose = require("mongoose")
-mongoose.Promise = global.Promise;
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
 
-load('app/config',
-  { verbose: true })
-  .then('app/bootloader')
-  .then('app/loggerloader')
-  .then('app/dbloader')
-  .then('core/loaders')
-  .then('middlewares')
-  .then('admin')
-  .then('storefront')
-  .into(app)
+const loader = load('app/config', { verbose: true })
+
+// load each of the plugins into the app's context!
+plugins.forEach((value) => {
+  loader.then(value)
+})
+
+loader.into(app)
+

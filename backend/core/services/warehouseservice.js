@@ -4,13 +4,14 @@ import { warehousesDao } from '../dao/warehousedao'
 
 class WarehousesService {
 
-  async getAll () {
+  getAll () {
     return warehousesDao.getAll()
   }
 
   create (warehouse) {
     return warehousesDao.create(warehouse)
   }
+
   delete (id) {
     return warehousesDao.delete(id)
   }

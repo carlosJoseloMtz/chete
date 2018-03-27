@@ -9,7 +9,7 @@ const BASE = '/admin/api/v1/warehouses'
 
 module.exports = app => {
 
-  app.get(`${BASE}/getAll`, (req, res) => {
+  app.get(`${BASE}`, (req, res) => {
     warehousesService.getAll().then(warehouses =>
       convertAll(warehouses, convertWarehouse)
     ).then(warehouses => {
@@ -21,8 +21,8 @@ module.exports = app => {
 
   app.post(`${BASE}`, (req, res) => {
     console.log(req.body)
-    warehousesService.create(req.body).then(warehouses =>
-      convertWarehouse(warehouses)
+    warehousesService.create(req.body).then(warehouse =>
+      convertWarehouse(warehouse)
     ).then(wh => {
       LOG.debug(wh)
       res.json(success(wh))
