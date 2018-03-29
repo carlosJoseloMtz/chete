@@ -1,5 +1,5 @@
-import { authService } from '../core/services/authservice'
 import authRequired from '../app/authroutes'
+import * as LOG from 'winston'
 
 const generateError = (res, status) => {
   return res.status(status).json({
@@ -32,10 +32,17 @@ const authmiddleware = (req, res, next) => {
 
 
 module.exports = app => {
-  console.log('Secured routes')
+  LOG.debug('Secured routes:')
+  const authService = app.get('authService')
   authRequired.routes.forEach(route => {
-    console.log(`${route.method} - ${route.url}`)
+    LOG.debug(`${route.method} - ${route.url}`)
     // don't quite like to do this but.. Yeap.. eval :V
-    eval(`app.${route.method}('${route.url}', authmiddleware)`)
+    eval(`app.${route.method}('${route.url}',
+        (req, res, next) => {
+          const authService = app.get('authService')
+          LOG.debug('Checking root using authservice', authService)
+          authmiddleware(req, res, next)
+        })
+      `)
   })
 }

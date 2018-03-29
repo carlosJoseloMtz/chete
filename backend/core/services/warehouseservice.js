@@ -1,32 +1,35 @@
 import jwt from 'jwt-simple'
 import moment from 'moment'
 
-class WarehousesService {
+class WarehouseService {
 
-  constructor (warehousesDao) {
-    this.warehousesDao = warehousesDao
+  constructor (warehouseDao) {
+    if (!warehouseDao) {
+      console.warn(
+        'Required warehouse dao was not passed to the warehouseService!')
+    }
+    this.warehouseDao = warehouseDao
   }
 
   getAll () {
-    return this.warehousesDao.getAll()
+    return this.warehouseDao.getAll()
   }
 
   create (warehouse) {
-    return this.warehousesDao.create(warehouse)
+    return this.warehouseDao.create(warehouse)
   }
 
   delete (id) {
-    return this.warehousesDao.delete(id)
+    return this.warehouseDao.delete(id)
   }
 
   update (warehouse) {
-    return this.warehousesDao.update(warehouse)
+    return this.warehouseDao.update(warehouse)
   }
 
   findById (id) {
-    return this.warehousesDao.findById(id)
+    return this.warehouseDao.findById(id)
   }
 }
 
-export let warehousesService = new WarehousesService()
-
+export default WarehouseService
