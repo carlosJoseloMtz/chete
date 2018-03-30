@@ -29,4 +29,3 @@ class WarehousesService {
 }
 
 export let warehousesService = new WarehousesService()
-

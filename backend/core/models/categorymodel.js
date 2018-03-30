@@ -1,15 +1,9 @@
-import mongoose from 'moongose'
+import mongoose from 'mongoose'
 import BaseModel from './basemodel'
 const Schema = mongoose.Schema
 
 const CategorySchema = new Schema({
   ...BaseModel,
-
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
 
   name: {
     type: String,
@@ -42,5 +36,5 @@ const CategorySchema = new Schema({
     }
   ]
 })
-
-module.exports = mongoose.model('Categories', CategorySchema)
+let Category = mongoose.model('Categories', CategorySchema)
+module.exports =  Category

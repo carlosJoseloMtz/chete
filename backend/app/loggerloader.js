@@ -20,7 +20,6 @@ module.exports = app => {
     formatter
   }
 
-
   const config = winston.config
   const consoleTransport = {
     colorize: true,

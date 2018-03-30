@@ -4,6 +4,7 @@ import StockModel from '../../core/models/stockmodel'
 import * as LOG from 'winston'
 
 class WarehousesDao {
+
   async getAll () {
     let response
     await WarehouseModel.find({}, (err, warehouse) => {
@@ -19,7 +20,7 @@ class WarehousesDao {
 
   async findById (id) {
     let response
-    await WarehouseModel.findById(id, function (err, warehouse) {
+    await WarehouseModel.findById(id, (err, warehouse) => {
 
       if(err){
         LOG.error('Error while trying to find a warehouse by id')
@@ -38,39 +39,19 @@ class WarehousesDao {
 
   async create (warehouse) {
     let newAddressModel = new AddressModel(warehouse.address)
-    /*
-     await newAddressModel.save((err,doc) => {
-     if(err){
-          console.log('no se pudo guardar el modelo')
-     } else {
-       // save the warehouse
-     }
-    })
-    */
-
     let newWarehouse = new WarehouseModel({
                               type: warehouse.type,
                               address: newAddressModel,
                               stock: []})
 
-    // chain the promises for each transaction
     await Promise.all([newAddressModel.save(), newWarehouse.save()])
 
-    /*
-    await newWarehouse.save(function(err,doc){
-      if(err){
-        console.log('no se pudo guardar el warehouse')
-      } else {
-        console.log(doc)
-      }
-     })
-    */
-     return newWarehouse
-   }
+    return newWarehouse
+  }
 
-   update (warehouse) {
-     return WarehouseModel.update({ _id: warehouse.id }, warehouse)
-   }
+  update (warehouse) {
+   return WarehouseModel.update({ _id: warehouse.id }, warehouse)
+  }
 }
 
 export let warehousesDao = new WarehousesDao()

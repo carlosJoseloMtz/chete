@@ -1,27 +1,27 @@
 import winston from 'winston'
 import { success,failed } from '../../commons/responses'
-import { warehousesService } from '../../core/services/warehouseservice'
-import {convert as convertWarehouse } from '../converters/warehouseconverter'
+import { productCatalogService } from '../../core/services/productcatalogservice'
+import {convert as convertProductCatalog } from '../converters/productcatalogconverter'
 import { convertAll } from '../../commons/utilconverter'
 import * as LOG from 'winston'
 
-const BASE = '/admin/api/v1/warehouses'
+const BASE = '/admin/api/v1/productcatalog'
 
 module.exports = app => {
 
   app.get(`${BASE}`, (req, res) => {
-    warehousesService.getAll().then(warehouses =>
-      convertAll(warehouses, convertWarehouse)
-    ).then(warehouses => {
-      res.json(success(warehouses))
+    productCatalogService.getAll().then(productCatalog =>
+      convertAll(productCatalog, convertProductCatalog)
+    ).then(productCatalog => {
+      res.json(success(productCatalog))
     }).catch(error => {
       res.status(500).json(failed())
     })
   })
 
   app.post(`${BASE}`, (req, res) => {
-    warehousesService.create(req.body).then(warehouse =>
-      convertWarehouse(warehouse)
+    productCatalogService.create(req.body).then(productCatalog =>
+      convertProductCatalog(productCatalog)
     ).then(wh => {
       LOG.debug(wh)
       res.json(success(wh))
@@ -32,17 +32,17 @@ module.exports = app => {
   })
 
   app.get(`${BASE}/:id`, (req, res) => {
-    warehousesService.findById(req.param('id')).then(warehouses =>
-      convertWarehouse(warehouses)
-    ).then(warehouses => {
-      res.json(success(warehouses))
+    productCatalogService.findById(req.param('id')).then(productCatalogs =>
+      convertProductCatalog(productCatalogs)
+    ).then(productCatalogs => {
+      res.json(success(productCatalogs))
     }).catch(error => {
       res.status(500).json(failed())
     })
   })
 
   app.delete(`${BASE}/:id`, (req, res) => {
-    warehousesService.delete(req.param('id')).then(_ => {
+    productCatalogService.delete(req.param('id')).then(_ => {
       res.json(success())
     }).catch(error => {
       res.status(500).json(failed())
@@ -50,7 +50,7 @@ module.exports = app => {
   })
 
   app.put(`${BASE}`, (req, res) => {
-    warehousesService.update(req.body).then(_ => {
+    productCatalogService.update(req.body).then(_ => {
       res.json(success())
     }).catch(error => {
       res.status(500).json(failed())

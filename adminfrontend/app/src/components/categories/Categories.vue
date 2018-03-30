@@ -13,7 +13,7 @@ export default {
   name: 'Catalogs',
   methods: {
     openForm () {
-      this.$router.push('Catalogs-form')
+      this.$router.push('Categories-form')
     }
   },
   data: () => ({
