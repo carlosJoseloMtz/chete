@@ -1,8 +1,7 @@
 import AuthService  from '../services/authservice'
 import WarehouseService from '../services/warehouseservice'
-import WarehouseDao from '../dao/warehousedao'
 import ProductCatalogService from '../services/productcatalogservice'
-import ProductCatalogDao from '../dao/productcatalogdao'
+import UserService from '../services/userservice'
 
 
 /**
@@ -16,20 +15,21 @@ module.exports = app => {
       app.get('expiryTime'),
       app.get('expiryFactor'))
 
-  const warehouseDao = new WarehouseDao()
 
-  const productCatalogDao = new ProductCatalogDao()
+  const warehouseService = new WarehouseService(app.get('warehouseDao'))
 
-  const warehouseService = new WarehouseService(warehouseDao)
+  const productCatalogService =
+    new ProductCatalogService(app.get('productCatalogDao'))
 
-  const productCatalogService = new ProductCatalogService(productCatalogDao)
+  const userService =
+    new UserService(app.get('passwordCheckStrategy'),
+      authService, app.get('userDao'))
+
 
   // inject the object globally to the application for later usage
   app.set('authService', authService)
   app.set('warehouseService', warehouseService)
   app.set('productCatalogService', productCatalogService)
-  // TODO: maybe it would be nice to separate the service and dao loading
-  app.set('warehouseDao', warehouseDao)
-  app.set('productCatalogDao', productCatalogDao)
+  app.set('userService', userService)
 
 }

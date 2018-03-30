@@ -5,6 +5,16 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   ...BaseModel,
 
+  /**
+   * The username / email / uid to be used.
+   */
+  uid: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+
   name: {
     type: String,
     required: true
