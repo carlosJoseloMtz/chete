@@ -29,8 +29,7 @@ const BaseModel = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users'
   }
-  
+
 }
 
 export default { BaseModel }
-

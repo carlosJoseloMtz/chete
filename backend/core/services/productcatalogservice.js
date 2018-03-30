@@ -8,7 +8,7 @@ class ProductCatalogService {
   }
 
   getAll () {
-   return this.productcatalogDao.getAll()
+    return this.productcatalogDao.getAll()
   }
 
   create (productcatalog) {

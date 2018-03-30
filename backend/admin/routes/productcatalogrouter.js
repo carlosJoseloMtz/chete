@@ -8,7 +8,7 @@ const BASE = '/admin/api/v1/productcatalog'
 
 module.exports = app => {
   const productCatalogService = app.get('productCatalogService')
-  
+
   app.get(`${BASE}`, (req, res) => {
     productCatalogService.getAll().then(productCatalog =>
       convertAll(productCatalog, convertProductCatalog)

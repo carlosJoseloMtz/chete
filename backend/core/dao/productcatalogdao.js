@@ -9,14 +9,15 @@ class ProductCatalogDao {
   async getAll () {
     let response
     await ProductModel.find({}, (err, productCatalog) => {
-     if(err){
-       LOG.error('Error while trying to list all the product catalog')
-       LOG.error(JSON.stringify(err))
-     } else {
-       response = productCatalog
-     }
-   })
-   return response || []
+      if(err){
+        LOG.error('Error while trying to list all the product catalog')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = productCatalog
+      }
+    })
+
+    return response || []
   }
 
   async findById (id) {
@@ -30,8 +31,8 @@ class ProductCatalogDao {
         response = productCatalog
       }
 
-   })
-   return response || []
+    })
+    return response || []
   }
 
   delete (id) {
@@ -41,17 +42,18 @@ class ProductCatalogDao {
   async create (productCatalog) {
     console.log(productCatalog)
     let newProductModel = new ProductModel({
-                              name: productCatalog.name,
-                              description: productCatalog.description,
-                              products: [],
-                              category: []})
+      name: productCatalog.name,
+      description: productCatalog.description,
+      products: [],
+      category: []})
+
     await newProductModel.save()
 
     return newProductModel
   }
 
   update (productCatalog) {
-   return ProductModel.update({ _id: productCatalog.id }, productCatalog)
+    return ProductModel.update({ _id: productCatalog.id }, productCatalog)
   }
 }
 

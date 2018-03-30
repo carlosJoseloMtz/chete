@@ -23,6 +23,12 @@
         "semi": [
             "error",
             "never"
+        ],
+        "no-trailing-spaces": [
+          "error"
+        ],
+        "prefer-arrow-callback": [
+          "error"
         ]
     }
 }
