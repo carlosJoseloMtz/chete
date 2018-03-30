@@ -13,7 +13,7 @@
             <md-textarea v-model="textarea"></md-textarea>
           </md-field>
           <div class="md-layout-item md-size-90">
-            <md-button class="md-raised md-primary" @click="setDone('first','second')">Continue</md-button>
+            <md-button class="md-raised md-primary" @click.native="submit()">Continue</md-button>
           </div>
         </div>
       </md-step>
@@ -29,20 +29,8 @@ export default {
     }
   },
   methods: {
-    setDone (id, index) {
-      this[id] = true
-      this.secondStepError = null
-      if (this.description === null || this.name === null) {
-        return
-      }
-      if (index) {
-        this.active = index
-        if (this.store === true && this.warehouse === false) {
-          this.selectedItem = 'Store'
-        } else {
-          this.selectedItem = 'Warehouse'
-        }
-      }
+    submit () {
+      console.log('todo Ok')
     },
     setError () {
       this.secondStepError = 'This is an error!'

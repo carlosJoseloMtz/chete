@@ -2,14 +2,8 @@ import mongoose from 'mongoose'
 import BaseModel from './basemodel'
 const Schema = mongoose.Schema
 
-const CatalogSchema = new Schema ({
+const ProductsCatalogSchema = new Schema ({
   ... BaseModel,
-
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
 
   name: {
     type: String,
@@ -40,4 +34,4 @@ const CatalogSchema = new Schema ({
   ]
 })
 
-module.exports = mongoose.model('Catalogs', CatalogSchema)
+module.exports = mongoose.model('ProductsCatalogs', ProductsCatalogSchema)

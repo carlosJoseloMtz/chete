@@ -13,7 +13,8 @@ export default {
     'login': Login
   },
   beforeMount () {
-    this.$store.commit('addWarehouse')
+    this.$store.commit('getWarehouses')
+    this.$store.commit('getProductsCatalog')
   }
 }
 </script>

@@ -1,6 +1,5 @@
 import mongoose  from 'mongoose'
 import BaseModel from './basemodel'
-import AddressModel from './addressmodel'
 const Schema = mongoose.Schema
 
 const WareHouseSchema = new Schema({

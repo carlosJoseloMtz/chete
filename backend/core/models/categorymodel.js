@@ -1,15 +1,9 @@
-import mongoose from 'moongose'
+import mongoose from 'mongoose'
 import BaseModel from './basemodel'
 const Schema = mongoose.Schema
 
 const CategorySchema = new Schema({
   ...BaseModel,
-
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
 
   name: {
     type: String,

@@ -1,4 +1,3 @@
-// es5 use this not required because for es5
 import mongoose from 'mongoose'
 import BaseModel from './basemodel'
 const Schema = mongoose.Schema
@@ -6,12 +5,6 @@ const Schema = mongoose.Schema
 //Model for product
 const ProductSchema = new Schema({
   ...BaseModel,
-
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
 
   approved: {
     type: Boolean,
@@ -106,5 +99,5 @@ const ProductSchema = new Schema({
   }
 
 })
-
-module.exportes = mongoose.model('Products', ProductSchema)
+let Products =  mongoose.model('Products', ProductSchema)
+module.exportes = Products

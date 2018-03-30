@@ -8,5 +8,4 @@ const convert = (warehouses) => {
   }
 }
     
-
 export { convert }

@@ -19,7 +19,7 @@ class WarehouseDao {
 
   async findById (id) {
     let response
-    await WarehouseModel.findById(id, function (err, warehouse) {
+    await WarehouseModel.findById(id, (err, warehouse) => {
 
       if(err){
         LOG.error('Error while trying to find a warehouse by id')
@@ -44,7 +44,6 @@ class WarehouseDao {
       address: newAddressModel,
       stock: []})
 
-    // chain the promises for each transaction
     await Promise.all([newAddressModel.save(), newWarehouse.save()])
 
     return newWarehouse
