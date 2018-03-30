@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 //Model for product
 const ProductSchema = new Schema({
-  ... BaseModel,
+  ...BaseModel,
 
   id: {
     type: Number,
@@ -20,10 +20,10 @@ const ProductSchema = new Schema({
    */
   price: [
     {
-      beginDate{
+      beginDate: {
         type: Date,
         required: true
-        },
+      },
 
       dueDate: {
         type: Date,
@@ -43,10 +43,10 @@ const ProductSchema = new Schema({
    * what price we have to use
    */
   discounts : [{
-     beginDate {
+    beginDate: {
       type: Date,
       required: true
-      },
+    },
 
     dueDate: {
       type: Date,
@@ -86,13 +86,13 @@ const ProductSchema = new Schema({
   catalog: {
     type: Schema.Types.ObjectId,
     ref: 'Catalogs'
-  }
+  },
 
   code: {
     type: String,
     unique: true,
     index: true
-  }
+  },
 
   name: {
     type: String,

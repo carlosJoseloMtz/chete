@@ -15,10 +15,10 @@ module.exports = app => {
     */
     res.json(success([
       {
-      id: 'sample'
+        id: 'sample'
       },
       {
-      id: 'sample'
+        id: 'sample'
       }
     ]))
   })

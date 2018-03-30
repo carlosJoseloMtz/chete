@@ -23,7 +23,7 @@ const authmiddleware = (req, res, next) => {
       return generateError(res, 403)
     }
   } catch (ex) {
-    console.error(`Error while trying to decode the token`)
+    console.error('Error while trying to decode the token')
     return generateError(res, 403)
   }
 

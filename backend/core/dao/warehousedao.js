@@ -7,14 +7,14 @@ class WarehouseDao {
   async getAll () {
     let response
     await WarehouseModel.find({}, (err, warehouse) => {
-     if(err){
-       LOG.error('Error while trying to list all the warehouses')
-       LOG.error(JSON.stringify(err))
-     } else {
-       response = warehouse
-     }
-   }).populate('address')
-   return response || []
+      if(err){
+        LOG.error('Error while trying to list all the warehouses')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = warehouse
+      }
+    }).populate('address')
+    return response || []
   }
 
   async findById (id) {
@@ -28,8 +28,8 @@ class WarehouseDao {
         response = warehouse
       }
 
-   })
-   return response || []
+    })
+    return response || []
   }
 
   delete (id) {
@@ -40,9 +40,9 @@ class WarehouseDao {
     let newAddressModel = new AddressModel(warehouse.address)
 
     let newWarehouse = new WarehouseModel({
-                              type: warehouse.type,
-                              address: newAddressModel,
-                              stock: []})
+      type: warehouse.type,
+      address: newAddressModel,
+      stock: []})
 
     // chain the promises for each transaction
     await Promise.all([newAddressModel.save(), newWarehouse.save()])
