@@ -22,12 +22,10 @@ module.exports = app => {
   })
 
   app.post(`${BASE}`, (req, res) => {
-    console.log(req.body)
     warehouseService.create(req.body).then(warehouse =>
       convertWarehouse(warehouse)
     ).then(wh => {
-      LOG.debug(wh)
-      res.json(success(wh))
+      res.status(201).json(success(wh))
     }).catch(error => {
       LOG.error(error)
       res.status(500).json(failed())

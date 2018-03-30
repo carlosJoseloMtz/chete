@@ -6,7 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "codequality": "eslint --ext .js core/ admin/ commons/ middlewares/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:endpoints": "mocha \"test/*/*.js\""
   },
   "keywords": [
     "nodejs",
@@ -38,7 +38,10 @@
     "babel-eslint": "^8.2.2",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "eslint": "^4.19.1",
-    "eslint-plugin-es5": "^1.2.0"
+    "eslint-plugin-es5": "^1.2.0",
+    "mocha": "^5.0.5"
   }
 }
