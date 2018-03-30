@@ -3,8 +3,6 @@ import load from 'express-load'
 import plugins from './plugins'
 
 const app = express()
-const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
 
 const loader = load('app/config', { verbose: true })
 
@@ -14,4 +12,3 @@ plugins.forEach((value) => {
 })
 
 loader.into(app)
-

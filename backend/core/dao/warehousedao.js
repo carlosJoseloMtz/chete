@@ -3,19 +3,18 @@ import AddressModel from '../../core/models/addressmodel'
 import StockModel from '../../core/models/stockmodel'
 import * as LOG from 'winston'
 
-class WarehousesDao {
-
+class WarehouseDao {
   async getAll () {
     let response
     await WarehouseModel.find({}, (err, warehouse) => {
-     if(err){
-       LOG.error('Error while trying to list all the warehouses')
-       LOG.error(JSON.stringify(err))
-     } else {
-       response = warehouse
-     }
-   }).populate('address')
-   return response || []
+      if(err){
+        LOG.error('Error while trying to list all the warehouses')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = warehouse
+      }
+    }).populate('address')
+    return response || []
   }
 
   async findById (id) {
@@ -29,8 +28,8 @@ class WarehousesDao {
         response = warehouse
       }
 
-   })
-   return response || []
+    })
+    return response || []
   }
 
   delete (id) {
@@ -39,10 +38,11 @@ class WarehousesDao {
 
   async create (warehouse) {
     let newAddressModel = new AddressModel(warehouse.address)
+
     let newWarehouse = new WarehouseModel({
-                              type: warehouse.type,
-                              address: newAddressModel,
-                              stock: []})
+      type: warehouse.type,
+      address: newAddressModel,
+      stock: []})
 
     await Promise.all([newAddressModel.save(), newWarehouse.save()])
 
@@ -50,8 +50,8 @@ class WarehousesDao {
   }
 
   update (warehouse) {
-   return WarehouseModel.update({ _id: warehouse.id }, warehouse)
+    return WarehouseModel.update({ _id: warehouse.id }, warehouse)
   }
 }
 
-export let warehousesDao = new WarehousesDao()
+export default WarehouseDao

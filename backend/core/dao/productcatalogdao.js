@@ -55,4 +55,4 @@ class ProductCatalogDao {
   }
 }
 
-export let productcatalogDao = new ProductCatalogDao()
+export default ProductCatalogDao

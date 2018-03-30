@@ -1,6 +1,5 @@
 import winston from 'winston'
 import { success,failed } from '../../commons/responses'
-import { productCatalogService } from '../../core/services/productcatalogservice'
 import {convert as convertProductCatalog } from '../converters/productcatalogconverter'
 import { convertAll } from '../../commons/utilconverter'
 import * as LOG from 'winston'
@@ -8,7 +7,8 @@ import * as LOG from 'winston'
 const BASE = '/admin/api/v1/productcatalog'
 
 module.exports = app => {
-
+  const productCatalogService = app.get('productCatalogService')
+  
   app.get(`${BASE}`, (req, res) => {
     productCatalogService.getAll().then(productCatalog =>
       convertAll(productCatalog, convertProductCatalog)

@@ -28,4 +28,4 @@ class ProductCatalogService {
   }
 }
 
-export let productCatalogService = new ProductCatalogService()
+export default ProductCatalogService

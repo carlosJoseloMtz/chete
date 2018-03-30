@@ -1,6 +1,5 @@
 import winston from 'winston'
-import { success,failed } from '../../commons/responses'
-import { warehousesService } from '../../core/services/warehouseservice'
+import { success, failed } from '../../commons/responses'
 import {convert as convertWarehouse } from '../converters/warehouseconverter'
 import { convertAll } from '../../commons/utilconverter'
 import * as LOG from 'winston'
@@ -9,8 +8,11 @@ const BASE = '/admin/api/v1/warehouses'
 
 module.exports = app => {
 
+  // global variables
+  const warehouseService = app.get('warehouseService')
+
   app.get(`${BASE}`, (req, res) => {
-    warehousesService.getAll().then(warehouses =>
+    warehouseService.getAll().then(warehouses =>
       convertAll(warehouses, convertWarehouse)
     ).then(warehouses => {
       res.json(success(warehouses))
@@ -20,7 +22,8 @@ module.exports = app => {
   })
 
   app.post(`${BASE}`, (req, res) => {
-    warehousesService.create(req.body).then(warehouse =>
+    console.log(req.body)
+    warehouseService.create(req.body).then(warehouse =>
       convertWarehouse(warehouse)
     ).then(wh => {
       LOG.debug(wh)
@@ -32,7 +35,7 @@ module.exports = app => {
   })
 
   app.get(`${BASE}/:id`, (req, res) => {
-    warehousesService.findById(req.param('id')).then(warehouses =>
+    warehouseService.findById(req.param('id')).then(warehouses =>
       convertWarehouse(warehouses)
     ).then(warehouses => {
       res.json(success(warehouses))
@@ -42,7 +45,7 @@ module.exports = app => {
   })
 
   app.delete(`${BASE}/:id`, (req, res) => {
-    warehousesService.delete(req.param('id')).then(_ => {
+    warehouseService.delete(req.param('id')).then(_ => {
       res.json(success())
     }).catch(error => {
       res.status(500).json(failed())
@@ -50,7 +53,7 @@ module.exports = app => {
   })
 
   app.put(`${BASE}`, (req, res) => {
-    warehousesService.update(req.body).then(_ => {
+    warehouseService.update(req.body).then(_ => {
       res.json(success())
     }).catch(error => {
       res.status(500).json(failed())

@@ -47,4 +47,4 @@ class AuthService {
 
 }
 
-export let authService = new AuthService()
+export default AuthService
