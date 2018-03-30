@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
-    "codequality": "eslint --ext .js core/ admin/ commons/ middlewares/",
+    "codequality": "eslint --fix --ext .js core/ admin/ commons/ middlewares/",
     "test:endpoints": "mocha \"test/*/*.js\""
   },
   "keywords": [

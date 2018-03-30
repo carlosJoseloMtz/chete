@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const BaseModel = {
 
@@ -32,4 +32,4 @@ const BaseModel = {
 
 }
 
-export default { BaseModel }
+module.exports = BaseModel

@@ -6,6 +6,14 @@ const LOG = winston
 module.exports = app => {
   const authService = app.get('authService')
   const userService = app.get('userService')
+  const jobExecutorStrategy = app.get('jobExecutorStrategy')
+
+  app.get('/jobtest/:jobname', (req, res) => {
+    const jobname = req.params.jobname
+
+    jobExecutorStrategy.execute(jobname)
+    res.json(success())
+  })
 
   app.get('/logintest', (req, res) => {
     const username = req.query.username

@@ -3,7 +3,7 @@ import * as LOG from 'winston'
 class UserService {
 
   constructor (passwordCheckStrategy,
-      authService, userDao) {
+    authService, userDao) {
     this.passwordCheckStrategy = passwordCheckStrategy
     this.authService = authService
     this.userDao = userDao
