@@ -20,6 +20,11 @@ const CatalogSchema = new Schema ({
     type: String
   },
 
+  targetCatalog: {
+    type: Schema.Types.ObjectId,
+    ref: 'Catalogs'
+  },
+
   products: [
     {
       type: Schema.Types.ObjectId,

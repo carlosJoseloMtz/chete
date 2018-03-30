@@ -13,6 +13,12 @@ const ProductSchema = new Schema({
     primaryKey:  true
   },
 
+  approved: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+
   /**
    * Collection price have begin date,
    * expired date and the price valid on
