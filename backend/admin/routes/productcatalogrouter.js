@@ -22,9 +22,8 @@ module.exports = app => {
   app.post(`${BASE}`, (req, res) => {
     productCatalogService.create(req.body).then(productCatalog =>
       convertProductCatalog(productCatalog)
-    ).then(wh => {
-      LOG.debug(wh)
-      res.json(success(wh))
+    ).then(pc => {
+      res.json(success(pc))
     }).catch(error => {
       LOG.error(error)
       res.status(500).json(failed())

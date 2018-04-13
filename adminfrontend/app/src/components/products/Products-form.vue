@@ -17,12 +17,12 @@
                <label>Code</label>
                <md-input v-model="code"></md-input>
             </md-field>
-            <md-field class="md-layout-item md-size-60">
-             <label for="products">Catalog</label>
-             <md-select v-model="products" name="products" id="products" md-dense multiple>
-               <md-option v-for="product in products" :Key="product.id">{{product.name}}</md-option>
-             </md-select>
-           </md-field>
+            <md-autocomplete
+               v-model="selectedEmployee"
+               :md-options="catalogSelected"
+               md-layout="box">
+              <label>Search...</label>
+           </md-autocomplete>
           <div class="md-layout-item md-size-50">
             <md-button class="md-raised md-primary" @click="setDone('second','second')">Continue</md-button>
           </div>
@@ -39,8 +39,8 @@
              </md-datepicker>
           </div>
           <div class="md-layout-item md-size-80">
-             Being Date
-             <md-datepicker v-model="beginDate">
+             Due Date
+             <md-datepicker v-model="dueDate">
              </md-datepicker>
           </div>
           <md-field class="md-layout-item md-size-50">
@@ -48,107 +48,119 @@
              <md-input v-model="price"></md-input>
           </md-field>
           <div class="md-layout-item md-size-80">
-            <md-button class="md-raised md-primary" @click="setDone('first','second')">Continue</md-button>
+            <md-button class="md-raised md-primary" @click="save()">Continue</md-button>
           </div>
         </div>
       </md-step>
     </md-steppers>
+    <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{message}}</span>
+      <md-button class="md-primary" @click.native="submit">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
-// para hacer un mapeo de getters. actions
-// import {mapActions, mapGetters} from 'vuex'
-
+import ProductService from '../../services/product-service'
 export default {
   name: 'Products-form',
-  computed: {
-    products () {
-      return this.$store.state.products
+  beforeMount: function () {
+    this.catalogSelected = []
+    for (const element in this.catalogs) {
+      this.catalogSelected.push(this.catalogs[element].name)
     }
   },
   methods: {
     setDone (id, index) {
       this[id] = true
       this.secondStepError = null
+      if (!this.name.trim() || !this.description.trim() || !this.code.trim() || this.selectedEmployee === null) {
+        this.message = 'Some field is empty'
+        this.complete = false
+        this.showSnackbar = true
+        return
+      }
       if (index) {
         this.active = index
-        if (this.store === true && this.warehouse === false) {
-          this.selectedItem = 'Store'
-        } else {
-          this.selectedItem = 'Warehouse'
-        }
       }
     },
     setError () {
-      this.secondStepError = 'This is an error!'
+      if (this.complete === true) {
+        this.secondStepError = 'This is an error!'
+      }
+    },
+    submit () {
+      if (this.complete === true) {
+        this.$router.push('/Products')
+      }
+    },
+    save () {
+      let body = {}
+      let price = null
+      if (this.price === null || this.dueDate === null || !this.price.trim()) {
+        this.message = 'Incorrect Information'
+        this.complete = false
+        this.showSnackbar = true
+      } else {
+        price = [{
+          'beginDate': this.beginDate,
+          'dueDate': this.dueDate,
+          'price': this.price,
+          'active': true
+        }]
+        for (const element in this.catalogs) {
+          if (this.catalogs[element].name === this.selectedEmployee) {
+            body = {
+              'name': this.name,
+              'price': price,
+              'description': this.description,
+              'code': this.code,
+              'catalog': this.catalogs[element].id
+            }
+          }
+        }
+        ProductService.save(body).then(data => {
+          data = JSON.parse(data)
+          if (data.status === 'success') {
+            this.$store.dispatch('addProduct', data.data)
+            this.message = 'Product Agree'
+            this.complete = true
+            this.showSnackbar = true
+          }
+        })
+      }
+    }
+  },
+  computed: {
+    catalogs () {
+      return this.$store.state.productCatalog
     }
   },
   data: () => ({
-    beginDate: null,
+    showSnackbar: false,
+    position: 'center',
+    duration: 4000,
+    isInfinity: false,
+    beginDate: Date.now(),
     dueDate: null,
     price: null,
-    name: null,
-    warehouse: false,
+    name: '',
     active: 'first',
     first: false,
     second: false,
-    third: false,
     secondStepError: null,
     selectedItem: String,
     textarea: null,
     discount: false,
-    description: null
+    description: '',
+    catalogSelected: null,
+    selectedEmployee: null,
+    message: String,
+    net: false,
+    code: '',
+    useAsPrice: false,
+    complete: Boolean
   })
-  // forma de traer el state product del store
-  /* computed: {
-    products () {
-      return this.$store.state.products
-    },
-    // es una forma fea de un getter
-    /**
-      *saleProducts () {
-      *return this.$store.getters.saleProducts
-    } */
-  /* ...mapGetters([
-      'saleProducts'
-    /*])
-  },
-  methods: {
-    ...mapActions([
-      'reducePrice'
-    ])
-  } /*
-  /*
-   * forma fea de implementar una accion/mutacion
-    reducePrice: function (amount) {
-    this.$store.dispatch('reducePrice', amount)
-  } */
-  /* forma de hacer una mutacion
-  methods: {
-    reducePrice: function () {
-    // solo que no pueden realizar mutaciones directas necesitan una accion
-      this.$store.commit('reducePrice')
-    }
-  } */
-  /* forma fea de hacer la mutacion
-  methods: {
-    reducePrice: function () {
-      this.$store.state.products.forEach(product => {
-        product.description = 'algo no se'
-      })
-    } */
-  /*
-    forma fea de hacer un getter
-    saleProducts () {
-      var saleProducts = this.$store.state.products.map(product => {
-        return {
-          name: '**' + product.name + '**',
-          description: product.description
-       }
-    })
-  return saleProducts
-  } */
 }
 </script>
 

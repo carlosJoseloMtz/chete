@@ -34,26 +34,13 @@ class ProductDao {
   async create (product) {
     let response
     let productResponse
-    await ProductCatalogModel.findById(product.catalog, (err, product) => {
-      if(err){
-        LOG.error('Error while trying to find a product by id')
-        LOG.error(JSON.stringify(err))
-      } else {
-        response = product
-      }
-    })
     let newProduct = {
       approved: false,
-      price: [product.price],
-      discounts: [{beginDate: 1523473104707,
-        dueDate: 1523473104707,
-        price: 0,
-        useAsPrice: false,
-        discount:{value:0 , net: false}
-      }],
+      price: product.price,
+      discounts: [],
       description: product.description,
       stock: [],
-      catalog: response,
+      catalog: product.catalog,
       code: product.code,
       name: product.name
     }
@@ -64,6 +51,14 @@ class ProductDao {
         LOG.error(err)
       } else {
         productResponse = newproduct
+      }
+    })
+    await ProductCatalogModel.findById(product.catalog, (err,catalog) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = catalog
       }
     })
     response.products.push(newProductModel)

@@ -7,7 +7,7 @@ class CategoryDao {
     let response
     await CategoryModel.find({}, (err, product) => {
       if(err){
-        LOG.error(`Error while trying to list all the products`)
+        LOG.error('Error while trying to list all the products')
         LOG.error(JSON.stringify(err))
       } else {
         response = product

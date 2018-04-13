@@ -12,7 +12,7 @@ const sortFunctions = {
     var productsList = []
     pricesList.filter(product => {
       let prod = {
-        'product': product.name,
+        'name': product.name,
         'description': product.description,
         'price': product.price,
         'id': product.id,
@@ -39,7 +39,7 @@ const sortFunctions = {
     var productsList = []
     pricesList.filter(product => {
       let prod = {
-        'product': product.name,
+        'name': product.name,
         'description': product.description,
         'discounts': product.discounts,
         'id': product.id,
@@ -106,6 +106,10 @@ export const store = new Vuex.Store({
 
     updateProduct: (context, product) => {
       context.commit('updateProduct', product)
+    },
+
+    addProduct: (context, product) => {
+      context.commit('addProduct', product)
     }
   },
 
@@ -154,6 +158,10 @@ export const store = new Vuex.Store({
 
     addOneWarehouse: (state, index) => {
       state.warehouses.push(index)
+    },
+
+    addProduct: (state, product) => {
+      state.products.push(product)
     },
 
     addOneCategory: (state, category) => {

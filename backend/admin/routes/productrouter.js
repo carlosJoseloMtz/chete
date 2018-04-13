@@ -41,7 +41,6 @@ module.exports = app => {
     productService.create(req.body).then(product =>
       convertProduct(product)
     ).then(prod => {
-      LOG.debug(prod)
       res.json(success(prod))
     }).catch(error => {
       LOG.error(error)

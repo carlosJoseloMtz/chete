@@ -25,7 +25,6 @@ module.exports = app => {
     warehouseService.create(req.body).then(warehouse =>
       convertWarehouse(warehouse)
     ).then(wh => {
-      LOG.debug(wh)
       res.json(success(wh))
     }).catch(error => {
       LOG.error(error)
