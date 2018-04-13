@@ -22,7 +22,6 @@ module.exports = app => {
   })
 
   app.post(`${BASE}`, (req, res) => {
-    console.log(req.body)
     warehouseService.create(req.body).then(warehouse =>
       convertWarehouse(warehouse)
     ).then(wh => {

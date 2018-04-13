@@ -16,7 +16,8 @@
         <md-table-head>Name</md-table-head>
         <md-table-head>Action</md-table-head>
         </md-table-row>
-        <md-table-row  v-for="(warehouse, index) in warehouses" :Key="warehouse.id">
+        <md-table-row  v-for="(warehouse, index) in visibleWarehouses" :Key="warehouse.id"
+          v-bind:warehouse="warehouse" v-bind:visibleWarehouses="visibleWarehouses" v-bind:currentPage="currentPage">
           <md-table-cell md-numeric>{{warehouse.id}}</md-table-cell>
           <md-table-cell>{{warehouse.type}}</md-table-cell>
           <md-table-cell> <md-button @click.native="deleteItem(warehouse, index)" class="md-icon-button md-raised">
@@ -25,6 +26,8 @@
           </md-table-cell>
         </md-table-row>
       </md-table>
+      <pagination v-bind:data="warehouses" v-on:page:update="updatePage"
+        v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
       <md-button  class="md-primary md-raised" @click.native="openForm()">+</md-button>
     </div>
     <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
@@ -35,8 +38,13 @@
 </template>
 <script>
 import WarehouseService from '../../services/warehouse-service'
+import Pagination from '../pagination/Pagination.vue'
+import Environment from '../../commons/environment-configuration'
 export default {
   name: 'Warehouses',
+  mounted: function () {
+    this.updateResource()
+  },
   methods: {
     openForm () {
       this.$router.push('/Warehouses-form')
@@ -49,6 +57,16 @@ export default {
     },
     submit () {
       this.showSnackbar = false
+    },
+    updatePage (pageNumber) {
+      this.currentPage = pageNumber
+      this.updateResource()
+    },
+    updateResource () {
+      this.visibleWarehouses = this.warehouses.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize)
+      if (this.visibleWarehouses.length === 0 && this.visibleWarehouses > 0) {
+        this.updatePage(this.currentPage - 1)
+      }
     }
   },
   computed: {
@@ -56,11 +74,17 @@ export default {
       return this.$store.state.warehouses
     }
   },
+  components: {
+    Pagination
+  },
   data: () => ({
     showSnackbar: false,
     position: 'center',
     duration: 4000,
-    isInfinity: false
+    isInfinity: false,
+    currentPage: Environment.startCurrentPage,
+    pageSize: Environment.sizeElementPagination,
+    visibleWarehouses: []
   })
 }
 </script>

@@ -1,5 +1,5 @@
 import HttpClient from './http-client'
-const url = 'http://localhost:3030/admin/api/v1/warehouses/'
+const url = 'http://localhost:3030/admin/api/v1/category/'
 
 export default {
   getAll () {

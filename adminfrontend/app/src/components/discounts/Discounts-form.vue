@@ -6,8 +6,8 @@
           <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
             <h2 class="md-layout-item md-size-50">Select product</h2>
             <md-autocomplete
-                    v-model="selectedDiscount"
-                    :md-options="discounts"
+                    v-model="selectedEmployee"
+                    :md-options="productSelected"
                     md-layout="box">
               <label>Search...</label>
             </md-autocomplete>
@@ -31,26 +31,37 @@
              </md-datepicker>
           </div>
           <div  class="md-layout-item md-size-80">
-            <md-checkbox v-model="discount" ref="warehouse">Use as Price</md-checkbox>
+            <md-checkbox v-model="useAsPrice">Use as Price</md-checkbox>
           </div>
           <div  class="md-layout-item md-size-80">
-            <md-checkbox v-model="net" ref="warehouse">Use as Net</md-checkbox>
+            <md-checkbox v-model="net">Use as Net</md-checkbox>
           </div>
           <md-field class="md-layout-item md-size-50">
              <label>$ Price</label>
              <md-input v-model="price"></md-input>
           </md-field>
           <div class="md-layout-item md-size-80">
-            <md-button class="md-raised md-primary" @click="setDone('second','third')">Continue</md-button>
+            <md-button class="md-raised md-primary" @click.native="save()">Continue</md-button>
           </div>
         </div>
       </md-step>
     </md-steppers>
+    <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{message}}</span>
+      <md-button class="md-primary" @click.native="submit">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 <script>
+import ProductService from '../../services/product-service'
 export default {
   name: 'Discounts-form',
+  beforeMount: function () {
+    this.productSelected = []
+    for (const element in this.products) {
+      this.productSelected.push(this.products[element].code)
+    }
+  },
   computed: {
     products () {
       return this.$store.state.products
@@ -62,53 +73,81 @@ export default {
       this.secondStepError = null
       if (index) {
         this.active = index
-        if (this.store === true && this.warehouse === false) {
-          this.selectedItem = 'Store'
-        } else {
-          this.selectedItem = 'Warehouse'
-        }
       }
     },
     setError () {
-      this.secondStepError = 'This is an error!'
+      if (this.complete === true) {
+        this.secondStepError = 'This is an error!'
+      }
+    },
+    submit () {
+      this.$router.push('/Discounts')
+    },
+    save () {
+      let body = {}
+      let discounts = null
+      if (this.price === null || this.dueDate === null || !this.price.trim()) {
+        this.message = 'Incorrect Information'
+        this.complete = false
+        this.showSnackbar = true
+      } else {
+        discounts = {
+          'active': true,
+          'beginDate': this.beginDate,
+          'dueDate': this.dueDate,
+          'price': this.price,
+          'useAsPrice': this.useAsPrice,
+          'discount': {
+            'value': this.price,
+            'net': this.net
+          }
+        }
+        for (const element in this.products) {
+          if (this.products[element].code === this.selectedEmployee) {
+            body = this.products[element]
+          }
+        }
+        body.price.forEach(data => {
+          if (data.active === true) {
+            data.active = false
+          }
+        })
+        body.discounts.push(discounts)
+        ProductService.update(body).then(data => {
+          data = JSON.parse(data)
+          if (data.status === 'uccess') {
+            this.$store.dispatch('updateProduct', this.body)
+            this.message = 'Discount Update'
+            this.complete = true
+            this.showSnackbar = true
+          }
+        })
+      }
     }
   },
   data: () => ({
+    showSnackbar: false,
+    position: 'center',
+    duration: 4000,
+    isInfinity: false,
     beginDate: Date.now(),
     dueDate: null,
     price: null,
+    name: null,
     active: 'first',
     first: false,
     second: false,
-    net: false,
-    discount: false,
     secondStepError: null,
-    selectedDiscount: null,
     selectedItem: String,
-    discounts: [{
-      id: '1',
-      name: 'Star Wars'
-    },
-    {
-      id: '2',
-      name: 'Fast and Furios'
-    },
-    {
-      id: '3',
-      name: 'Avengers'
-    },
-    {
-      id: '4',
-      name: 'Thor'
-    },
-    {
-      id: '5',
-      name: 'Iron Man'
-    },
-    {
-      id: '6',
-      name: 'Wolverine'
-    }]
+    textarea: null,
+    discount: false,
+    description: null,
+    productSelected: null,
+    selectedEmployee: null,
+    message: String,
+    net: false,
+    useAsPrice: false,
+    complete: Boolean
   })
 }
 </script>

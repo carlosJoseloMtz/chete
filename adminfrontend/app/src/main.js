@@ -8,6 +8,7 @@ import 'vue-material/dist/vue-material.min.css'
 import Vuelidate from 'vuelidate'
 import { store } from './store/index'
 import VueFetch from 'vue-fetch'
+import ImageMagick from 'imagemagick'
 
 Vue.use(VueMaterial)
 Vue.use(Vuelidate)
@@ -22,6 +23,7 @@ Vue.config.productionTip = false;
   router,
   fetch: VueFetch,
   store: store,
+  im: ImageMagick,
   components: { App },
   template: '<App/>'
 }))()

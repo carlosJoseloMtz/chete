@@ -11,7 +11,6 @@ export default {
   },
 
   save (options) {
-    console.log(options)
     return HttpClient.post(url, options)
   },
 

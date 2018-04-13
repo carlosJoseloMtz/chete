@@ -1,6 +1,5 @@
 
 const convert = (productcatalog) => {
-  console.log(productcatalog)
   return {
     id: productcatalog._id,
     name: productcatalog.name,

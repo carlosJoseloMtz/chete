@@ -6,7 +6,7 @@ export default {
 
   async post (url, options) {
     var result
-    await fetch(url, options).then(response => response.json()).then(data => {
+    await fetch(url, {method: 'POST', headers: {'Content-type': 'application/json'}, body: JSON.stringify(options)}).then(response => response.json()).then(data => {
       result = data
     }).catch((error) => {
       console.log('Error', error)
@@ -16,7 +16,7 @@ export default {
 
   async put (url, options) {
     var result
-    await fetch(url, options).then(response => response.json()).then(data => {
+    await fetch(url, {method: 'PUT', headers: {'Content-type': 'application/json'}, body: JSON.stringify(options)}).then(response => response.json()).then(data => {
       result = data
     }).catch((error) => {
       console.log('Error', error)
@@ -26,7 +26,7 @@ export default {
 
   async delete (url, options) {
     var result
-    await fetch(url, {method: 'delete'}).then(response => response.json()).then(data => {
+    await fetch(url, {method: 'DELETE'}).then(response => response.json()).then(data => {
       result = data
     }).catch((error) => {
       console.log('Error', error)

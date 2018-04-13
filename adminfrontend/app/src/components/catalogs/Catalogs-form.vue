@@ -23,81 +23,101 @@
           <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
             <h2 class="md-layout-item md-size-50">Chose categories depend </h2>
             <md-autocomplete
-                    v-model="selectedCatalogs"
-                    :md-options="catalogs"
+                    v-model="selectedCategories"
+                    :md-options="categorySelected"
                     md-layout="box">
               <label>Search...</label>
             </md-autocomplete>
             <div class="md-layout-item md-size-80">
-              <md-button class="md-raised md-primary" @click.native="Submite()">Continue</md-button>
+              <md-button class="md-raised md-primary" @click.native="save()">Continue</md-button>
             </div>
         </div>
       </div>
       </md-step>
     </md-steppers>
+    <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{message}}</span>
+      <md-button class="md-primary" @click.native="submit">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 <script>
+import ProductCatalogService from '../../services/product-catalog-service'
 export default {
   name: 'Catalogs-form',
+  beforeMount: function () {
+    this.categorySelected = []
+    for (const element in this.categories) {
+      this.categorySelected.push(this.categories[element].name)
+    }
+  },
   methods: {
     setDone (id, index) {
       this[id] = true
       this.secondStepError = null
-      if (this.description === null || this.name === null) {
-        return
-      }
       if (index) {
         this.active = index
-        if (this.store === true && this.warehouse === false) {
-          this.selectedItem = 'Store'
-        } else {
-          this.selectedItem = 'Warehouse'
-        }
       }
     },
     setError () {
-      this.secondStepError = 'This is an error!'
+      if (this.complete === true) {
+        this.secondStepError = 'This is an error!'
+      }
     },
-    Submite () {
-      this.$router.push('Catalogs')
+    submit () {
+      if (this.complete === true) {
+        this.$router.push('Catalogs')
+      }
+    },
+    save () {
+      let body = {}
+      if (!this.textarea.trim() || !this.name.trim()) {
+        this.message = 'Incorrect Information'
+        this.complete = false
+        this.showSnackbar = true
+      } else {
+        for (const element in this.categories) {
+          if (this.categories[element].name === this.selectedCategories) {
+            body = {
+              'name': this.name,
+              'description': this.textarea,
+              'category': this.categories[element].id
+            }
+          }
+        }
+        ProductCatalogService.save(body).then(data => {
+          data = JSON.parse(data)
+          if (data.status === 'success') {
+            this.$store.dispatch('addOneProductCatalog', this.body)
+            this.message = 'Catalog created'
+            this.complete = true
+            this.showSnackbar = true
+          }
+        })
+      }
+    }
+  },
+  computed: {
+    categories () {
+      return this.$store.state.categories
     }
   },
   data: () => ({
+    showSnackbar: false,
+    position: 'center',
+    duration: 10000,
+    isInfinity: false,
     name: null,
-    warehouse: false,
     active: 'first',
     first: false,
     second: false,
-    third: false,
     secondStepError: null,
-    selectedItem: String,
-    selectedCatalogs: null,
     textarea: null,
-    catalogs: [{
-      id: '1',
-      name: 'Star Wars'
-    },
-    {
-      id: '2',
-      name: 'Fast and Furios'
-    },
-    {
-      id: '3',
-      name: 'Avengers'
-    },
-    {
-      id: '4',
-      name: 'Thor'
-    },
-    {
-      id: '5',
-      name: 'Iron Man'
-    },
-    {
-      id: '6',
-      name: 'Wolverine'
-    }]
+    description: null,
+    categorySelected: null,
+    selectedCategories: null,
+    message: String,
+    complete: Boolean
   })
 }
 </script>

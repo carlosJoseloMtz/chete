@@ -16,7 +16,6 @@ class ProductCatalogDao {
         response = productCatalog
       }
     })
-
     return response || []
   }
 
@@ -40,12 +39,12 @@ class ProductCatalogDao {
   }
 
   async create (productCatalog) {
-    console.log(productCatalog)
+    let response
     let newProductModel = new ProductModel({
       name: productCatalog.name,
       description: productCatalog.description,
       products: [],
-      category: []})
+      category: productCatalog.category})
 
     await newProductModel.save()
 

@@ -12,9 +12,11 @@ export default {
   components: {
     'login': Login
   },
-  beforeMount () {
+  beforeCreate () {
+    this.$store.commit('getProducts')
     this.$store.commit('getWarehouses')
     this.$store.commit('getProductsCatalog')
+    this.$store.commit('getCategories')
   }
 }
 </script>

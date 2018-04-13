@@ -33,6 +33,10 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
       },
+      active: {
+        type: Boolean,
+        default: false
+      }
     }
   ],
 
@@ -42,6 +46,11 @@ const ProductSchema = new Schema({
    * what price we have to use
    */
   discounts : [{
+    active: {
+      type: Boolean,
+      default: false
+    },
+
     beginDate: {
       type: Date,
       required: true
@@ -89,15 +98,13 @@ const ProductSchema = new Schema({
 
   code: {
     type: String,
-    unique: true,
-    index: true
+    index:{ unique: true }
   },
 
   name: {
     type: String,
-    required:  true
+    required: true
   }
 
 })
-let Products =  mongoose.model('Products', ProductSchema)
-module.exportes = Products
+module.exports = mongoose.model('Products', ProductSchema)

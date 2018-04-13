@@ -1,7 +1,8 @@
 <template>
   <div>
     <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step class="md-layout md-alignment-center-center" id="first" md-label="Warehouse/Store" :md-done.sync="first">
+      <md-step class="md-layout md-alignment-center-center" id="first"
+        md-label="Warehouse/Store" :md-done.sync="first">
         <div class="md-layout-item md-size-100 md-alignment-center-center">
           <h2 class="md-layout-item md-size-100">Plese select one</h2>
             <md-checkbox  v-model="store" ref="storeCheck">Store</md-checkbox>
@@ -88,10 +89,14 @@ export default {
         method: 'POST'
       }
       WarehouseService.save(options).then(data => {
-        console.log(data)
+        data = JSON.parse(data)
+        if (data.status === 'success') {
+          this.$store.dispatch('addOneWarehouse', data.data)
+        }
       })
       this.showSnackbar = true
     },
+
     setDone (id, index) {
       this[id] = true
       this.secondStepError = null
@@ -114,9 +119,11 @@ export default {
         }
       }
     },
+
     setError () {
       this.secondStepError = 'This is an error!'
     },
+
     submit () {
       this.$router.push('/Warehouses')
     }
