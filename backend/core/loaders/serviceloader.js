@@ -1,12 +1,13 @@
 import AuthService  from '../services/authservice'
 import WarehouseService from '../services/warehouseservice'
-import WarehouseDao from '../dao/warehousedao'
 import ProductCatalogService from '../services/productcatalogservice'
 import ProductService from '../services/productservice'
 import CategoryService from '../services/categoryservice'
 import ProductCatalogDao from '../dao/productcatalogdao'
 import ProductDao from '../dao/productdao'
 import CategoryDao from '../dao/categorydao'
+import UserService from '../services/userservice'
+import WarehouseDao from '../dao/warehousedao'
 
 /**
  * Inject all the dependencies as required.
@@ -19,21 +20,24 @@ module.exports = app => {
       app.get('expiryTime'),
       app.get('expiryFactor'))
 
-  const warehouseDao = new WarehouseDao()
-
-  const productCatalogDao = new ProductCatalogDao()
-
   const productDao = new ProductDao()
 
   const categoryDao = new CategoryDao()
 
-  const warehouseService = new WarehouseService(warehouseDao)
+  const warehouseDao = new WarehouseDao()
 
-  const productCatalogService = new ProductCatalogService(productCatalogDao)
+  const productCatalogDao = new ProductCatalogDao()
+
+  const userService = new UserService(app.get('passwordCheckStrategy'),
+      authService, app.get('userDao'))
+
+  const productCatalogService =  new ProductCatalogService(productCatalogDao)
 
   const productService = new ProductService(productDao)
 
   const categoryService = new CategoryService(categoryDao)
+
+  const warehouseService = new WarehouseService(warehouseDao)
   // inject the object globally to the application for later usage
   app.set('authService', authService)
   app.set('warehouseService', warehouseService)
@@ -45,4 +49,5 @@ module.exports = app => {
   app.set('productCatalogDao', productCatalogDao)
   app.set('productDao', productDao)
   app.set('categoryDao', categoryDao)
+  app.set('userService', userService)
 }

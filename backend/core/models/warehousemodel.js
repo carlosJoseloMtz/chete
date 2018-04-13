@@ -1,5 +1,6 @@
 import mongoose  from 'mongoose'
 import BaseModel from './basemodel'
+
 const Schema = mongoose.Schema
 
 const WareHouseSchema = new Schema({
@@ -20,5 +21,5 @@ const WareHouseSchema = new Schema({
     enum: ['store','warehouse']
   }
 })
-let Warehouses = mongoose.model('WareHouses', WareHouseSchema)
-module.exports = Warehouses
+
+module.exports = mongoose.model('WareHouses', WareHouseSchema)

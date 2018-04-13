@@ -88,7 +88,7 @@ export default {
         ProductCatalogService.save(body).then(data => {
           data = JSON.parse(data)
           if (data.status === 'success') {
-            this.$store.dispatch('addOneProductCatalog', this.body)
+            this.$store.dispatch('addOneProductCatalog', data.data)
             this.message = 'Catalog created'
             this.complete = true
             this.showSnackbar = true

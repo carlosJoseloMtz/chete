@@ -4,8 +4,10 @@ module.exports = [
   'app/loggerloader',
   'app/dbloader',
   'core/dao',
-  'core/services',  
-  'core/loaders',
+  'core/services',
+  'core/loaders/daoloader',
+  'core/loaders/strategyloader',
+  'core/loaders/serviceloader',
   'middlewares',
   'admin',
   'storefront'

@@ -1,5 +1,6 @@
 import jwt from 'jwt-simple'
 import moment from 'moment'
+import * as LOG from 'winston'
 
 class AuthService {
 
@@ -23,6 +24,7 @@ class AuthService {
       ).unix()
     }
 
+    LOG.info('About to encode the token')
     return jwt.encode(encoded, this.secret)
   }
 

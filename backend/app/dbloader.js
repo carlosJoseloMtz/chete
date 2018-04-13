@@ -7,7 +7,7 @@ module.exports = app => {
 
   mongoose.connect(app.get('dbconection'), { useMongoClient: true })
 
-  mongoose.connection.on("open", function(){
+  mongoose.connection.on("open", _ => {
     console.log("mongodb is connected!!");
   });
 }
