@@ -5,20 +5,15 @@
         <div class="md-layout-item md-layout md-gutter md-size-100 md-alignment-center-space-around">
           <h2 class="md-layout-item md-size-50">Provide information</h2>
           <md-field class="md-layout-item md-size-90">
-             <label>Cantidad</label>
+             <label>Stock</label>
              <md-input v-model="cantidad"></md-input>
           </md-field>
-          <md-autocomplete
-                  class="md-layout-item md-size-90"
-                  v-model="selectedEmployee"
-                  :md-options="catalogs"
-                  md-layout="box">
-            <label>Products...</label>
-          </md-autocomplete>
-          <md-field class="md-layout-item md-size-90">
-            <label for="catalogs">Warehouse</label>
-            <md-select v-model="warehouses" name="warehouses" id="warehouses" md-dense multiple>
-              <md-option v-for="warehouse in warehouses" :data="warehouse" :Key="warehouse.id">{{warehouse.name}}</md-option>
+          <md-field>
+            <label for="selectedProduct">Product</label>
+            <md-select v-model="selectedProduct" name="selectedProduct" id="selectedProduct" md-dense>
+              <md-option v-for="(product) in productOnlyCode" :key="product.id" v-bind:value="product.id" >
+                {{product.code}}
+              </md-option>
             </md-select>
           </md-field>
           <div class="md-layout-item md-size-80">
@@ -27,62 +22,84 @@
         </div>
       </md-step>
     </md-steppers>
+    <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{message}}</span>
+      <md-button class="md-primary" @click.native="submit">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 <script>
+import StockService from '../../services/stock-service'
 export default {
   name: 'Stocks-form',
   methods: {
     setDone (id, index) {
       this[id] = true
       this.secondStepError = null
-      if (this.description === null || this.name === null) {
-        return
-      }
-      if (index) {
-        this.active = index
-        if (this.store === true && this.warehouse === false) {
-          this.selectedItem = 'Store'
-        } else {
-          this.selectedItem = 'Warehouse'
-        }
+      if (!this.cantidad.trim() || this.selectedProduct === null) {
+        this.message = 'Some field is empty'
+        this.complete = false
+        this.showSnackbar = true
+      } else {
+        this.save()
       }
     },
-    setError () {
-      this.secondStepError = 'This is an error!'
+    submit () {
+      if (this.complete === true) {
+        this.$router.push('/Stocks')
+      }
+    },
+    save () {
+      let body = {
+        'product': this.selectedProduct,
+        'stock': parseInt(this.cantidad)
+      }
+      StockService.save(body).then(data => {
+        data = JSON.parse(data)
+        if (data.status === 'success') {
+          this.$store.dispatch('addStock', data.data)
+          this.message = 'Stock Agree'
+          this.complete = true
+          this.showSnackbar = true
+        }
+      })
     }
   },
+  computed: {
+    productOnlyCode () {
+      return this.$store.getters.productOnlyCode
+    }
+  },
+
   data: () => ({
-    warehouse: false,
+    showSnackbar: false,
+    position: 'center',
+    duration: 4000,
+    isInfinity: false,
+    beginDate: Date.now(),
+    dueDate: null,
+    price: null,
+    name: '',
     active: 'first',
     first: false,
+    second: false,
     secondStepError: null,
     selectedItem: String,
     textarea: null,
-    warehouses: [{
-      id: '1',
-      name: 'Star Wars'
-    },
-    {
-      id: '2',
-      name: 'Fast and Furios'
-    },
-    {
-      id: '3',
-      name: 'Avengers'
-    },
-    {
-      id: '4',
-      name: 'Thor'
-    },
-    {
-      id: '5',
-      name: 'Iron Man'
-    },
-    {
-      id: '6',
-      name: 'Wolverine'
-    }]
+    discount: false,
+    description: '',
+    productSelected: null,
+    warehouseSelected: null,
+    selectedProduct: null,
+    selectedWarehouse: null,
+    message: String,
+    net: false,
+    code: '',
+    cantidad: null,
+    useAsPrice: false,
+    complete: Boolean,
+    index: '',
+    value: ''
   })
 }
 </script>

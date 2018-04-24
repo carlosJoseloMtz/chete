@@ -42,7 +42,8 @@ class WarehouseDao {
     let newWarehouse = new WarehouseModel({
       type: warehouse.type,
       address: newAddressModel,
-      stock: []})
+      stock: []
+    })
 
     await Promise.all([newAddressModel.save(), newWarehouse.save()])
 

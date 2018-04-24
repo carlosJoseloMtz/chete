@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     catalogs () {
-      return this.$store.state.productCatalog
+      return this.$store.getters.productsCatalogs
     }
   },
   components: {

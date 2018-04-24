@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     warehouses () {
-      return this.$store.state.warehouses
+      return this.$store.getters.warehouses
     }
   },
   components: {

@@ -5,12 +5,6 @@ const Schema = mongoose.Schema
 const StockSchema = new Schema ({
   ... BaseModel,
 
-  id: {
-    type: Number,
-    autoIncrement: true,
-    primaryKey:  true
-  },
-
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Products'

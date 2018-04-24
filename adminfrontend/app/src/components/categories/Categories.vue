@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     categories () {
-      return this.$store.state.categories
+      return this.$store.getters.categories
     }
   },
   components: {

@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import path from 'path'
 import mongoose from 'mongoose'
+import multer from 'multer'
 
 
 module.exports = app => {

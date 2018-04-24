@@ -12,11 +12,8 @@ export default {
   components: {
     'login': Login
   },
-  beforeCreate () {
-    this.$store.commit('getProducts')
-    this.$store.commit('getWarehouses')
-    this.$store.commit('getProductsCatalog')
-    this.$store.commit('getCategories')
+  async created () {
+    await this.$store.dispatch('loadData')
   }
 }
 </script>
