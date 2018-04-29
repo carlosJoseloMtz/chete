@@ -77,5 +77,13 @@ export default {
   .center {
     padding-top: 30px;
     padding-bottom: 10px;
-    }
+  }
+  .add-fab-button {
+    float: right;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #F44336;
+    z-index: 1000;
+  }
 </style>
