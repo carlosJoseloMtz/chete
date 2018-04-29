@@ -52,9 +52,7 @@ const sortFunctions = {
       if (stocksLocal.length > 0) {
         stocksLocal.forEach(s => {
           if (s.product.code === sl.product.code) {
-            existing++
-          } else {
-            existing = 0
+            existing += existing + 1
           }
         })
         if (existing !== null && existing > 0) {
