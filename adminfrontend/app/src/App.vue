@@ -6,14 +6,18 @@
 import Login from './components/Login.vue'
 export default {
   name: 'App',
+  beforeMount () {
+    this.$store.dispatch('loadProductCatalogData')
+    this.$store.dispatch('loadProductData')
+    this.$store.dispatch('loadWarehouseData')
+    this.$store.dispatch('loadStockData')
+    this.$store.dispatch('loadCategoryData')
+  },
   data: () => ({
     menuVisible: false
   }),
   components: {
     'login': Login
-  },
-  async created () {
-    await this.$store.dispatch('loadData')
   }
 }
 </script>

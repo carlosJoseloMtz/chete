@@ -18,7 +18,14 @@ const WareHouseSchema = new Schema({
 
   type: {
     type: String,
-    enum: ['store','warehouse']
+    enum: ['store','warehouse'],
+    required: true
+  },
+
+  name: {
+    type: String,
+    required: true,
+    unique: true
   }
 })
 

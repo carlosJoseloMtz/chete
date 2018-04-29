@@ -5,7 +5,7 @@
         md-icon="devices_other"
         md-label="You don't have any category"
         md-description="Select button to add one.">
-        <md-button class="md-primary md-raised" @click.native="openForm()">+</md-button>
+        <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
       </md-empty-state>
     </div>
     <div v-else>
@@ -22,7 +22,7 @@
       </md-table>
       <pagination v-bind:data="categories" v-on:page:update="updatePage"
         v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-      <md-button  class="md-primary md-raised" @click.native="openForm()">+</md-button>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </div>
     <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>LA categoria fue eliminado</span>
@@ -31,12 +31,13 @@
   </div>
 </template>
 <script>
-import Pagination from '../pagination/Pagination.vue'
+import Pagination from '../commons/Pagination.vue'
 import Environment from '../../commons/environment-configuration'
 
 export default {
   name: 'Categories',
   mounted: function () {
+    this.$store.dispatch('loadCategoryData')
     this.updateResource()
   },
   methods: {

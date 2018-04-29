@@ -20,10 +20,10 @@ const mutations = {
 
 const actions = {
   addStock: ({commit}, stocks) => {
-    commit('ADD_STOCK')
+    commit('ADD_STOCK', stocks)
   },
   updateStock: ({commit}, stocks) => {
-    commit('UPDATE_STOCK')
+    commit('UPDATE_STOCK', stocks)
   }
 }
 
@@ -48,28 +48,27 @@ const sortFunctions = {
     let stocksLocal = []
     let existing = 0
     stockList.forEach(sl => {
-      sl.product.code
       sl.stock = sl.stock === null || sl.stock === undefined ? 0 : sl.stock
-      if(stocksLocal.length > 0) {
+      if (stocksLocal.length > 0) {
         stocksLocal.forEach(s => {
-           if(s.product.code === sl.product.code) {
-             existing ++
-           } else {
-             existing = 0
-           }
-         })
-         if (existing !== null && existing > 0) {
+          if (s.product.code === sl.product.code) {
+            existing++
+          } else {
+            existing = 0
+          }
+        })
+        if (existing !== null && existing > 0) {
           stocksLocal.filter(s => {
-            if (s.product.code = sl.product.code) {
+            if (s.product.code === sl.product.code) {
               s.stock += sl.stock
             }
           })
-         } else {
+        } else {
           stocksLocal.push({
             product: sl.product,
             stock: sl.stock
           })
-         }
+        }
       } else {
         stocksLocal.push({
           product: sl.product,

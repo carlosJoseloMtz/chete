@@ -12,7 +12,7 @@
 
         <md-list>
           <md-list-item md-expand>
-            <md-icon>whatshot</md-icon>
+            <md-icon>person</md-icon>
             <span class="md-list-item-text" >Users</span>
             <md-list slot="md-expand">
               <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Employee')" to="/Employees">employees</router-link></md-list-item>
@@ -20,7 +20,7 @@
           </md-list-item>
 
           <md-list-item md-expand >
-            <md-icon>whatshot</md-icon>
+            <md-icon>work</md-icon>
             <span class="md-list-item-text">Commerce</span>
             <md-list slot="md-expand">
               <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Catalog')" to="/Catalogs">catalog</router-link></md-list-item>
@@ -31,7 +31,7 @@
           </md-list-item>
 
           <md-list-item md-expand>
-            <md-icon>whatshot</md-icon>
+            <md-icon>home</md-icon>
             <span class="md-list-item-text">Store</span>
             <md-list slot="md-expand">
               <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Warehouse')" to="/Warehouses">warehouses</router-link></md-list-item>
@@ -40,14 +40,14 @@
           </md-list-item>
 
           <md-list-item md-expand>
-            <md-icon>whatshot</md-icon>
+            <md-icon>monetization_on</md-icon>
             <span class="md-list-item-text">Marketing</span>
             <md-list slot="md-expand">
               <md-list-item class="md-inset"><router-link class="text" @click.native="verifyTitle('Discounts')" to="/Discounts">discounts</router-link></md-list-item>
             </md-list>
           </md-list-item>
           <md-list-item>
-            <md-icon>move_to_inbox</md-icon>
+            <md-icon>arrow_back</md-icon>
             <span class="md-list-item-text"><router-link class="text" to="/Logout">Logout</router-link></span>
           </md-list-item>
         </md-list>

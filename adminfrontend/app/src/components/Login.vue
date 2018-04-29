@@ -1,50 +1,35 @@
 <template>
-<div>
-  <form novalidate class="md-layout" @submit.prevent="validateUser" elevation="5">
-    <md-card class="md-layout-item md-size-50 md-small-size-100">
+  <div class="md-layout md-gutter pd-top">
+    <div class="md-layout-item md-size-33">
+    </div>
+    <md-card class="md-layout-item md-size-33 md-elevation-24">
       <md-card-header>
-        <div class="md-title">Login</div>
-      </md-card-header>
-
-      <md-card-content>
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('firstName')">
-              <label for="first-name">First Name</label>
-              <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
-              <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-              <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
-            </md-field>
-          </div>
-
-          <div class="md-layout-item md-small-size-100">
-            <md-field :class="getValidationClass('lastName')">
-              <label for="last-name">Last Name</label>
-              <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
-              <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-              <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
-            </md-field>
-          </div>
+       <div class="md-title title">LOGIN</div>
+     </md-card-header>
+      <md-card-content class="md-layout-item md-size-100">
+        <div class="md-layout-item md-small-size-100">
+          <md-field :class="getValidationClass('firstName')">
+            <label for="first-name">User</label>
+            <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.user" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
+            <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+          </md-field>
         </div>
 
-        <md-field :class="getValidationClass('email')">
-          <label for="email">Email</label>
-          <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
-          <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-          <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
-        </md-field>
+        <div class="md-layout-item md-small-size-100">
+          <md-field :class="getValidationClass('lastName')">
+            <label for="last-name">Password</label>
+            <md-input type="password" name="last-name" id="last-name" autocomplete="family-name" v-model="form.password" :disabled="sending" />
+            <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
+            <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+          </md-field>
+        </div>
       </md-card-content>
-
-      <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
       <md-card-actions>
-        <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
-      </md-card-actions>
+        <md-button type="submit" class="md-primary" :disabled="sending" @click.native="login">Login</md-button>
+    </md-card-actions>
     </md-card>
-
-    <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
-  </form>
-</div>
+  </div>
 </template>
 
 <script>
@@ -63,11 +48,8 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      firstName: null,
-      lastName: null,
-      gender: null,
-      age: null,
-      email: null
+      user: null,
+      password: null
     },
     userSaved: false,
     sending: false,
@@ -106,6 +88,9 @@ export default {
         }
       }
     },
+    login () {
+      this.$router.push('Welcome')
+    },
     clearForm () {
       this.$v.$reset()
       this.form.firstName = null
@@ -136,15 +121,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-  .full-control > .md-list {
-   width: 320px;
-   height: 400px;
-   display: inline-block;
-   overflow: auto;
-   border: 1px solid rgba(#000, .12);
-   vertical-align: top;
+<style>
+ .title {
+   text-align: center;
+   text-decoration-style: solid;
  }
-
+ .pd-top {
+   padding: 10vh
+ }
 </style>

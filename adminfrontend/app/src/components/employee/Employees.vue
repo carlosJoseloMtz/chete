@@ -4,7 +4,7 @@
       md-icon="devices_other"
       md-label="You don't have any employee"
       md-description="Select button to add one.">
-      <md-button class="md-primary md-raised" @click.native="openForm()">+</md-button>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </md-empty-state>
   </div>
 </template>

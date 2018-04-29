@@ -46,6 +46,7 @@ import ProductCatalogService from '../../services/product-catalog-service'
 export default {
   name: 'Catalogs-form',
   beforeMount: function () {
+    this.$store.dispatch('loadCategoryData')
     this.categorySelected = []
     for (const element in this.categories) {
       this.categorySelected.push(this.categories[element].name)
@@ -88,7 +89,7 @@ export default {
         ProductCatalogService.save(body).then(data => {
           data = JSON.parse(data)
           if (data.status === 'success') {
-            this.$store.dispatch('addOneProductCatalog', data.data)
+            this.$store.dispatch('addProductCatalog', data.data)
             this.message = 'Catalog created'
             this.complete = true
             this.showSnackbar = true

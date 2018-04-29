@@ -9,7 +9,8 @@ const convert = (product) => {
     stock: product.stock,
     catalog: product.catalog,
     code: product.code,
-    name: product.name
+    name: product.name,
+    image: product.image
   }
 }
 

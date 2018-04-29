@@ -23,6 +23,10 @@ class ProductService {
     return this.productDao.update(product)
   }
 
+  updateImage (product, image) {
+    return this.productDao.updateImage(product, image)
+  }
+
   findById (id) {
     return this.productDao.findById(id)
   }

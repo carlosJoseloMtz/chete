@@ -38,14 +38,15 @@ class WarehouseDao {
 
   async create (warehouse) {
     let newAddressModel = new AddressModel(warehouse.address)
+    await newAddressModel.save()
 
     let newWarehouse = new WarehouseModel({
       type: warehouse.type,
       address: newAddressModel,
-      stock: []
+      stock: [],
+      name: warehouse.name
     })
-
-    await Promise.all([newAddressModel.save(), newWarehouse.save()])
+    await newWarehouse.save()
 
     return newWarehouse
   }

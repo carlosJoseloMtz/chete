@@ -20,10 +20,10 @@ const mutations = {
 
 const actions = {
   addProduct: ({commit}, product) => {
-    commit('ADD_PRODUCT')
+    commit('ADD_PRODUCT', product)
   },
   updateProduct: ({commit}, product) => {
-    commit('UPDATE_PRODUCT')
+    commit('UPDATE_PRODUCT', product)
   }
 }
 
@@ -92,7 +92,7 @@ const sortFunctions = {
     const tempProducts = productsList
     let arreglo = null
     for (const element in tempProducts) {
-      if(tempProducts[element].discounts.length > 0) {
+      if (tempProducts[element].discounts.length > 0) {
         tempProducts[element].discounts.forEach(data => {
           if (data.active === true && data.active !== null && data.price !== null && data.price !== undefined) {
             arreglo = data.price

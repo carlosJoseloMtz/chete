@@ -6,10 +6,10 @@ const mutations = {
   'SET_WAREHOUSES' (state, warehouses) {
     state.warehouses = warehouses
   },
-  'ADD_WAREHOUSES' (state, warehouses) {
+  'ADD_WAREHOUSE' (state, warehouses) {
     state.warehouses.push(warehouses)
   },
-  'UPDATE_WAREHOUSES' (state, warehouses) {
+  'UPDATE_WAREHOUSE' (state, warehouses) {
     state.warehouses.filter(warehouse => {
       if (warehouse.id === warehouses.id) {
         warehouse = warehouses
@@ -20,10 +20,10 @@ const mutations = {
 
 const actions = {
   addWarehouse: ({commit}, warehouses) => {
-    commit('ADD_WAREHOUSE')
+    commit('ADD_WAREHOUSE', warehouses)
   },
   updateWarehouse: ({commit}, warehouses) => {
-    commit('UPDATE_WAREHOUSE')
+    commit('UPDATE_WAREHOUSE', warehouses)
   }
 }
 

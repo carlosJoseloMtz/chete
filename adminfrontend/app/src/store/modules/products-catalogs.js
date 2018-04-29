@@ -20,10 +20,10 @@ const mutations = {
 
 const actions = {
   addProductCatalog: ({commit}, productsCatalogs) => {
-    commit('ADD_PRODUCTS_CATALOGS')
+    commit('ADD_PRODUCTS_CATALOGS', productsCatalogs)
   },
   updateProductCatalog: ({commit}, productsCatalogs) => {
-    commit('UPDATE_PRODUCTS_CATALOGS')
+    commit('UPDATE_PRODUCTS_CATALOGS', productsCatalogs)
   }
 }
 

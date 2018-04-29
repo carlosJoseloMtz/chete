@@ -44,6 +44,7 @@ class ProductDao {
       code: product.code,
       name: product.name
     }
+
     let newProductModel = new ProductModel(newProduct)
     await newProductModel.save((err, newproduct ) => {
       if(err){
@@ -73,6 +74,23 @@ class ProductDao {
 
   update (product) {
     return ProductModel.update({ _id: product.id }, product)
+  }
+
+  async updateImage (product, image) {
+    let response
+    await ProductModel.findById({"_id": product.id}, (err, p) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = p
+      }
+    })
+    response.image.gallery.push(image)
+    response.image.mainImageSrc = product.main === 'true' ? image : response.image.mainImageSrc
+    response.image.thumbnailSrc = product.thumbnail === 'true' ? image : response.image.thumbnailSrc
+    await ProductModel.update({ _id: product.id }, response)
+    return response
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="totalPages() > 0" class="pagination-wrapper">
-    <span v-if="showPreviousLink()" class="pagination-btn" v-on:click="updatePage(currentPage -1)"> < </span>
+    <span v-if="showPreviousLink()" class="pagination-btn" v-on:click="updatePage(currentPage -1)"> &lt; </span>
       {{ currentPage + 1 }} of {{ totalPages() }}
     <span v-if="showNextLink()" class="pagination-btn" v-on:click="updatePage(currentPage + 1)"> > </span>
   </div>
@@ -30,5 +30,8 @@ export default {
 <style>
   .pagination-btn {
     cursor: pointer;
+  }
+  .pagination-wrapper {
+    text-align: center;
   }
 </style>

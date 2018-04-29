@@ -104,7 +104,22 @@ const ProductSchema = new Schema({
   name: {
     type: String,
     required: true
-  }
+  },
 
+  image: {
+    thumbnailSrc: {
+      type: String,
+      default: ''
+    },
+
+    mainImageSrc: {
+      type: String,
+      default: ''
+    },
+
+    gallery: [{
+      type: String
+    }]
+  }
 })
 module.exports = mongoose.model('Products', ProductSchema)

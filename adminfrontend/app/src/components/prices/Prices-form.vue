@@ -98,7 +98,7 @@ export default {
         ProductService.update(body).then(data => {
           data = JSON.parse(data)
           if (data.status === 'success') {
-            this.$store.dispatch('updateProduct', this.body)
+            this.$store.dispatch('updateProduct', data.data)
             this.message = 'Price Update'
             this.complete = true
             this.showSnackbar = true

@@ -3,6 +3,7 @@ import { success, failed } from '../../commons/responses'
 import {convert as convertProduct } from '../converters/productconverter'
 import { convertAll } from '../../commons/utilconverter'
 import * as LOG from 'winston'
+import mediaProduct from '../../core/media/media-middleware'
 
 const BASE = '/admin/api/v1/products'
 
@@ -50,6 +51,15 @@ module.exports = app => {
 
   app.put(`${BASE}`, (req, res) => {
     productService.update(req.body).then(_ => {
+      res.json(success())
+    }).catch(error => {
+      res.status(500).json(failed())
+    })
+  })
+  //mediaProduct.upload('productImage'),
+  app.put(`${BASE}/img`, mediaProduct.imageProduct('productImage'), (req, res) => {
+    console.log(req.body)
+    productService.updateImage(req.body, req.file.path).then(_ => {
       res.json(success())
     }).catch(error => {
       res.status(500).json(failed())

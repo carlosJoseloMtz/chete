@@ -5,7 +5,7 @@
         md-icon="devices_other"
         md-label="You don't have any categories"
         md-description="Select button to add one.">
-        <md-button class="md-primary md-raised" @click.native="openForm()">+</md-button>
+        <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
       </md-empty-state>
     </div>
     <div v-else>
@@ -13,32 +13,73 @@
         <md-table-row>
         <md-table-head >Code</md-table-head>
         <md-table-head>Name</md-table-head>
+        <md-table-head>Image</md-table-head>
         </md-table-row>
         <md-table-row  v-for="(product) in visibleProducts" :Key="product.id"
           v-bind:product="product" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
           <md-table-cell>{{product.code}}</md-table-cell>
           <md-table-cell>{{product.name}}</md-table-cell>
+          <md-table-cell v-if="product.image.thumbnailSrc === ''"> <md-button class="md-icon-button md-raised" @click="addImage = true, productCode = product.code, idSelected = product.id">
+            <md-icon>add</md-icon> </md-button>
+          </md-table-cell>
+          <md-table-cell v-if="product.image.thumbnailSrc !== ''"><img v-bind:src="'file://'+product.image.thumbnailSrc" @click="showMD = true, imgPath = product.image.mainImageSrc, productCode = product.code, complete = false"/></md-table-cell>
         </md-table-row>
       </md-table>
       <pagination v-bind:data="products" v-on:page:update="updatePage"
         v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-      <md-button  class="md-primary md-raised" @click.native="openForm()">+</md-button>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </div>
     <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
-      <span>El product fue eliminado</span>
+      <span>{{ message }}</span>
       <md-button class="md-primary" @click.native="submit">OK</md-button>
     </md-snackbar>
+
+    <md-dialog :md-active.sync="showMD">
+      <md-dialog-title>Product Selected: {{productCode}}</md-dialog-title>
+      <md-tabs md-dynamic-height>
+        <md-tab md-label="Image">
+          <img v-bind:src="'file://'+imgPath" height="600" width="600"/>
+        </md-tab>
+      </md-tabs>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showMD = false">Close</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+    <md-dialog :md-active.sync="addImage">
+      <md-dialog-title>Product Selected: {{productCode}}</md-dialog-title>
+      <md-tabs md-dynamic-height>
+        <md-tab md-label="Upload">
+          <md-field>
+            <input type="file" @change="onFileSelected">
+          </md-field>
+          <md-checkbox  v-model="thumbnail" ref="storeCheck">Thumbnail Image</md-checkbox>
+          <md-checkbox  v-model="main" ref="warehouseCheck">Main Image</md-checkbox>
+        </md-tab>
+      </md-tabs>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="upload">upload</md-button>
+        <md-button class="md-primary" @click="addImage = false">Close</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </div>
 </template>
 <script>
-import Pagination from '../pagination/Pagination.vue'
+import Pagination from '../commons/Pagination.vue'
 import Environment from '../../commons/environment-configuration'
+import ProductService from '../../services/product-service'
+
 export default {
   name: 'Products',
   mounted: function () {
+    this.$store.dispatch('loadProductData')
     this.updateResource()
   },
   methods: {
+    onFileSelected (event) {
+      this.single = event.target.files[0]
+      this.imageNameUpload = event.target.files[0].name
+    },
     openForm () {
       this.$router.push('Products-form')
     },
@@ -51,6 +92,44 @@ export default {
       if (this.visibleProducts.length === 0 && this.visibleProducts > 0) {
         this.updatePage(this.currentPage - 1)
       }
+    },
+    submit () {
+      if (this.complete === true) {
+        this.addImage = false
+        this.showMD = false
+      }
+      this.showSnackbar = false
+    },
+    upload () {
+      var fdata = new FormData()
+      if (this.single === '') {
+        this.showSnackbar = true
+        this.complete = false
+        this.message = 'Empty file'
+        return
+      }
+      if (this.thumbnail === false && this.main === false) {
+        this.showSnackbar = true
+        this.complete = false
+        this.message = 'Select image current to show'
+        return
+      }
+      fdata.append('productImage', this.single)
+      fdata.append('id', this.idSelected)
+      fdata.append('thumbnail', this.thumbnail)
+      fdata.append('main', this.main)
+      ProductService.uploadImage(fdata).then(data => {
+        data = JSON.parse(data)
+        if (data.status === 'success') {
+          this.$store.dispatch('updateProduct', data.data)
+          this.message = 'Image Agree'
+          this.complete = true
+          this.showSnackbar = true
+        } else {
+          this.message = 'Error upload image'
+          this.showSnackbar = true
+        }
+      })
     }
   },
   computed: {
@@ -64,11 +143,22 @@ export default {
   data: () => ({
     showSnackbar: false,
     position: 'center',
-    duration: 4000,
+    duration: 10000,
     isInfinity: false,
     currentPage: Environment.startCurrentPage,
     pageSize: Environment.sizeElementPagination,
-    visibleProducts: []
+    visibleProducts: [],
+    showMD: false,
+    imgPath: null,
+    productCode: '',
+    addImage: false,
+    single: '',
+    idSelected: '',
+    message: '',
+    imageNameUpload: '',
+    thumbnail: false,
+    main: false,
+    complete: false
   })
 }
 </script>
@@ -76,5 +166,13 @@ export default {
   .center {
     padding-top: 30px;
     padding-bottom: 10px;
+    }
+    .add-fab-button {
+      float: right;
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #F44336;
+      z-index: 1000;
     }
 </style>

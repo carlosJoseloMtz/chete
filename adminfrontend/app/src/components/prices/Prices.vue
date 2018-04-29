@@ -5,26 +5,26 @@
         md-icon="devices_other"
         md-label="You don't have any categories"
         md-description="Select button to add one.">
-        <md-button class="md-primary md-raised" @click.native="openForm()">+</md-button>
+        <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
       </md-empty-state>
     </div>
     <div v-else>
       <md-table>
         <md-table-row>
-        <md-table-head md-numeric>ID</md-table-head>
+        <md-table-head>Code</md-table-head>
         <md-table-head>Name</md-table-head>
         <md-table-head>Price</md-table-head>
         </md-table-row>
         <md-table-row  v-for="(product) in visibleProducts" :Key="product.id"
           v-bind:product="product" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
-          <md-table-cell md-numeric>{{product.id}}</md-table-cell>
+          <md-table-cell>{{product.code}}</md-table-cell>
           <md-table-cell>{{product.name}}</md-table-cell>
-          <md-table-cell>{{product.price}} </md-table-cell>
+          <md-table-cell>${{product.price}} </md-table-cell>
         </md-table-row>
       </md-table>
       <pagination v-bind:data="products" v-on:page:update="updatePage"
         v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-      <md-button  class="md-primary md-raised" @click.native="openForm()">+</md-button>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </div>
     <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>El product fue eliminado</span>
@@ -33,12 +33,13 @@
   </div>
 </template>
 <script>
-import Pagination from '../pagination/Pagination.vue'
+import Pagination from '../commons/Pagination.vue'
 import Environment from '../../commons/environment-configuration'
 
 export default {
   name: 'Prices',
   mounted: function () {
+    this.$store.dispatch('loadProductData')
     this.updateResource()
   },
   methods: {

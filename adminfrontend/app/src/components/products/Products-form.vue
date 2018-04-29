@@ -65,6 +65,7 @@ import ProductService from '../../services/product-service'
 export default {
   name: 'Products-form',
   beforeMount: function () {
+    this.$store.dispatch('loadProductCatalogData')
     this.catalogSelected = []
     for (const element in this.catalogs) {
       this.catalogSelected.push(this.catalogs[element].name)

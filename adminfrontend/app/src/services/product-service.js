@@ -20,5 +20,10 @@ export default {
 
   update (options) {
     return HttpClient.put(url, options)
+  },
+
+  uploadImage (options) {
+    console.log(`${url}/img`)
+    return HttpClient.putMedia(`${url}img`, options)
   }
 }

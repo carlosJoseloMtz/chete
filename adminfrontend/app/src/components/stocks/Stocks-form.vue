@@ -32,6 +32,9 @@
 import StockService from '../../services/stock-service'
 export default {
   name: 'Stocks-form',
+  mounted: function () {
+    this.$store.dispatch('loadProductData')
+  },
   methods: {
     setDone (id, index) {
       this[id] = true

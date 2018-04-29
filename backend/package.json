@@ -28,6 +28,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-load": "^1.1.16",
+    "fs": "0.0.1-security",
     "jwt-simple": "^0.5.1",
     "moment": "^2.20.1",
     "mongoose": "^4.3.6",

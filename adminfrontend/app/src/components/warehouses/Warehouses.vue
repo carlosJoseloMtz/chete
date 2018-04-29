@@ -1,25 +1,24 @@
 <template>
   <div>
     <div v-if="warehouses.length === 0">
-      {{warehouses}}
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any warehouses"
         md-description="Select button to add one.">
-        <md-button class="md-primary md-raised" @click.native="openForm()">+</md-button>
+        <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
       </md-empty-state>
     </div>
     <div v-else>
       <md-table>
         <md-table-row>
-        <md-table-head md-numeric>ID</md-table-head>
+        <md-table-head>Type</md-table-head>
         <md-table-head>Name</md-table-head>
         <md-table-head>Action</md-table-head>
         </md-table-row>
-        <md-table-row  v-for="(warehouse, index) in visibleWarehouses" :Key="warehouse.id"
+        <md-table-row  v-for="(warehouse, index) in visibleWarehouses" :Key="warehouse.name"
           v-bind:warehouse="warehouse" v-bind:visibleWarehouses="visibleWarehouses" v-bind:currentPage="currentPage">
-          <md-table-cell md-numeric>{{warehouse.id}}</md-table-cell>
           <md-table-cell>{{warehouse.type}}</md-table-cell>
+          <md-table-cell>{{warehouse.name}}</md-table-cell>
           <md-table-cell> <md-button @click.native="deleteItem(warehouse, index)" class="md-icon-button md-raised">
                           <md-icon>delete</md-icon>
                           </md-button>
@@ -28,7 +27,7 @@
       </md-table>
       <pagination v-bind:data="warehouses" v-on:page:update="updatePage"
         v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-      <md-button  class="md-primary md-raised" @click.native="openForm()">+</md-button>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </div>
     <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
       <span>El warehouse fue eliminado</span>
@@ -38,11 +37,12 @@
 </template>
 <script>
 import WarehouseService from '../../services/warehouse-service'
-import Pagination from '../pagination/Pagination.vue'
+import Pagination from '../commons/Pagination.vue'
 import Environment from '../../commons/environment-configuration'
 export default {
   name: 'Warehouses',
   mounted: function () {
+    this.$store.dispatch('loadWarehouseData')
     this.updateResource()
   },
   methods: {
