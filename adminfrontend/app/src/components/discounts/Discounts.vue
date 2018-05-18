@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="products.length === 0">
+    <div v-if="!isLoadedData">
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any categories"
@@ -11,13 +11,13 @@
     <div v-else>
       <md-table>
         <md-table-row>
-        <md-table-head md-numeric>ID</md-table-head>
+        <md-table-head>code</md-table-head>
         <md-table-head>Name</md-table-head>
         <md-table-head>Discount</md-table-head>
         </md-table-row>
         <md-table-row  v-for="(product) in visibleProducts" :Key="product.id"
           v-bind:product="product" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
-          <md-table-cell md-numeric>{{product.id}}</md-table-cell>
+          <md-table-cell>{{product.code}}</md-table-cell>
           <md-table-cell>{{product.name}}</md-table-cell>
           <md-table-cell>{{product.discounts}} </md-table-cell>
         </md-table-row>
@@ -39,7 +39,10 @@ export default {
   name: 'Discounts',
   mounted: function () {
     this.$store.dispatch('loadProductData')
-    this.updateResource()
+    this.$nextTick(function () {
+      this.updateResource()
+    })
+
   },
   methods: {
     openForm () {
@@ -59,6 +62,10 @@ export default {
   computed: {
     products () {
       return this.$store.getters.productWithActiveDiscount
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.productDataLoaded
     }
   },
   components: {
@@ -71,7 +78,8 @@ export default {
     isInfinity: false,
     currentPage: Environment.startCurrentPage,
     pageSize: Environment.sizeElementPagination,
-    visibleProducts: []
+    visibleProducts: [],
+    isDataLoad: false
   })
 }
 </script>

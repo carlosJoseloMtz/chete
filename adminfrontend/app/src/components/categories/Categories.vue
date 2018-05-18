@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="categories.length === 0">
+    <div v-if="!isLoadedData">
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any category"
@@ -38,7 +38,9 @@ export default {
   name: 'Categories',
   mounted: function () {
     this.$store.dispatch('loadCategoryData')
-    this.updateResource()
+    this.$nextTick(function () {
+      this.updateResource()
+    })
   },
   methods: {
     openForm () {
@@ -58,6 +60,10 @@ export default {
   computed: {
     categories () {
       return this.$store.getters.categories
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.categoriesDataLoaded
     }
   },
   components: {

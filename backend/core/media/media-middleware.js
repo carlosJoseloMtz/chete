@@ -31,9 +31,9 @@ const upload = multer({
 
 module.exports = {
   imageProduct (file) {
+    console.log('inside media middleware')
     path = environment.baseImageUrl
     name = environment.baseImageName + new Date().toISOString()
     return upload.single(file)
-    //return {name: name, status:status}
   }
 }

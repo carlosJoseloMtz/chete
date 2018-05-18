@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="warehouses.length === 0">
+    <div v-if="!isWhLoadedData">
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any warehouses"
@@ -43,7 +43,9 @@ export default {
   name: 'Warehouses',
   mounted: function () {
     this.$store.dispatch('loadWarehouseData')
-    this.updateResource()
+    this.$nextTick(function () {
+      this.updateResource()
+    })
   },
   methods: {
     openForm () {
@@ -72,6 +74,10 @@ export default {
   computed: {
     warehouses () {
       return this.$store.getters.warehouses
+    },
+    isWhLoadedData () {
+      this.updateResource()
+      return this.$store.getters.warehouseDataLoaded
     }
   },
   components: {

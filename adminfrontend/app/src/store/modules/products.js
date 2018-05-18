@@ -10,11 +10,12 @@ const mutations = {
     state.products.push(products)
   },
   'UPDATE_PRODUCT' (state, products) {
-    state.products.filter(product => {
-      if (product.id === products.id) {
-        product = products
+    for (let product in state.products) {
+      if (state.products[product].id === products.id) {
+        state.products[product] = products
+        break;
       }
-    })
+    }
   }
 }
 
@@ -39,6 +40,9 @@ const getters = {
   },
   productOnlyCode: state => {
     return sortFunctions.selectOnlyCode(state.products)
+  },
+  productDataLoaded: state => {
+    return state.products.length > 0
   }
 }
 

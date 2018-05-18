@@ -7,6 +7,7 @@ class PasswordCheckStrategy {
    * @param {String} possible The passsword used on the login.
    */
   isPasswordValid (current, possible) {
+    console.log(current, possible)
     // TODO: use the decoding of the password based on the encrypt algorithm
     return current === possible
   }

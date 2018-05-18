@@ -60,6 +60,10 @@ export default {
   computed: {
     products () {
       return this.$store.getters.productWithActivePrice
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.productDataLoaded
     }
   },
   components: {

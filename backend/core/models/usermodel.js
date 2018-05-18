@@ -15,9 +15,25 @@ const UserSchema = new Schema({
     index: true
   },
 
-  name: {
+  firstName: {
     type: String,
     required: true
+  },
+
+  lastName: {
+    type: String,
+    required: true
+  },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+
+  active: {
+    type: Boolean,
+    default: true
   },
 
   password: {

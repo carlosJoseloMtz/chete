@@ -1,4 +1,5 @@
-import * as LOG from 'winston'
+import jwt from 'jwt-simple'
+import moment from 'moment'
 
 class UserService {
 
@@ -9,22 +10,35 @@ class UserService {
     this.userDao = userDao
   }
 
-  async login (username, password) {
 
-    let user
-    await this.userDao.findByUid(username)
-      .then(usr => { user = usr })
+  findById (user) {
+    return this.userDao.findById(userDao)
+  }
 
-    if (!this.passwordCheckStrategy.isPasswordValid(user.password, password)) {
-      return null
-    }
+  create (user) {
+    return this.userDao.create(user)
+  }
 
-    const token = this.authService.encodeToken({
-      name: user.name,
-      id: user._id
-    })
+  getAll() {
+    return this.userDao.getAll()
+  }
 
-    return token
+  async findByUid (user) {
+    let userFind
+    console.log(this.userDao)
+    await this.userDao.findByUid(user)
+     .then(usr => { userFind = usr })
+    console.log(userFind)
+   if (!this.passwordCheckStrategy.isPasswordValid(userFind.password, user.password)) {
+     return null
+   }
+
+   const token = this.authService.encodeToken({
+     name: user.name,
+     id: user._id
+   })
+
+   return token
   }
 }
 

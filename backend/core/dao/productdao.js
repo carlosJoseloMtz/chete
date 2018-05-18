@@ -1,5 +1,7 @@
 import ProductModel from '../../core/models/productmodel'
 import ProductCatalogModel from '../../core/models/productcatalogmodel'
+import im from 'imagemagick'
+import environment from '../../commons/environment-configuration'
 import * as LOG from 'winston'
 
 class ProductDao {
@@ -44,7 +46,6 @@ class ProductDao {
       code: product.code,
       name: product.name
     }
-
     let newProductModel = new ProductModel(newProduct)
     await newProductModel.save((err, newproduct ) => {
       if(err){
@@ -76,8 +77,44 @@ class ProductDao {
     return ProductModel.update({ _id: product.id }, product)
   }
 
+  async reloadImage (product) {
+    let response
+    await ProductModel.findOne({"code": product.productCode}, (err, p) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = p
+      }
+    })
+    response.image.mainImageSrc = product.main === true ? response.image.gallery[product.gallery] : response.image.mainImageSrc
+    response.image.thumbnailSrc = product.thumbnail === true ? response.image.gallery[product.gallery] : response.image.thumbnailSrc
+    await ProductModel.update({ _id: response._id }, response)
+    return response
+  }
+
   async updateImage (product, image) {
     let response
+    im.resize(
+      { srcPath: `${environment.baseImageUrl}/${image}`,
+        dstPath: `${environment.baseImageUrl}/${image}-small`,
+        width:   200,
+        height: 200,
+        quality: 0.8
+      }, function(err, stdout, stderr){
+        if (err) throw err;
+        console.log('resized image 200x200');
+    });
+    im.resize({
+        srcPath: `${environment.baseImageUrl}/${image}`,
+        width:   900,
+        height: 900,
+        dstPath: `${environment.baseImageUrl}/${image}-big`,
+        quality: 0.8
+      }, function(err, stdout, stderr){
+        if (err) throw err;
+        console.log('resized image 900x900');
+    });
     await ProductModel.findById({"_id": product.id}, (err, p) => {
       if(err){
         LOG.error('Error while trying to find a product by id')

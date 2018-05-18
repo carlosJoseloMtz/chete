@@ -27,6 +27,10 @@ class ProductService {
     return this.productDao.updateImage(product, image)
   }
 
+  reloadImage (product) {
+    return this.productDao.reloadImage(product)
+  }
+
   findById (id) {
     return this.productDao.findById(id)
   }

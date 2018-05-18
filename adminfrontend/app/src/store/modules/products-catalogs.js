@@ -30,6 +30,9 @@ const actions = {
 const getters = {
   productsCatalogs: state => {
     return state.productsCatalogs
+  },
+  productsCatalogsDataLoaded: state => {
+    return state.productsCatalogs.length > 0
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="stocks.length === 0">
+    <div v-if="!isLoadedData">
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any stock"
@@ -37,7 +37,9 @@ export default {
   name: 'Stocks',
   mounted: function () {
     this.$store.dispatch('loadStockData')
-    this.updateResource()
+    this.$nextTick(function () {
+      this.updateResource()
+    })
   },
   methods: {
     openForm () {
@@ -60,6 +62,10 @@ export default {
   computed: {
     stocks () {
       return this.$store.getters.stockSum
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.stockDataLoaded
     }
   },
   data: () => ({

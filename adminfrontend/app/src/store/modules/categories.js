@@ -30,6 +30,9 @@ const actions = {
 const getters = {
   categories: state => {
     return state.categories
+  },
+  categoriesDataLoaded: state => {
+    return state.categories.length > 0
   }
 }
 

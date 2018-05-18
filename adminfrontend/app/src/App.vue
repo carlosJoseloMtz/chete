@@ -12,6 +12,7 @@ export default {
     this.$store.dispatch('loadWarehouseData')
     this.$store.dispatch('loadStockData')
     this.$store.dispatch('loadCategoryData')
+    setTimeOut(()=> {this.initData() }, 500)
   },
   data: () => ({
     menuVisible: false

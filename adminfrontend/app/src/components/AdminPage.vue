@@ -94,6 +94,9 @@
 <script>
 export default {
   name: 'AdminPage',
+  beforeMount: function () {
+    console.log(this.$router)
+  },
   methods: {
     verifyTitle (value) {
       this.title = value

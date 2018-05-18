@@ -56,13 +56,27 @@ module.exports = app => {
       res.status(500).json(failed())
     })
   })
+
   //mediaProduct.upload('productImage'),
-  app.put(`${BASE}/img`, mediaProduct.imageProduct('productImage'), (req, res) => {
-    console.log(req.body)
-    productService.updateImage(req.body, req.file.path).then(_ => {
-      res.json(success())
+  app.put(`${BASE}/img`, mediaProduct.imageProduct('productImage'),(req, res) => {
+    mediaProduct.imageProduct('productImage')
+    productService.updateImage(req.body, req.file.filename).then(product =>
+      convertProduct(product)
+    ).then(product => {
+      res.json(success(product))
     }).catch(error => {
       res.status(500).json(failed())
     })
   })
+
+  app.put(`${BASE}/img/reupload`, (req, res) => {
+    productService.reloadImage(req.body).then(product =>
+      convertProduct(product)
+    ).then(product => {
+      res.json(success(product))
+    }).catch(error => {
+      res.status(500).json(failed())
+    })
+  })
+
 }

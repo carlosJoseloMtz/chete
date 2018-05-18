@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="catalogs.length === 0">
+    <div v-if="!isLoadedData">
       <md-empty-state
         md-icon="devices_other"
         md-label="You don't have any catalog"
@@ -38,7 +38,9 @@ export default {
   name: 'Catalogs',
   mounted: function () {
     this.$store.dispatch('loadProductCatalogData')
-    this.updateResource()
+    this.$nextTick(function () {
+      this.updateResource()
+    })
   },
   methods: {
     openForm () {
@@ -58,6 +60,10 @@ export default {
   computed: {
     catalogs () {
       return this.$store.getters.productsCatalogs
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.productsCatalogsDataLoaded
     }
   },
   components: {

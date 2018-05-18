@@ -23,5 +23,4 @@ module.exports = app => {
   app.set('categoryDao', CategoryDao)
   app.set('productDao', ProductDao)
   app.set('stockDao', stockDao)
-
 }

@@ -22,7 +22,7 @@
           <md-table-cell v-if="product.image.thumbnailSrc === ''"> <md-button class="md-icon-button md-raised" @click="addImage = true, productCode = product.code, idSelected = product.id">
             <md-icon>add</md-icon> </md-button>
           </md-table-cell>
-          <md-table-cell v-if="product.image.thumbnailSrc !== ''"><img v-bind:src="'file://'+product.image.thumbnailSrc" @click="showMD = true, imgPath = product.image.mainImageSrc, productCode = product.code, complete = false"/></md-table-cell>
+          <md-table-cell v-if="product.image.thumbnailSrc !== ''"><img v-bind:src="`${product.image.thumbnailSrc}-small`" @click="showMD = true, imgPath = `${product.image.thumbnailSrc}-big`, productCode = product.code, complete = false, idSelected = product.id, imageGallery = product.image.gallery"/></md-table-cell>
         </md-table-row>
       </md-table>
       <pagination v-bind:data="products" v-on:page:update="updatePage"
@@ -38,10 +38,11 @@
       <md-dialog-title>Product Selected: {{productCode}}</md-dialog-title>
       <md-tabs md-dynamic-height>
         <md-tab md-label="Image">
-          <img v-bind:src="'file://'+imgPath" height="600" width="600"/>
+          <img v-bind:src="imgPath"/>
         </md-tab>
       </md-tabs>
       <md-dialog-actions>
+        <md-button class="md-primary" @click.native="addImage = true, showMD = false">Editar</md-button>
         <md-button class="md-primary" @click="showMD = false">Close</md-button>
       </md-dialog-actions>
     </md-dialog>
@@ -49,17 +50,30 @@
     <md-dialog :md-active.sync="addImage">
       <md-dialog-title>Product Selected: {{productCode}}</md-dialog-title>
       <md-tabs md-dynamic-height>
-        <md-tab md-label="Upload">
+        <md-tab @click="uploadExistingImage = false" md-label="Upload New Image">
           <md-field>
             <input type="file" @change="onFileSelected">
           </md-field>
           <md-checkbox  v-model="thumbnail" ref="storeCheck">Thumbnail Image</md-checkbox>
           <md-checkbox  v-model="main" ref="warehouseCheck">Main Image</md-checkbox>
         </md-tab>
+        <md-tab @click="uploadExistingImage = true" class="scroll" v-if="imageGallery.length > 0" md-label="Select Existing Image">
+          <div class="inline" v-for="(ig, index) in imageGallery" :Key="index">
+            <img ref="index" class="imgHover" v-bind:src="`${ig}-small`" @click="imageClicked(index),updateImageUrl = index" alt="image description"/>
+            <template class="inline" v-if="imageGallery.length == 1">
+              <md-button  class="md-icon-button" @click.native="reloadGallery()"><md-icon>cached</md-icon></md-button>
+              <div>
+                <md-checkbox v-model="thumbnail" ref="storeCheck">Thumbnail Image</md-checkbox>
+                <md-checkbox v-model="main" ref="warehouseCheck">Main Image</md-checkbox>
+              </div>
+            </template>
+          </div>
+        </md-tab>
       </md-tabs>
       <md-dialog-actions>
-        <md-button class="md-primary" @click="upload">upload</md-button>
-        <md-button class="md-primary" @click="addImage = false">Close</md-button>
+        <md-button v-if="!uploadExistingImage" class="md-primary" @click="upload">upload</md-button>
+        <md-button v-if="uploadExistingImage" class="md-primary" @click="uploadImageUrl">upload</md-button>
+        <md-button class="md-primary" @click="addImage = false,thumbnail = false, main = false">Close</md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>
@@ -80,6 +94,39 @@ export default {
       this.single = event.target.files[0]
       this.imageNameUpload = event.target.files[0].name
     },
+    uploadImageUrl(index) {
+      if (this.thumbnail === false && this.main === false) {
+        this.showSnackbar = true
+        this.complete = false
+        this.message = 'Select image current to show'
+        return
+      }
+      let body = {
+        'productCode': this.productCode,
+        'gallery': this.imageIndexSelected,
+        'thumbnail': this.thumbnail,
+        'main': this.main
+      }
+
+      ProductService.reloadImage(body).then(data => {
+        data = JSON.parse(data)
+        if (data.status === 'success') {
+          this.$store.dispatch('updateProduct', data.data)
+          this.message = 'Image Updated'
+          this.complete = true
+          this.showSnackbar = true
+          this.thumbnail = false
+          this.main = false
+          this.$store.getters.products
+          this.$store.dispatch('loadProductData')
+          this.updateResource()
+          setTimeout(function(){}, 500);
+        } else {
+          this.message = 'Error upload image'
+          this.showSnackbar = true
+        }
+        })
+    },
     openForm () {
       this.$router.push('Products-form')
     },
@@ -92,6 +139,16 @@ export default {
       if (this.visibleProducts.length === 0 && this.visibleProducts > 0) {
         this.updatePage(this.currentPage - 1)
       }
+    },
+    reloadGallery () {
+      this.imageGallery = this.imgGalleryRes
+    },
+    imageClicked (index) {
+      this.imageIndexSelected = index
+      this.imgGalleryRes = []
+      this.imgGalleryRes = this.imageGallery
+      this.imageGallery = []
+      this.imageGallery.push(this.imgGalleryRes[index])
     },
     submit () {
       if (this.complete === true) {
@@ -125,6 +182,12 @@ export default {
           this.message = 'Image Agree'
           this.complete = true
           this.showSnackbar = true
+          this.thumbnail = false
+          this.main = false
+          this.$store.getters.products
+          this.$store.dispatch('loadProductData')
+          this.updateResource()
+          setTimeout(function(){}, 500);
         } else {
           this.message = 'Error upload image'
           this.showSnackbar = true
@@ -135,6 +198,10 @@ export default {
   computed: {
     products () {
       return this.$store.getters.products
+    },
+    isLoadedData () {
+      this.updateResource()
+      return this.$store.getters.productDataLoaded
     }
   },
   components: {
@@ -158,7 +225,12 @@ export default {
     imageNameUpload: '',
     thumbnail: false,
     main: false,
-    complete: false
+    complete: false,
+    imageGallery: [],
+    uploadExistingImage: false,
+    updateImageUrl: '',
+    imgGalleryRes: [],
+    imageIndexSelected: ''
   })
 }
 </script>
@@ -175,4 +247,16 @@ export default {
     background-color: #F44336;
     z-index: 1000;
   }
+  .inline {
+    display: inline-block;
+    margin: 5px;
+  }
+  .scroll {
+    overflow: visible;
+  }
+  .imgHover:hover {
+    opacity:0.8;
+  }
+
+
 </style>

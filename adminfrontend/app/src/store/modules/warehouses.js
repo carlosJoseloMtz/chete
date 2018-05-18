@@ -30,6 +30,9 @@ const actions = {
 const getters = {
   warehouses: state => {
     return state.warehouses
+  },
+  warehouseDataLoaded: state => {
+    return state.warehouses.length > 0
   }
 }
 

@@ -23,7 +23,10 @@ export default {
   },
 
   uploadImage (options) {
-    console.log(`${url}/img`)
     return HttpClient.putMedia(`${url}img`, options)
-  }
+  },
+
+  reloadImage (options) {
+    return HttpClient.put(`${url}img/reupload`, options)
+  },
 }

@@ -33,6 +33,9 @@ const getters = {
   },
   stockSum: state => {
     return sortFunctions.stockSum(state.stocks)
+  },
+  stockDataLoaded: state => {
+    return state.stocks.length > 0
   }
 }
 

@@ -1,5 +1,5 @@
 
-module.exports = [  
+module.exports = [
   'core/media/media-middleware',
   'app/bootloader',
   'app/loggerloader',

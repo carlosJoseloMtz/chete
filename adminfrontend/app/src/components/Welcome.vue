@@ -1,7 +1,7 @@
 <template>
   <div>
-     <h3>WELCOME TO CHETE APLICATION </h3>
-     <h1>WE ARE BEST STORE APLICACION</h1>
+     <h1>WELCOME TO CHETE APPLICATION </h1>
+     <h3>WE ARE BEST STORE ONLINE</h3>
   </div>
 </template>
 <script>
