@@ -1,8 +1,20 @@
 import UserModel from '../models/usermodel'
-import AuthService from '../services/authservice'
 import * as LOG from 'winston'
 
 class UserDao {
+
+  async getAll () {
+    let response
+    await UserModel.find({}, (err, product) => {
+      if(err){
+        LOG.error('Error while trying to list all the products')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = product
+      }
+    })
+    return response || []
+  }
 
   async findById (id) {
     let users
@@ -20,14 +32,14 @@ class UserDao {
   }
 
   async create (user) {
-    console.log('inside create user')
     let responses
     let newUser = {
       uid: user.uid,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      password: user.password
+      password: user.password,
+      status: user.status
     }
     let newUserModel = new UserModel(newUser)
     await newUserModel.save((err, newuser) => {

@@ -39,6 +39,11 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+
+  status: {
+    type: Number,
+    required: true
   }
 })
 

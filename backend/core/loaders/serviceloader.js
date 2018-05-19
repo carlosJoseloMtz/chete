@@ -11,6 +11,7 @@ import WarehouseDao from '../dao/warehousedao'
 import StockService from '../services/stockservice'
 import StockDao from '../dao/stockdao'
 import UserDao from '../dao/userdao'
+import TokenDao from '../dao/tokendao'
 
 /**
  * Inject all the dependencies as required.
@@ -35,8 +36,10 @@ module.exports = app => {
 
   const userDao = new UserDao()
 
+  const tokenDao = new TokenDao()
+
   const userService = new UserService(app.get('passwordCheckStrategy'),
-    authService, app.get('userDao'))
+    authService, app.get('userDao'), app.get('tokenDao'))
 
   const productCatalogService =  new ProductCatalogService(productCatalogDao)
 

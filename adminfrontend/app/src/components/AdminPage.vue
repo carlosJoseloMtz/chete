@@ -94,9 +94,17 @@
 <script>
 export default {
   name: 'AdminPage',
-  beforeMount: function () {
-    console.log(this.$router)
+  mounted: function () {
+    setTimeout(_ => {
+      this.$store.dispatch('loadProductCatalogData')
+      this.$store.dispatch('loadProductData')
+      this.$store.dispatch('loadWarehouseData')
+      this.$store.dispatch('loadStockData')
+      this.$store.dispatch('loadCategoryData')}, 1000)
+    this.title = this.$route.name
+    this.$router.push(this.$route.name)
   },
+
   methods: {
     verifyTitle (value) {
       this.title = value

@@ -15,13 +15,31 @@ module.exports = app => {
       .catch(_ => res.status(500).json(failed()))
   })
 
+  app.delete(`${BASE}/logout/:token`, (req, res) => {
+    userService.logout(req.params.token).then(result => {
+      console.log(result)
+      res.json(success(result))
+    }).catch(error => {
+      res.status(500).json(failed())
+    })
+  })
+
   app.post(`${BASE}`, (req, res) => {
     userService.create(req.body).then(user =>
       convertUser(user)
     ).then(usr => {
       res.json(success(usr))
     }).catch(error => {
-      LOG.error(error)
+      res.status(500).json(failed())
+    })
+  })
+
+  app.get(`${BASE}`, (req, res) => {
+    userService.getAll().then(user =>
+      convertAll(user, convertUser)
+    ).then(user => {
+      res.json(success(user))
+    }).catch(error => {
       res.status(500).json(failed())
     })
   })

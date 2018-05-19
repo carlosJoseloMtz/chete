@@ -8,7 +8,8 @@ const convert = (user) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    active: user.active
+    active: user.active,
+    status: user.status
   }
 }
 

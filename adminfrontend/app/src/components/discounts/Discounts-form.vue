@@ -81,7 +81,10 @@ export default {
       }
     },
     submit () {
-      this.$router.push('/Discounts')
+      if (this.complete) {
+        this.$router.push('/Discounts')
+      }
+      this.showSnackbar = false
     },
     save () {
       let body = {}

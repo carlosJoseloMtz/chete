@@ -37,7 +37,7 @@ export default new Router({
         },
         {
           path: '/Employees-form',
-          name: 'EmployeesForm',
+          name: 'Employees-form',
           component: EmployeesForm
         },
         {
@@ -47,7 +47,7 @@ export default new Router({
         },
         {
           path: '/Catalogs-form',
-          name: 'CatalogsForm',
+          name: 'Catalogs-form',
           component: CatalogsForm
         },
         {
@@ -57,7 +57,7 @@ export default new Router({
         },
         {
           path: '/Categories-form',
-          name: 'CategoriesForm',
+          name: 'Categories-form',
           component: CategoriesForm
         },
         {
@@ -67,7 +67,7 @@ export default new Router({
         },
         {
           path: '/Products-form',
-          name: 'ProductsForm',
+          name: 'Products-form',
           component: ProductsForm
         },
         {
@@ -77,7 +77,7 @@ export default new Router({
         },
         {
           path: '/Prices-form',
-          name: 'PricesForm',
+          name: 'Prices-form',
           component: PricesForm
         },
         {
@@ -87,7 +87,7 @@ export default new Router({
         },
         {
           path: '/Warehouses-form',
-          name: 'WarehousesForm',
+          name: 'Warehouses-form',
           component: WarehousesForm
         },
         {
@@ -97,7 +97,7 @@ export default new Router({
         },
         {
           path: '/Stocks-form',
-          name: 'StocksForm',
+          name: 'Stocks-form',
           component: StocksForm
         },
         {
@@ -107,7 +107,7 @@ export default new Router({
         },
         {
           path: '/Discounts-form',
-          name: 'DiscountsForm',
+          name: 'Discounts-form',
           component: DiscountsForm
         },
         {

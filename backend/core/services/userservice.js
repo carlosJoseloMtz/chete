@@ -4,10 +4,11 @@ import moment from 'moment'
 class UserService {
 
   constructor (passwordCheckStrategy,
-    authService, userDao) {
+    authService, userDao, tokenDao) {
     this.passwordCheckStrategy = passwordCheckStrategy
     this.authService = authService
     this.userDao = userDao
+    this.tokenDao = tokenDao
   }
 
 
@@ -23,22 +24,41 @@ class UserService {
     return this.userDao.getAll()
   }
 
+  async logout(token) {
+    let response
+    await this.tokenDao.logout(token)
+      .then(usr => {response = usr})
+    if (response.result.n === 0) {
+      return error
+    }
+    return 'Logout complete'
+  }
+
   async findByUid (user) {
     let userFind
-    console.log(this.userDao)
+    let tken
+
     await this.userDao.findByUid(user)
      .then(usr => { userFind = usr })
-    console.log(userFind)
-   if (!this.passwordCheckStrategy.isPasswordValid(userFind.password, user.password)) {
-     return null
-   }
 
-   const token = this.authService.encodeToken({
-     name: user.name,
-     id: user._id
-   })
+    await this.tokenDao.findByUser(userFind._id)
+     .then(tk => {tken = tk})
 
-   return token
+    if(tken === null) {
+      if (!this.passwordCheckStrategy.isPasswordValid(userFind.password, user.password)) {
+        return 'Password not match try again'
+      }
+
+      const token = this.authService.encodeToken({
+        name: user.name,
+        id: user._id
+      })
+
+      await this.tokenDao.create(token, user._id)
+
+      return { token: token, active: false }
+    }
+    return error
   }
 }
 

@@ -8,76 +8,36 @@
      </md-card-header>
       <md-card-content class="md-layout-item md-size-100">
         <div class="md-layout-item md-small-size-100">
-          <md-field :class="getValidationClass('firstName')">
-            <label for="first-name">User</label>
-            <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.user" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-            <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+          <md-field>
+            <label>User</label>
+            <md-input v-model="user"></md-input>
           </md-field>
         </div>
 
         <div class="md-layout-item md-small-size-100">
-          <md-field :class="getValidationClass('lastName')">
-            <label for="last-name">Password</label>
-            <md-input type="password" name="last-name" id="last-name" autocomplete="family-name" v-model="form.password" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-            <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+          <md-field>
+            <label>Password</label>
+            <md-input v-model="pwd" type="password"></md-input>
           </md-field>
         </div>
       </md-card-content>
       <md-card-actions>
-        <md-button type="submit" class="md-primary" :disabled="sending" @click.native="login">Login</md-button>
+        <md-button type="submit" class="md-primary" @click.native="login">Login</md-button>
     </md-card-actions>
     </md-card>
+
+    <md-snackbar  ngIf="showSnackbar" :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{message}}</span>
+      <md-button class="md-primary" @click.native="submit">OK</md-button>
+    </md-snackbar>
   </div>
 </template>
 
 <script>
-import {
-  validationMixin
-} from 'vuelidate'
-import {
-  required,
-  email,
-  minLength,
-  maxLength
-} from 'vuelidate/lib/validators'
+import LoginService from '../services/user-service'
 
 export default {
   name: 'Login',
-  mixins: [validationMixin],
-  data: () => ({
-    form: {
-      user: null,
-      password: null
-    },
-    userSaved: false,
-    sending: false,
-    lastUser: null
-  }),
-  validations: {
-    form: {
-      firstName: {
-        required,
-        minLength: minLength(3)
-      },
-      lastName: {
-        required,
-        minLength: minLength(3)
-      },
-      age: {
-        required,
-        maxLength: maxLength(3)
-      },
-      gender: {
-        required
-      },
-      email: {
-        required,
-        email
-      }
-    }
-  },
   methods: {
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
@@ -88,36 +48,74 @@ export default {
         }
       }
     },
-    login () {
-      this.$router.push('Welcome')
-    },
-    clearForm () {
-      this.$v.$reset()
-      this.form.firstName = null
-      this.form.lastName = null
-      this.form.age = null
-      this.form.gender = null
-      this.form.email = null
-    },
-    saveUser () {
-      this.sending = true
-      // Instead of this timeout, here you can call your API
-      window.setTimeout(() => {
-        this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-        this.userSaved = true
-        this.sending = false
-        this.clearForm()
-      }, 1500)
-    },
-    validateUser () {
-      this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.saveUser()
-      }
 
-      this.$router.push('Welcome')
+    login () {
+      if (this.isValid()) {
+        let body = {
+          uid: this.user,
+          password: this.pwd
+        }
+        LoginService.login(body).then(data => {
+          data = JSON.parse(data)
+          if(data.status === 'success') {
+
+            setTimeout(_ => {
+              this.$store.dispatch('loadProductCatalogData')
+              this.$store.dispatch('loadProductData')
+              this.$store.dispatch('loadWarehouseData')
+              this.$store.dispatch('loadStockData')
+              this.$store.dispatch('loadCategoryData')
+            }, 1000)
+            localStorage.setItem('tk', data.data.token)
+            this.message = `welcome to chete ${this.user}`
+            this.complete = true
+            this.showSnackbar = true
+          } else {
+            this.message = 'Contact ur administration please'
+            this.showSnackbar = true
+          }
+        })
+      }
+    },
+
+    isValid () {
+      if (!this.user.trim() === true) {
+        this.message = 'User is empty'
+        this.showSnackbar = true
+        return false
+      }
+      if(!this.pwd.trim() === true) {
+        this.message = 'Password is empty'
+        this.showSnackbar = true
+        return false
+      }
+      return true
+    },
+
+    submit () {
+      if (this.complete === true) {
+        this.$router.push('Welcome')
+      } else {
+        this.showSnackbar = false
+      }
+    },
+
+    clearForm () {
+      this.form.password = null
+      this.form.user = null
     }
-  }
+  },
+
+  data: () => ({
+      user: '',
+      pwd: '',
+      showSnackbar: false,
+      position: 'center',
+      duration: 10000,
+      isInfinity: false,
+      message: String,
+    }
+  )
 }
 </script>
 

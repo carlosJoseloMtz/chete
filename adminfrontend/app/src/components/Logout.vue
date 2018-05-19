@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <md-empty-state
-      md-icon="devices_other"
-      md-label="We are working on this module"
-      md-description="Please not go other app we love you.">
-      <md-button class="md-primary md-raised">Donate $1,000,000,000,000</md-button>
-      <md-subheader>It's a joke</md-subheader>
-    </md-empty-state>
-  </div>
 </template>
 <script>
+import LogoutService from '../services/user-service'
 export default {
   name: 'Logout',
-  data: () => ({
-  })
+  beforeMount: function () {
+    LogoutService.logout(localStorage.getItem('tk')).then(data => {
+      data = JSON.parse(data)
+      console.log(data)
+      if (data.status === 'success') {
+        localStorage.removeItem('tk')
+        this.$router.push('/')
+      } else {
+        this.$router.push('/')
+      }
+    })
+  }
 }
 </script>
 <style>

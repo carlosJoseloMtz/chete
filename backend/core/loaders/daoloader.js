@@ -5,6 +5,7 @@ import JobDao from '../dao/jobdao'
 import CategoryDao from '../dao/categorydao'
 import ProductDao from '../dao/categorydao'
 import StockDao from '../dao/stockdao'
+import TokenDao from '../dao/tokendao'
 
 module.exports = app => {
 
@@ -15,6 +16,7 @@ module.exports = app => {
   const categoryDao = new CategoryDao()
   const productDao = new ProductDao()
   const stockDao = new StockDao()
+  const tokenDao = new TokenDao()
 
   app.set('warehouseDao', warehouseDao)
   app.set('productCatalogDao', productCatalogDao)
@@ -23,4 +25,5 @@ module.exports = app => {
   app.set('categoryDao', CategoryDao)
   app.set('productDao', ProductDao)
   app.set('stockDao', stockDao)
+  app.set('tokenDao', tokenDao)
 }
