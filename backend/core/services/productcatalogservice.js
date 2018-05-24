@@ -23,6 +23,10 @@ class ProductCatalogService {
     return this.productcatalogDao.update(productcatalog)
   }
 
+  clone (productcatalog) {
+    return this.productcatalogDao.clone(productcatalog)
+  }
+
   findById (id) {
     return this.productcatalogDao.findById(id)
   }

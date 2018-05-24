@@ -1,5 +1,6 @@
 import ProductModel from '../../core/models/productmodel'
 import ProductCatalogModel from '../../core/models/productcatalogmodel'
+import StockModel from '../../core/models/stockmodel'
 import im from 'imagemagick'
 import environment from '../../commons/environment-configuration'
 import * as LOG from 'winston'
@@ -69,8 +70,54 @@ class ProductDao {
     return newProductModel
   }
 
-  delete (id) {
-    return ProductModel.remove({ _id: id })
+  async delete (id) {
+    let response
+    let productCatalog
+    let stock
+    let index
+    await  ProductModel.findById(id, (err, product) => {
+        if(err){
+          LOG.error('Error while trying to find a product by id')
+          LOG.error(JSON.stringify(err))
+        } else {
+          response = product
+        }
+    })
+
+
+    await ProductCatalogModel.findById(response.catalog, (err, catalog) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        productCatalog = catalog
+      }
+    })
+
+    productCatalog.products.forEach(function(product,indice) {
+      if (id == product) {
+        index = indice
+        return
+      }
+    })
+
+    productCatalog.products.splice(index, 1)
+    await ProductCatalogModel.update({_id: response.catalog},{products: productCatalog.products})
+
+    await StockModel.findOne({"product": id}, (err, s) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        stock = s
+      }
+    })
+
+    if (stock) {
+      await StockModel.remove({ _id: stock._id })
+    }
+
+    return  await ProductModel.remove({ _id: id })
   }
 
   update (product) {

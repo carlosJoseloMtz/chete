@@ -55,4 +55,11 @@ module.exports = app => {
     })
   })
 
+  app.put(`${BASE}/clone`, (req, res) => {
+    productCatalogService.clone(req.body).then(prod => {
+      res.json(success(prod))
+    }).catch(error => {
+      res.status(500).json(failed())
+    })
+  })
 }

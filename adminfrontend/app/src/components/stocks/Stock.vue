@@ -45,6 +45,11 @@ export default {
     openForm () {
       this.$router.push('Stocks-form')
     },
+
+    deleteItem(id) {
+      console.log(id)
+    },
+
     updatePage (pageNumber) {
       this.currentPage = pageNumber
       this.updateResource()

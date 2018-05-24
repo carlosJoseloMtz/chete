@@ -1,5 +1,5 @@
 import ProductModel from '../../core/models/productcatalogmodel'
-import Product from '../../core/models/productcatalogmodel'
+import Product from '../../core/models/productmodel'
 import CategoryModel from '../../core/models/categorymodel'
 import StockModel from '../../core/models/stockmodel'
 import * as LOG from 'winston'
@@ -53,6 +53,62 @@ class ProductCatalogDao {
 
   update (productCatalog) {
     return ProductModel.update({ _id: productCatalog.id }, productCatalog)
+  }
+
+  async clone (productCatalog) {
+    let original
+    let destiny
+    let success = false
+    let products
+
+    await  ProductModel.findById(productCatalog.base, (err, product) => {
+        if(err){
+          LOG.error('Error while trying to find a product by id')
+          LOG.error(JSON.stringify(err))
+        } else {
+          original = product
+        }
+    })
+
+    await  ProductModel.findById(productCatalog.to, (err, product) => {
+        if(err){
+          LOG.error('Error while trying to find a product by id')
+          LOG.error(JSON.stringify(err))
+        } else {
+          destiny = product
+        }
+    })
+
+    products = original.products
+    destiny.category = original.category
+    console.log('tiene ' +original.products.length+ ' de productos el original' )
+    if (original.products.length > 0) {
+      original.products.forEach(async (product, indice) =>  {
+        let p
+        let v
+        success = false
+        await Promise.all([
+        await Product.findByIdAndUpdate(product, {catalog: destiny._id, approved: true, category: destiny.category }).then((prod) => {
+            console.log('find and update')
+            success = true
+            console.log(indice)
+            products.splice(indice ,1)
+            destiny.products.push(product)
+        }),
+        await ProductModel.findByIdAndUpdate( original._id,{products : products}).then((d) => {
+          console.log('inside update original')
+          console.log(products)
+        }),
+        await ProductModel.findByIdAndUpdate( productCatalog.to,{products : destiny.products}).then((d) => {
+          console.log('inside update destiny')
+          console.log(destiny.products)
+        })])
+      })
+
+      return success == true ?'catalog updated successfull': 'one or more product cant be updated'
+    } else {
+      return `the catalog base ${original.name} dont have any product`
+    }
   }
 }
 
