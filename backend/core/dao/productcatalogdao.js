@@ -58,8 +58,9 @@ class ProductCatalogDao {
   async clone (productCatalog) {
     let original
     let destiny
-    let success = false
+    let success = true
     let products
+    let emptyArray = []
 
     await  ProductModel.findById(productCatalog.base, (err, product) => {
         if(err){
@@ -81,30 +82,21 @@ class ProductCatalogDao {
 
     products = original.products
     destiny.category = original.category
-    console.log('tiene ' +original.products.length+ ' de productos el original' )
+    products.forEach( product =>  {
+      destiny.products.push(product)
+    })
+
+    await ProductModel.findByIdAndUpdate(original._id , { products : emptyArray })
+    await ProductModel.findByIdAndUpdate(productCatalog.to ,{products : destiny.products})
+
     if (original.products.length > 0) {
       original.products.forEach(async (product, indice) =>  {
-        let p
-        let v
-        success = false
-        await Promise.all([
-        await Product.findByIdAndUpdate(product, {catalog: destiny._id, approved: true, category: destiny.category }).then((prod) => {
-            console.log('find and update')
+        await Product.findByIdAndUpdate(product, {catalog: destiny._id, approved: true, category: destiny.category }).then(prod => {
             success = true
-            console.log(indice)
-            products.splice(indice ,1)
-            destiny.products.push(product)
-        }),
-        await ProductModel.findByIdAndUpdate( original._id,{products : products}).then((d) => {
-          console.log('inside update original')
-          console.log(products)
-        }),
-        await ProductModel.findByIdAndUpdate( productCatalog.to,{products : destiny.products}).then((d) => {
-          console.log('inside update destiny')
-          console.log(destiny.products)
-        })])
+        }).catch(_ => {
+          success = false
+        })
       })
-
       return success == true ?'catalog updated successfull': 'one or more product cant be updated'
     } else {
       return `the catalog base ${original.name} dont have any product`
