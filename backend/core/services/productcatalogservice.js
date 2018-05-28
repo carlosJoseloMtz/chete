@@ -25,6 +25,7 @@ class ProductCatalogService {
 
   clone (productcatalog) {
     return this.productcatalogDao.clone(productcatalog)
+
   }
 
   findById (id) {

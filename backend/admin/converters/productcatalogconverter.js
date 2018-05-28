@@ -5,7 +5,8 @@ const convert = (productcatalog) => {
     name: productcatalog.name,
     description: productcatalog.description,
     products: productcatalog.products,
-    category: productcatalog.category
+    category: productcatalog.category,
+    online: productcatalog.online
   }
 }
 

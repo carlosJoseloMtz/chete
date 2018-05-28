@@ -12,6 +12,8 @@
             <label>Description</label>
             <md-textarea v-model="textarea"></md-textarea>
           </md-field>
+          <md-checkbox class="md-layout-item md-size-90" v-model="online">Online</md-checkbox>
+
           <div class="md-layout-item md-size-80">
             <md-button class="md-raised md-primary" @click="setDone('first','second')">Continue</md-button>
           </div>
@@ -46,6 +48,7 @@ import ProductCatalogService from '../../services/product-catalog-service'
 export default {
   name: 'Catalogs-form',
   beforeMount: function () {
+    this.online = false
     this.$store.dispatch('loadCategoryData')
     this.categorySelected = []
     for (const element in this.categories) {
@@ -82,7 +85,8 @@ export default {
             body = {
               'name': this.name,
               'description': this.textarea,
-              'category': this.categories[element].id
+              'category': this.categories[element].id,
+              'online': this.online
             }
           }
         }
@@ -118,7 +122,8 @@ export default {
     categorySelected: null,
     selectedCategories: null,
     message: String,
-    complete: Boolean
+    complete: Boolean,
+    online: Boolean
   })
 }
 </script>

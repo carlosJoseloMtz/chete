@@ -97,7 +97,7 @@ export default {
     selectedWarehouse: null,
     message: String,
     net: false,
-    code: '',
+    code: String,
     cantidad: null,
     useAsPrice: false,
     complete: Boolean,

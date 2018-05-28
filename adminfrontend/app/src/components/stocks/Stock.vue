@@ -46,7 +46,7 @@ export default {
       this.$router.push('Stocks-form')
     },
 
-    deleteItem(id) {
+    deleteItem (id) {
       console.log(id)
     },
 

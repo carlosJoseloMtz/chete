@@ -100,7 +100,8 @@ export default {
       this.$store.dispatch('loadProductData')
       this.$store.dispatch('loadWarehouseData')
       this.$store.dispatch('loadStockData')
-      this.$store.dispatch('loadCategoryData')}, 1000)
+      this.$store.dispatch('loadCategoryData')}
+      , 1000)
     this.title = this.$route.name
     this.$router.push(this.$route.name)
   },

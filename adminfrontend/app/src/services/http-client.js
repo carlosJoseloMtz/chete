@@ -25,7 +25,6 @@ export default {
   },
 
   async putMedia (url, options) {
-    console.log(options)
     var result
     // headers: {'Content-Type': 'multipart/form-data'}
     await fetch(url, {method: 'PUT', body: options}).then(response => response.json()).then(data => {

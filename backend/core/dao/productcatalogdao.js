@@ -44,6 +44,7 @@ class ProductCatalogDao {
       name: productCatalog.name,
       description: productCatalog.description,
       products: [],
+      online: productCatalog.online,
       category: productCatalog.category})
 
     await newProductModel.save()
@@ -60,8 +61,7 @@ class ProductCatalogDao {
     let destiny
     let success = true
     let products
-    let emptyArray = []
-
+    let error
     await  ProductModel.findById(productCatalog.base, (err, product) => {
         if(err){
           LOG.error('Error while trying to find a product by id')
@@ -86,7 +86,6 @@ class ProductCatalogDao {
       destiny.products.push(product)
     })
 
-    await ProductModel.findByIdAndUpdate(original._id , { products : emptyArray })
     await ProductModel.findByIdAndUpdate(productCatalog.to ,{products : destiny.products})
 
     if (original.products.length > 0) {
@@ -97,6 +96,9 @@ class ProductCatalogDao {
           success = false
         })
       })
+      if (success) {
+        await ProductModel.remove({_id: original._id})
+      }
       return success == true ?'catalog updated successfull': 'one or more product cant be updated'
     } else {
       return `the catalog base ${original.name} dont have any product`

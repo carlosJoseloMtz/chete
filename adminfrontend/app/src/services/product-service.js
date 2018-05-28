@@ -28,5 +28,5 @@ export default {
 
   reloadImage (options) {
     return HttpClient.put(`${url}img/reupload`, options)
-  },
+  }
 }

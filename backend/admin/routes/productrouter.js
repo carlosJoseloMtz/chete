@@ -75,7 +75,7 @@ module.exports = app => {
     ).then(product => {
       res.json(success(product))
     }).catch(error => {
-      res.status(500).json(failed())
+      res.status(500).json(`the catalog base ${original.name} dont have any product`)
     })
   })
 

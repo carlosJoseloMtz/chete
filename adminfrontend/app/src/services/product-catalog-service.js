@@ -20,5 +20,9 @@ export default {
 
   update (options) {
     return HttpClient.put(url, options)
-  }
+  },
+
+  clone (options) {
+    return HttpClient.put(`${url}clone`, options)
+  },
 }

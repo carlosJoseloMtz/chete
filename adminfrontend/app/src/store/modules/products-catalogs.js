@@ -15,6 +15,15 @@ const mutations = {
         productCatalog = productsCatalogs
       }
     })
+  },
+  'REMOVE_PRODUCTS_CATALOGS' (state, productCatalogId) {
+    let index
+    for (let pc in state.productsCatalogs) {
+      if (state.productsCatalogs[pc].id === productCatalogId) {
+        index = pc
+      }
+    }
+    state.productsCatalogs.splice(index,1)
   }
 }
 
@@ -24,6 +33,9 @@ const actions = {
   },
   updateProductCatalog: ({commit}, productsCatalogs) => {
     commit('UPDATE_PRODUCTS_CATALOGS', productsCatalogs)
+  },
+  removeProductCatalog: ({commit}, productsCatalogs) => {
+    commit('REMOVE_PRODUCTS_CATALOGS', productsCatalogs)
   }
 }
 
@@ -33,6 +45,12 @@ const getters = {
   },
   productsCatalogsDataLoaded: state => {
     return state.productsCatalogs.length > 0
+  },
+  productsCatalogsOnline: state => {
+    return sortFunctions.onlineCatalogs(state.productsCatalogs)
+  },
+  productsCatalogsOffline: state => {
+    return sortFunctions.offlineCatalogs(state.productsCatalogs)
   }
 }
 
@@ -41,4 +59,25 @@ export default {
   mutations,
   actions,
   getters
+}
+
+const sortFunctions = {
+  onlineCatalogs: (productCatalog) => {
+    let onlineCatalog = []
+    productCatalog.forEach(oc => {
+      if (oc.online === true) {
+        onlineCatalog.push(oc)
+      }
+    })
+    return onlineCatalog
+  },
+  offlineCatalogs: (productCatalog) => {
+    let onlineCatalog = []
+    productCatalog.forEach(oc => {
+      if (oc.online === false) {
+        onlineCatalog.push(oc)
+      }
+    })
+    return onlineCatalog
+  }
 }

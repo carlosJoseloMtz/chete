@@ -75,7 +75,6 @@ export default {
         }
         UserService.save(body).then(data => {
           data = JSON.parse(data)
-          console.log(data)
           if (data.status === 'success') {
             //this.$store.dispatch('addWarehouse', data.data)
             this.complete = true
@@ -164,8 +163,8 @@ export default {
     statusCollection: [{
       name: 'Admin',
       number: 1
-    },{
-      name: 'Employee',
+    },
+    { name: 'Employee',
       number: 2
     }]
   })

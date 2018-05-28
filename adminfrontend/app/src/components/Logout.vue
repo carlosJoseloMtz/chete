@@ -7,7 +7,6 @@ export default {
   beforeMount: function () {
     LogoutService.logout(localStorage.getItem('tk')).then(data => {
       data = JSON.parse(data)
-      console.log(data)
       if (data.status === 'success') {
         localStorage.removeItem('tk')
         this.$router.push('/')

@@ -57,7 +57,7 @@ export default {
         }
         LoginService.login(body).then(data => {
           data = JSON.parse(data)
-          if(data.status === 'success') {
+          if (data.status === 'success') {
 
             setTimeout(_ => {
               this.$store.dispatch('loadProductCatalogData')
@@ -84,7 +84,7 @@ export default {
         this.showSnackbar = true
         return false
       }
-      if(!this.pwd.trim() === true) {
+      if (!this.pwd.trim() === true) {
         this.message = 'Password is empty'
         this.showSnackbar = true
         return false
@@ -107,15 +107,14 @@ export default {
   },
 
   data: () => ({
-      user: '',
-      pwd: '',
-      showSnackbar: false,
-      position: 'center',
-      duration: 10000,
-      isInfinity: false,
-      message: String,
-    }
-  )
+    user: '',
+    pwd: '',
+    showSnackbar: false,
+    position: 'center',
+    duration: 10000,
+    isInfinity: false,
+    message: String,
+  })
 }
 </script>
 

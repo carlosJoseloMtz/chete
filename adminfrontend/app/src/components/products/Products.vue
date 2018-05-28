@@ -94,7 +94,7 @@ export default {
       this.single = event.target.files[0]
       this.imageNameUpload = event.target.files[0].name
     },
-    uploadImageUrl(index) {
+    uploadImageUrl (index) {
       if (this.thumbnail === false && this.main === false) {
         this.showSnackbar = true
         this.complete = false
@@ -117,15 +117,15 @@ export default {
           this.showSnackbar = true
           this.thumbnail = false
           this.main = false
-          this.$store.getters.products
+          this.products = this.$store.getters.products
           this.$store.dispatch('loadProductData')
           this.updateResource()
-          setTimeout(function(){}, 500);
+          setTimeout(function () {}, 500);
         } else {
           this.message = 'Error upload image'
           this.showSnackbar = true
         }
-        })
+      })
     },
     openForm () {
       this.$router.push('Products-form')
@@ -187,7 +187,7 @@ export default {
           this.$store.getters.products
           this.$store.dispatch('loadProductData')
           this.updateResource()
-          setTimeout(function(){}, 500);
+          setTimeout(function () {}, 500);
         } else {
           this.message = 'Error upload image'
           this.showSnackbar = true

@@ -14,6 +14,11 @@ const ProductsCatalogSchema = new Schema ({
     type: String
   },
 
+  online: {
+    type: Boolean,
+    default: false
+  },
+    
   targetCatalog: {
     type: Schema.Types.ObjectId,
     ref: 'Catalogs'
