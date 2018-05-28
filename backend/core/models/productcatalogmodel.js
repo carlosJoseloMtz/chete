@@ -18,7 +18,7 @@ const ProductsCatalogSchema = new Schema ({
     type: Boolean,
     default: false
   },
-    
+
   targetCatalog: {
     type: Schema.Types.ObjectId,
     ref: 'Catalogs'

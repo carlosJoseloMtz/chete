@@ -19,8 +19,8 @@ class TokenDao {
   async create (token, user) {
     let body
     body = {
-      "token": token,
-      "user": user
+      'token': token,
+      'user': user
     }
     let newtokenModel =new TokenModel(body)
     await newtokenModel.save()

@@ -39,10 +39,10 @@ class UserService {
     let tken
 
     await this.userDao.findByUid(user)
-     .then(usr => { userFind = usr })
+      .then(usr => { userFind = usr })
 
     await this.tokenDao.findByUser(userFind._id)
-     .then(tk => {tken = tk})
+      .then(tk => {tken = tk})
 
     if(tken === null) {
       if (!this.passwordCheckStrategy.isPasswordValid(userFind.password, user.password)) {

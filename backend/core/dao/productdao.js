@@ -76,12 +76,12 @@ class ProductDao {
     let stock
     let index
     await  ProductModel.findById(id, (err, product) => {
-        if(err){
-          LOG.error('Error while trying to find a product by id')
-          LOG.error(JSON.stringify(err))
-        } else {
-          response = product
-        }
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        response = product
+      }
     })
 
 
@@ -94,7 +94,7 @@ class ProductDao {
       }
     })
 
-    productCatalog.products.forEach(function(product,indice) {
+    productCatalog.products.forEach((product,indice) => {
       if (id == product) {
         index = indice
         return
@@ -104,7 +104,7 @@ class ProductDao {
     productCatalog.products.splice(index, 1)
     await ProductCatalogModel.update({_id: response.catalog},{products: productCatalog.products})
 
-    await StockModel.findOne({"product": id}, (err, s) => {
+    await StockModel.findOne({'product': id}, (err, s) => {
       if(err){
         LOG.error('Error while trying to find a product by id')
         LOG.error(JSON.stringify(err))
@@ -126,7 +126,7 @@ class ProductDao {
 
   async reloadImage (product) {
     let response
-    await ProductModel.findOne({"code": product.productCode}, (err, p) => {
+    await ProductModel.findOne({'code': product.productCode}, (err, p) => {
       if(err){
         LOG.error('Error while trying to find a product by id')
         LOG.error(JSON.stringify(err))
@@ -148,21 +148,21 @@ class ProductDao {
         width:   200,
         height: 200,
         quality: 0.8
-      }, function(err, stdout, stderr){
-        if (err) throw err;
-        console.log('resized image 200x200');
-    });
+      }, (err, stdout, stderr) => {
+        if (err) throw err
+        console.log('resized image 200x200')
+      })
     im.resize({
-        srcPath: `${environment.baseImageUrl}/${image}`,
-        width:   900,
-        height: 900,
-        dstPath: `${environment.baseImageUrl}/${image}-big`,
-        quality: 0.8
-      }, function(err, stdout, stderr){
-        if (err) throw err;
-        console.log('resized image 900x900');
-    });
-    await ProductModel.findById({"_id": product.id}, (err, p) => {
+      srcPath: `${environment.baseImageUrl}/${image}`,
+      width:   900,
+      height: 900,
+      dstPath: `${environment.baseImageUrl}/${image}-big`,
+      quality: 0.8
+    }, (err, stdout, stderr) => {
+      if (err) throw err
+      console.log('resized image 900x900')
+    })
+    await ProductModel.findById({'_id': product.id}, (err, p) => {
       if(err){
         LOG.error('Error while trying to find a product by id')
         LOG.error(JSON.stringify(err))

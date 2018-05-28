@@ -63,21 +63,21 @@ class ProductCatalogDao {
     let products
     let error
     await  ProductModel.findById(productCatalog.base, (err, product) => {
-        if(err){
-          LOG.error('Error while trying to find a product by id')
-          LOG.error(JSON.stringify(err))
-        } else {
-          original = product
-        }
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        original = product
+      }
     })
 
     await  ProductModel.findById(productCatalog.to, (err, product) => {
-        if(err){
-          LOG.error('Error while trying to find a product by id')
-          LOG.error(JSON.stringify(err))
-        } else {
-          destiny = product
-        }
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        destiny = product
+      }
     })
 
     products = original.products
@@ -91,7 +91,7 @@ class ProductCatalogDao {
     if (original.products.length > 0) {
       original.products.forEach(async (product, indice) =>  {
         await Product.findByIdAndUpdate(product, {catalog: destiny._id, approved: true, category: destiny.category }).then(prod => {
-            success = true
+          success = true
         }).catch(_ => {
           success = false
         })
