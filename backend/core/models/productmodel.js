@@ -93,7 +93,7 @@ const ProductSchema = new Schema({
 
   catalog: {
     type: Schema.Types.ObjectId,
-    ref: 'Catalogs'
+    ref: 'ProductsCatalogs'
   },
 
   code: {

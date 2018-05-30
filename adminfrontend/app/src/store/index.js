@@ -5,6 +5,7 @@ import productsCatalogs from './modules/products-catalogs'
 import categories from './modules/categories'
 import warehouses from './modules/warehouses'
 import stocks from './modules/stocks'
+import employees from './modules/employees'
 import * as actions from './actions'
 
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     productsCatalogs,
     categories,
     stocks,
-    warehouses
+    warehouses,
+    employees
   }
 })

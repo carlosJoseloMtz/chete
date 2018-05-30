@@ -11,18 +11,23 @@
     <div v-else>
       <md-table>
         <md-table-row>
-        <md-table-head >Code</md-table-head>
+        <md-table-head>Code</md-table-head>
         <md-table-head>Name</md-table-head>
+        <md-table-head>Catalog</md-table-head>
         <md-table-head>Image</md-table-head>
+        <md-table-head>Delete</md-table-head>
         </md-table-row>
         <md-table-row  v-for="(product) in visibleProducts" :Key="product.id"
           v-bind:product="product" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
           <md-table-cell>{{product.code}}</md-table-cell>
           <md-table-cell>{{product.name}}</md-table-cell>
+          <md-table-cell>{{product.catalog.name}}</md-table-cell>
           <md-table-cell v-if="product.image.thumbnailSrc === ''"> <md-button class="md-icon-button md-raised" @click="addImage = true, productCode = product.code, idSelected = product.id">
             <md-icon>add</md-icon> </md-button>
           </md-table-cell>
           <md-table-cell v-if="product.image.thumbnailSrc !== ''"><img v-bind:src="`${product.image.thumbnailSrc}-small`" @click="showMD = true, imgPath = `${product.image.thumbnailSrc}-big`, productCode = product.code, complete = false, idSelected = product.id, imageGallery = product.image.gallery"/></md-table-cell>
+          <md-table-cell><md-button class="md-icon-button md-raised" @click.native="deleteItem(product.id)">
+            <md-icon>delete</md-icon> </md-button></md-table-cell>
         </md-table-row>
       </md-table>
       <pagination v-bind:data="products" v-on:page:update="updatePage"
@@ -59,8 +64,8 @@
         </md-tab>
         <md-tab @click="uploadExistingImage = true" class="scroll" v-if="imageGallery.length > 0" md-label="Select Existing Image">
           <div class="inline" v-for="(ig, index) in imageGallery" :Key="index">
-            <img ref="index" class="imgHover" v-bind:src="`${ig}-small`" @click="imageClicked(index),updateImageUrl = index" alt="image description"/>
-            <template class="inline" v-if="imageGallery.length == 1">
+            <img ref="index" class="imgHover" v-bind:src="`${ig}-small`" @click="imageClicked(index),updateImageUrl = index, clicked = true" alt="image description"/>
+            <template class="inline" v-if="imageGallery.length == 1 && clicked == true">
               <md-button  class="md-icon-button" @click.native="reloadGallery()"><md-icon>cached</md-icon></md-button>
               <div>
                 <md-checkbox v-model="thumbnail" ref="storeCheck">Thumbnail Image</md-checkbox>
@@ -94,6 +99,20 @@ export default {
       this.single = event.target.files[0]
       this.imageNameUpload = event.target.files[0].name
     },
+
+    deleteItem (id) {
+      console.log(id)
+      ProductService.delete(id).then(data => {
+        data = JSON.parse(data)
+        if (data.status === 'success') {
+          this.$store.dispatch('removeProduct', id)
+          this.message = 'Product Deleted'
+          this.complete = true
+          this.showSnackbar = true
+        }
+      })
+    },
+
     uploadImageUrl (index) {
       if (this.thumbnail === false && this.main === false) {
         this.showSnackbar = true
@@ -141,6 +160,7 @@ export default {
       }
     },
     reloadGallery () {
+      this.clicked = false
       this.imageGallery = this.imgGalleryRes
     },
     imageClicked (index) {
@@ -187,7 +207,7 @@ export default {
           this.$store.getters.products
           this.$store.dispatch('loadProductData')
           this.updateResource()
-          setTimeout(function () {}, 500);
+          setTimeout(function () {}, 1500);
         } else {
           this.message = 'Error upload image'
           this.showSnackbar = true
@@ -230,7 +250,8 @@ export default {
     uploadExistingImage: false,
     updateImageUrl: '',
     imgGalleryRes: [],
-    imageIndexSelected: ''
+    imageIndexSelected: '',
+    clicked: false
   })
 }
 </script>

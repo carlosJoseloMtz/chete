@@ -3,6 +3,7 @@ import ProductCatalogService from '../services/product-catalog-service'
 import ProductService from '../services/product-service'
 import CategoryService from '../services/category-service'
 import StockService from '../services/stock-service'
+import UserService from '../services/user-service'
 
 export const loadProductData = ({commit}) => {
   ProductService.getAll().then(data => {
@@ -45,6 +46,15 @@ export const loadCategoryData = ({commit}) => {
     if (data.data) {
       const categories = data.data
       commit('SET_CATEGORIES', categories)
+    }
+  })
+}
+
+export const loadEmployeeData = ({commit}) => {
+  UserService.getAll().then(data => {
+    if (data.data) {
+      const employee = data.data
+      commit('SET_EMPLOYEES', employee)
     }
   })
 }

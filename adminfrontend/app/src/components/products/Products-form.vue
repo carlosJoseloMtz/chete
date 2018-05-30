@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     catalogs () {
-      return this.$store.getters.productsCatalogs
+      return this.$store.getters.productsCatalogsOffline
     }
   },
   data: () => ({

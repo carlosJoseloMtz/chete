@@ -15,7 +15,7 @@ class ProductCatalogDao {
       } else {
         response = productCatalog
       }
-    })
+    }).populate('ProductsCatalogs')
     return response || []
   }
 

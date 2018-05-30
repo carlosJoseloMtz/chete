@@ -15,7 +15,7 @@ class ProductDao {
       } else {
         response = product
       }
-    }).populate('stock','catalog')
+    }).populate('catalog')
     return response || []
   }
 
@@ -37,6 +37,7 @@ class ProductDao {
   async create (product) {
     let response
     let productResponse
+    let responseUpdated
     let newProduct = {
       approved: false,
       price: product.price,
@@ -66,8 +67,15 @@ class ProductDao {
     })
     response.products.push(newProductModel)
     await ProductCatalogModel.update({_id: response._id},{products: response.products})
-
-    return newProductModel
+    await ProductModel.findById(productResponse._id, (err, product) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        responseUpdated = product
+      }
+    }).populate('catalog')
+    return responseUpdated
   }
 
   async delete (id) {
@@ -97,11 +105,11 @@ class ProductDao {
     productCatalog.products.forEach((product,indice) => {
       if (id == product) {
         index = indice
-        return
       }
     })
 
     productCatalog.products.splice(index, 1)
+
     await ProductCatalogModel.update({_id: response.catalog},{products: productCatalog.products})
 
     await StockModel.findOne({'product': id}, (err, s) => {

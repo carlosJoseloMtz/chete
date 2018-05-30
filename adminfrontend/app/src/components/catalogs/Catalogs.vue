@@ -123,7 +123,8 @@ export default {
           this.showSnackbar = true
         } else {
           this.$store.dispatch('removeProductCatalog', this.catalogSelectedId)
-          this.message = `Catalogs ${this.selectCatalog} merged on ${this.catalogSelected}`
+          this.message = `Catalogs ${this.selectCatalog} merged on ${this.catalogSelected}`          
+          this.$store.dispatch('loadProductData')
           this.complete = true
           this.showSnackbar = true
         }

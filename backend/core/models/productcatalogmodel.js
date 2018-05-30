@@ -21,7 +21,7 @@ const ProductsCatalogSchema = new Schema ({
 
   targetCatalog: {
     type: Schema.Types.ObjectId,
-    ref: 'Catalogs'
+    ref: 'ProductsCatalogs'
   },
 
   products: [

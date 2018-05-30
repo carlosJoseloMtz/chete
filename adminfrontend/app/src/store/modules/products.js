@@ -9,6 +9,15 @@ const mutations = {
   'ADD_PRODUCT' (state, products) {
     state.products.push(products)
   },
+  'REMOVE_PRODUCT' (state, product) {
+    let index
+    for (let p in state.products) {
+      if (state.products[p].id === product) {
+        index = p
+      }
+    }
+    state.products.splice(index,1)
+  },
   'UPDATE_PRODUCT' (state, products) {
     for (let product in state.products) {
       if (state.products[product].id === products.id) {
@@ -25,6 +34,9 @@ const actions = {
   },
   updateProduct: ({commit}, product) => {
     commit('UPDATE_PRODUCT', product)
+  },
+  removeProduct: ({commit}, product) => {
+    commit('REMOVE_PRODUCT', product)
   }
 }
 
