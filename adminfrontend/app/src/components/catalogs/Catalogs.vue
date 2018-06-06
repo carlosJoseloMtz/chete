@@ -9,16 +9,22 @@
       </md-empty-state>
     </div>
     <div v-else>
-      <div v-if="offlineCatalogs.length > 0">
+
+      <div v-if="localOfflineCatalogs.length > 0">
         <h3>Offline Catalogs</h3>
+        <md-field>
+          <md-icon>search</md-icon>
+            <label>Search</label>
+          <md-input v-model="offlineSearch"></md-input>
+        </md-field>
         <md-table >
           <md-table-row>
           <md-table-head>Name</md-table-head>
           <md-table-head>Description</md-table-head>
           <md-table-head>Merge</md-table-head>
           </md-table-row>
-          <md-table-row  v-for="(catalog) in offlineCatalogs" :Key="catalog.id"
-            v-bind:catalogs="catalog" v-bind:visibleCatalogs="visibleCatalogs" v-bind:currentPage="currentPage">
+          <md-table-row  v-for="(catalog) in localOfflineCatalogs" :Key="catalog.id"
+            v-bind:catalogs="localOfflineCatalogs" v-bind:visibleCatalogs="visibleCatalogs" v-bind:currentPage="currentPage">
             <md-table-cell>{{catalog.name}}</md-table-cell>
             <md-table-cell>{{catalog.description}} </md-table-cell>
             <md-table-cell v-if="catalog.online == false">
@@ -29,26 +35,31 @@
             <md-table-cell v-else></md-table-cell>
           </md-table-row>
         </md-table>
-        <pagination v-bind:data="offlineCatalogs" v-on:page:update="updatePage"
+        <pagination v-bind:data="localOfflineCatalogs" v-on:page:update="updatePage"
           v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
       </div>
-      <div v-if="onlineCatalogs.length > 0">
+      <div v-if="localOnlineCatalogs.length > 0">
         <h3>Online Catalogs</h3>
+        <md-field>
+          <md-icon>search</md-icon>
+            <label>Search</label>
+          <md-input v-model="onlineSearch"></md-input>
+        </md-field>
         <md-table>
           <md-table-row>
           <md-table-head>Name</md-table-head>
           <md-table-head>Description</md-table-head>
           </md-table-row>
-          <md-table-row  v-for="(catalog) in onlineCatalogs" :Key="catalog.id"
-            v-bind:catalogs="catalog" v-bind:visibleCatalogs="visibleCatalogs" v-bind:currentPage="currentPage">
+          <md-table-row  v-for="(catalog) in localOnlineCatalogs" :Key="catalog.id"
+            v-bind:catalogs="localOnlineCatalogs" v-bind:visibleCatalogs="visibleCatalogs" v-bind:currentPage="currentPage">
             <md-table-cell>{{catalog.name}}</md-table-cell>
             <md-table-cell>{{catalog.description}} </md-table-cell>
           </md-table-row>
         </md-table>
-        <pagination v-bind:data="onlineCatalogs" v-on:page:update="updatePage"
+        <pagination v-bind:data="localOnlineCatalogs" v-on:page:update="updatePage"
           v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-        <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
       </div>
+      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
     </div>
   </div>
   <div v-else>
@@ -86,11 +97,33 @@ export default {
     for (const element in this.onlineCatalogs) {
       this.onlineCatalogsSelected.push(this.onlineCatalogs[element].name)
     }
+    this.localOfflineCatalogs = this.offlineCatalogs
+    this.localOnlineCatalogs = this.onlineCatalogs
     this.showMerged = false
     this.$store.dispatch('loadProductCatalogData')
     this.$nextTick(function () {
       this.updateResource()
     })
+  },
+  watch : {
+    offlineSearch () {
+        this.localOfflineCatalogs = this.offlineCatalogs
+        if (this.offlineSearch !== '') {
+          this.localOfflineCatalogs = this.localOfflineCatalogs.filter(c => c.name.toLowerCase().includes(`${this.offlineSearch.trim()}`))
+          this.localOfflineCatalogs = this.localOfflineCatalogs.length == 0? this.offlineCatalogs: this.localOfflineCatalogs
+        } else {
+          this.localOfflineCatalogs = this.offlineCatalogs
+        }
+    },
+    onlineSearch () {
+        this.localOnlineCatalogs = this.onlineCatalogs
+        if (this.onlineSearch !== '') {
+          this.localOnlineCatalogs = this.localOnlineCatalogs.filter(c => c.name.toLowerCase().includes(`${this.onlineSearch.trim()}`))
+          this.localOnlineCatalogs = this.localOnlineCatalogs.length == 0? this.offlineCatalogs: this.localOnlineCatalogs
+        } else {
+          this.localOnlineCatalogs = this.onlineCatalogs
+        }
+    }
   },
   methods: {
     openForm () {
@@ -123,7 +156,7 @@ export default {
           this.showSnackbar = true
         } else {
           this.$store.dispatch('removeProductCatalog', this.catalogSelectedId)
-          this.message = `Catalogs ${this.selectCatalog} merged on ${this.catalogSelected}`          
+          this.message = `Catalogs ${this.selectCatalog} merged on ${this.catalogSelected}`
           this.$store.dispatch('loadProductData')
           this.complete = true
           this.showSnackbar = true
@@ -180,7 +213,11 @@ export default {
     remove: false,
     selectCatalog: null,
     message: String,
-    complete: Boolean
+    complete: Boolean,
+    offlineSearch: '',
+    onlineSearch: '',
+    localOfflineCatalogs: [],
+    localOnlineCatalogs: [],
   })
 }
 </script>

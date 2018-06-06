@@ -9,13 +9,18 @@
       </md-empty-state>
     </div>
     <div v-else>
+      <md-field>
+        <md-icon>search</md-icon>
+          <label>Search</label>
+        <md-input v-model="categoriesSearch"></md-input>
+      </md-field>
       <md-table>
         <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>Description</md-table-head>
         </md-table-row>
-        <md-table-row  v-for="(category) in visibleCategories" :Key="category.id"
-          v-bind:categories="category" v-bind:visibleCategories="visibleCategories" v-bind:currentPage="currentPage">
+        <md-table-row  v-for="(category) in localCategories" :Key="category.id"
+          v-bind:categories="localCategories" v-bind:visibleCategories="visibleCategories" v-bind:currentPage="currentPage">
           <md-table-cell>{{category.name}}</md-table-cell>
           <md-table-cell>{{category.description}} </md-table-cell>
         </md-table-row>
@@ -38,9 +43,21 @@ export default {
   name: 'Categories',
   mounted: function () {
     this.$store.dispatch('loadCategoryData')
+    this.localCategories = this.categories
     this.$nextTick(function () {
       this.updateResource()
     })
+  },
+  watch: {
+    categoriesSearch () {
+      this.localProducts = this.categories
+      if (this.categoriesSearch !== '') {
+        this.localCategories = this.localCategories.filter(p => p.name.toLowerCase().includes(`${this.categoriesSearch.trim()}`))
+        this.localCategories = this.localCategories.length == 0? this.categories: this.localCategories
+      } else {
+        this.localCategories = this.categories
+      }
+    }
   },
   methods: {
     openForm () {
@@ -76,7 +93,9 @@ export default {
     isInfinity: false,
     currentPage: Environment.startCurrentPage,
     pageSize: Environment.sizeElementPagination,
-    visibleCategories: []
+    visibleCategories: [],
+    localCategories:[],
+    categoriesSearch: ''
   })
 }
 </script>

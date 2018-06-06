@@ -104,7 +104,7 @@ export default {
     position: fixed;
     bottom: 25px;
     right: 25px;
-    background-color: #F44336;
+    background-color: #36c1f4;
     z-index: 1000;
   }
 </style>

@@ -33,6 +33,12 @@ const getters = {
   },
   employeesDataLoaded: state => {
     return state.employees.length > 0
+  },
+  activeEmployees : state => {
+    return sortFunctions.activeEmployee(state.employees)
+  },
+  desactiveEmployees : state => {
+    return sortFunctions.desactiveEmployee(state.employees)
   }
 }
 
@@ -41,4 +47,25 @@ export default {
   mutations,
   actions,
   getters
+}
+
+const sortFunctions = {
+  activeEmployee: (employees) => {
+    let activeEmployees = []
+    employees.forEach(em => {
+      if (em.active === true) {
+        activeEmployees.push(em)
+      }
+    })
+    return activeEmployees
+  },
+  desactiveEmployee: (employees) => {
+    let desactiveEmployees = []
+    employees.forEach(em => {
+      if (em.active === false) {
+        desactiveEmployees.push(em)
+      }
+    })
+    return desactiveEmployees
+  }
 }

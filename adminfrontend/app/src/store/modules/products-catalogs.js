@@ -37,6 +37,7 @@ const actions = {
   removeProductCatalog: ({commit}, productsCatalogs) => {
     commit('REMOVE_PRODUCTS_CATALOGS', productsCatalogs)
   }
+
 }
 
 const getters = {

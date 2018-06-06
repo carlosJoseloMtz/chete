@@ -60,7 +60,7 @@ export default {
         CategoryService.save(body).then(data => {
           data = JSON.parse(data)
           if (data.status === 'success') {
-            this.$store.dispatch('addOneCategory', data.data)
+            this.$store.dispatch('addCategory', data.data)
             this.message = 'Category created'
             this.complete = true
             this.showSnackbar = true

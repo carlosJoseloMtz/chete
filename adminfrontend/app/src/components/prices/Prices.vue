@@ -9,14 +9,19 @@
       </md-empty-state>
     </div>
     <div v-else>
+      <md-field>
+        <md-icon>search</md-icon>
+          <label>Search by code</label>
+        <md-input v-model="productSearch"></md-input>
+      </md-field>
       <md-table>
         <md-table-row>
         <md-table-head>Code</md-table-head>
         <md-table-head>Name</md-table-head>
         <md-table-head>Price</md-table-head>
         </md-table-row>
-        <md-table-row  v-for="(product) in visibleProducts" :Key="product.id"
-          v-bind:product="product" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
+        <md-table-row  v-for="(product) in localProducts" :Key="product.id"
+          v-bind:product="localProducts" v-bind:visibleProducts="visibleProducts" v-bind:currentPage="currentPage">
           <md-table-cell>{{product.code}}</md-table-cell>
           <md-table-cell>{{product.name}}</md-table-cell>
           <md-table-cell>${{product.price}} </md-table-cell>
@@ -40,7 +45,19 @@ export default {
   name: 'Prices',
   mounted: function () {
     this.$store.dispatch('loadProductData')
+    this.localProducts = this.products
     this.updateResource()
+  },
+  watch: {
+    productSearch () {
+      this.localProducts = this.products
+      if (this.productSearch !== '') {
+        this.localProducts = this.localProducts.filter(p => p.code.toLowerCase().includes(`${this.productSearch.trim()}`))
+        this.localProducts = this.localProducts.length == 0? this.products: this.localProducts
+      } else {
+        this.localProducts = this.products
+      }
+    }
   },
   methods: {
     openForm () {
@@ -76,7 +93,9 @@ export default {
     isInfinity: false,
     currentPage: Environment.startCurrentPage,
     pageSize: Environment.sizeElementPagination,
-    visibleProducts: []
+    visibleProducts: [],
+    localProducts:[],
+    productSearch: ''
   })
 }
 </script>
