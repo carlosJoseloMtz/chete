@@ -18,17 +18,32 @@ class UserDao {
 
   async findById (id) {
     let users
-    await UserModel.findById(id, (err, product) => {
+    await UserModel.findById(id, (err, user) => {
 
       if(err){
         LOG.error('Error while trying to find a product by id')
         LOG.error(JSON.stringify(err))
       } else {
-        response = product
+        response = user
       }
 
     })
     return users || []
+  }
+
+  async findOne (usr) {
+    console.log('inside find One')
+    let users
+    await UserModel.findOne({"uid": usr.uid}, (err, user) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        users = user
+      }
+
+    })
+    return users
   }
 
   async create (user) {

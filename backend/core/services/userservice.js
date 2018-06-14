@@ -13,7 +13,11 @@ class UserService {
 
 
   findById (user) {
-    return this.userDao.findById(userDao)
+    return this.userDao.findById(user)
+  }
+
+  findOne (user) {
+    return this.userDao.findOne(user)
   }
 
   create (user) {

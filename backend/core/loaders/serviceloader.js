@@ -12,7 +12,7 @@ import StockService from '../services/stockservice'
 import StockDao from '../dao/stockdao'
 import UserDao from '../dao/userdao'
 import TokenDao from '../dao/tokendao'
-
+import MailService  from '../services/mailservice'
 /**
  * Inject all the dependencies as required.
  */
@@ -50,6 +50,9 @@ module.exports = app => {
   const warehouseService = new WarehouseService(warehouseDao)
 
   const stockService = new StockService(stockDao)
+
+  const mailService = new MailService(app.get('userDao'))
+
   // inject the object globally to the application for later usage
   app.set('authService', authService)
   app.set('warehouseService', warehouseService)
@@ -58,6 +61,7 @@ module.exports = app => {
   app.set('categoryService', categoryService)
   app.set('stockService', stockService)
   app.set('userService', userService)
+  app.set('mailService', mailService)
   // TODO: maybe it would be nice to separate the service and dao loading
   app.set('warehouseDao', warehouseDao)
   app.set('productCatalogDao', productCatalogDao)

@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import path from 'path'
 import mongoose from 'mongoose'
 import express from 'express'
+import nodemailer from 'nodemailer'
 
 
 module.exports = app => {

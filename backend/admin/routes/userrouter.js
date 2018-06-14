@@ -17,7 +17,6 @@ module.exports = app => {
 
   app.delete(`${BASE}/logout/:token`, (req, res) => {
     userService.logout(req.params.token).then(result => {
-      console.log(result)
       res.json(success(result))
     }).catch(error => {
       res.status(500).json(failed())

@@ -43,7 +43,7 @@
         <md-table-row>
         <md-table-head>Name</md-table-head>
         <md-table-head>Status</md-table-head>
-        <md-table-head>Action</md-table-head>
+        <md-table-head>Email</md-table-head>
         </md-table-row>
         <md-table-row  v-for="(employee, index) in localDesactiveEmployees" :Key="employee.name"
           v-bind:employees="localDesactiveEmployees" v-bind:visibleEmployee="visibleEmployee" v-bind:currentPage="currentPage">
@@ -55,8 +55,8 @@
       </md-table>
       <pagination v-bind:data="localDesactiveEmployees" v-on:page:update="updatePage"
         v-bind:currentPage="currentPage" v-bind:pageSize="pageSize"> </pagination>
-      </div>
-      <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
+    </div>
+    <md-button  class="md-primary md-fab add-fab-button md-icon-button" @click.native="openForm()"><md-icon>add</md-icon></md-button>
   </div>
 </template>
 <script>
