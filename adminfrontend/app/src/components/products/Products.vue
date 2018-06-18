@@ -95,7 +95,12 @@ import ProductService from '../../services/product-service'
 
 export default {
   name: 'Products',
-  mounted: function () {    
+  beforeMount: function () {
+    if (localStorage.getItem('tk') === null && localStorage.getItem('tk') === undefined) {
+      this.$router.push('/')
+    }
+  },
+  mounted: function () {
     this.$store.dispatch('loadProductData')
     this.localProducts = this.products
     this.updateResource()

@@ -32,7 +32,6 @@ class UserDao {
   }
 
   async findOne (usr) {
-    console.log('inside find One')
     let users
     await UserModel.findOne({"uid": usr.uid}, (err, user) => {
       if(err){
@@ -44,6 +43,30 @@ class UserDao {
 
     })
     return users
+  }
+
+  async active (action) {
+    let user
+    let response
+    await UserModel.findById(action.id, (err, usr) => {
+      if(err){
+        LOG.error('Error while trying to find a product by id')
+        LOG.error(JSON.stringify(err))
+      } else {
+        user = usr
+      }
+    })
+    user.active = action.status
+    await UserModel.update({_id: user._id}, user)
+    await UserModel.findById(action.id, (err, usr) => {
+     if(err){
+       LOG.error('Error while trying to find a product by id')
+       LOG.error(JSON.stringify(err))
+     } else {
+       response = usr
+     }})
+     return response
+
   }
 
   async create (user) {

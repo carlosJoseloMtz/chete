@@ -9,74 +9,117 @@ const BASE = '/admin/api/v1/products'
 
 module.exports = app => {
   const productService = app.get('productService')
+  const authService = app.get('authService')
 
   app.get(`${BASE}`, (req, res) => {
-    productService.getAll().then(product =>
-      convertAll(product, convertProduct)
-    ).then(product => {
-      res.json(success(product))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.getAll().then(product =>
+        convertAll(product, convertProduct)
+      ).then(product => {
+        res.json(success(product))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.get(`${BASE}/:id`, (req, res) => {
-    productService.findById(req.param('id')).then(product =>
-      convertProduct(product)
-    ).then(product => {
-      res.json(success(product))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.findById(req.param('id')).then(product =>
+        convertProduct(product)
+      ).then(product => {
+        res.json(success(product))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.delete(`${BASE}/:id`, (req, res) => {
-    productService.delete(req.param('id')).then(_ => {
-      res.json(success())
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.delete(req.param('id')).then(_ => {
+        res.json(success())
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.post(`${BASE}`, (req, res) => {
-    productService.create(req.body).then(product =>
-      convertProduct(product)
-    ).then(prod => {
-      res.json(success(prod))
-    }).catch(error => {
-      LOG.error(error)
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.create(req.body).then(product =>
+        convertProduct(product)
+      ).then(prod => {
+        res.json(success(prod))
+      }).catch(error => {
+        LOG.error(error)
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.put(`${BASE}`, (req, res) => {
-    productService.update(req.body).then(_ => {
-      res.json(success())
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.update(req.body).then(_ => {
+        res.json(success())
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
-  //mediaProduct.upload('productImage'),
+
   app.put(`${BASE}/img`, mediaProduct.imageProduct('productImage'),(req, res) => {
-    mediaProduct.imageProduct('productImage')
-    productService.updateImage(req.body, req.file.filename).then(product =>
-      convertProduct(product)
-    ).then(product => {
-      res.json(success(product))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      mediaProduct.imageProduct('productImage')
+      productService.updateImage(req.body, req.file.filename).then(product =>
+        convertProduct(product)
+      ).then(product => {
+        res.json(success(product))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.put(`${BASE}/img/reupload`, (req, res) => {
-    productService.reloadImage(req.body).then(product =>
-      convertProduct(product)
-    ).then(product => {
-      res.json(success(product))
-    }).catch(error => {
-      res.status(500).json(`the catalog base ${original.name} dont have any product`)
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      productService.reloadImage(req.body).then(product =>
+        convertProduct(product)
+      ).then(product => {
+        res.json(success(product))
+      }).catch(error => {
+        res.status(500).json(`the catalog base ${original.name} dont have any product`)
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
 }

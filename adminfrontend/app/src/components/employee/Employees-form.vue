@@ -51,6 +51,11 @@ import UserService from '../../services/user-service'
 export default {
   name: 'Employee-form',
   beforeMount: function () {
+    if (localStorage.getItem('tk') === null && localStorage.getItem('tk') === undefined) {
+      this.$router.push('/')
+    }
+  },
+  mounted: function () {
     this.statusSelected = []
     for (const element in this.statusCollection) {
       this.statusSelected.push(this.statusCollection[element].name)

@@ -41,6 +41,11 @@ import Pagination from '../commons/Pagination.vue'
 import Environment from '../../commons/environment-configuration'
 export default {
   name: 'Warehouses',
+  beforeMount: function () {
+    if (localStorage.getItem('tk') === null && localStorage.getItem('tk') === undefined) {
+      this.$router.push('/')
+    }
+  },
   mounted: function () {
     this.$store.dispatch('loadWarehouseData')
     this.$nextTick(function () {

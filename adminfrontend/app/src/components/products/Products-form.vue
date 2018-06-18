@@ -65,6 +65,11 @@ import ProductService from '../../services/product-service'
 export default {
   name: 'Products-form',
   beforeMount: function () {
+    if (localStorage.getItem('tk') === null && localStorage.getItem('tk') === undefined) {
+      this.$router.push('/')
+    }
+  },
+  mounted: function () {
     this.$store.dispatch('loadProductCatalogData')
     this.catalogSelected = []
     for (const element in this.catalogs) {

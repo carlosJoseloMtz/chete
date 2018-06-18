@@ -20,6 +20,7 @@ import Discounts from '@/components/discounts/Discounts'
 import DiscountsForm from '@/components/discounts/Discounts-form'
 import Logout from '@/components/Logout'
 import Welcome from '@/components/Welcome'
+import ForgotMyPassword from '@/components/ForgotMyPassword'
 
 Vue.use(Router)
 
@@ -126,6 +127,11 @@ export default new Router({
       path: '/Logout',
       name: 'Logout',
       component: Logout
+    },
+    {
+      path: '/ForgotMyPassword',
+      name: 'ForgotMyPassword',
+      component: ForgotMyPassword
     }],
   mode: 'history'
 })

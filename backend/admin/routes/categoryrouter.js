@@ -8,51 +8,82 @@ const BASE = '/admin/api/v1/category'
 
 module.exports = app => {
   const categoryService = app.get('categoryService')
+  const authService = app.get('authService')
 
   app.get(`${BASE}`, (req, res) => {
-    categoryService.getAll().then(category =>
-      convertAll(category, convertCategory)
-    ).then(category => {
-      res.json(success(category))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      categoryService.getAll().then(category =>
+        convertAll(category, convertCategory)
+      ).then(category => {
+        res.json(success(category))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.post(`${BASE}`, (req, res) => {
-    categoryService.create(req.body).then(category =>
-      convertCategory(category)
-    ).then(category => {
-      res.json(success(category))
-    }).catch(error => {
-      LOG.error(error)
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      categoryService.create(req.body).then(category =>
+        convertCategory(category)
+      ).then(category => {
+        res.json(success(category))
+      }).catch(error => {
+        LOG.error(error)
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.get(`${BASE}/:id`, (req, res) => {
-    categoryService.findById(req.param('id')).then(category =>
-      convertCategory(category)
-    ).then(category => {
-      res.json(success(category))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      categoryService.findById(req.param('id')).then(category =>
+        convertCategory(category)
+      ).then(category => {
+        res.json(success(category))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.delete(`${BASE}/:id`, (req, res) => {
-    categoryService.delete(req.param('id')).then(_ => {
-      res.json(success())
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      categoryService.delete(req.param('id')).then(_ => {
+        res.json(success())
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.put(`${BASE}`, (req, res) => {
-    categoryService.update(req.body).then(_ => {
-      res.json(success())
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      categoryService.update(req.body).then(_ => {
+        res.json(success())
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 }

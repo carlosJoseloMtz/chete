@@ -8,6 +8,7 @@ const BASE = '/admin/api/v1/user'
 
 module.exports = app => {
   const userService = app.get('userService')
+  const authService = app.get('authService')
 
   app.post(`${BASE}/login`, (req, res) => {
     userService.findByUid(req.body)
@@ -16,24 +17,55 @@ module.exports = app => {
   })
 
   app.delete(`${BASE}/logout/:token`, (req, res) => {
-    userService.logout(req.params.token).then(result => {
-      res.json(success(result))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      userService.logout(req.params.token).then(result => {
+        res.json(success(result))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.post(`${BASE}`, (req, res) => {
-    userService.create(req.body).then(user =>
-      convertUser(user)
-    ).then(usr => {
-      res.json(success(usr))
-    }).catch(error => {
-      res.status(500).json(failed())
-    })
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      userService.create(req.body).then(user =>
+        convertUser(user)
+      ).then(usr => {
+        res.json(success(usr))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
+  })
+
+  app.put(`${BASE}/active`, (req, res) => {
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
+      userService.active(req.body).then(user =>
+        convertUser(user)
+      ).then(usr => {
+        res.json(success(usr))
+      }).catch(error => {
+        res.status(500).json(failed())
+      })
+    } else {
+        res.status(401).json(failed())
+    }
   })
 
   app.get(`${BASE}`, (req, res) => {
+    let isTokenValid
+    isTokenValid =  authService.isTokenValid(req.headers.authorization)
+    if (isTokenValid === true) {
     userService.getAll().then(user =>
       convertAll(user, convertUser)
     ).then(user => {
@@ -41,5 +73,8 @@ module.exports = app => {
     }).catch(error => {
       res.status(500).json(failed())
     })
+  } else {
+      res.status(401).json(failed())
+  }
   })
 }

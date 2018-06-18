@@ -1,7 +1,5 @@
 
 const convert = (user) => {
-
-  console.log(user)
   return {
     id: user._id,
     uid: user.uid,

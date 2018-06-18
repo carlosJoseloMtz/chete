@@ -24,8 +24,13 @@ class UserService {
     return this.userDao.create(user)
   }
 
-  getAll() {
+  getAll () {
     return this.userDao.getAll()
+  }
+
+  active (user) {
+    console.log('inside active service')
+    return this.userDao.active(user)
   }
 
   async logout(token) {

@@ -1,5 +1,5 @@
 module.exports = {
-  baseImageUrl: '/home/rafa/CALECHE/productsImages',
+  baseImageUrl: '/home/rafa/caleche/productsImages',
   baseImageName: 'img_product_',
   imageMaxSize: 5,
   media: 'http://localhost:3030/media/',

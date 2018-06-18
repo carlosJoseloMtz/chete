@@ -4,10 +4,11 @@
     </div>
     <md-card class="md-layout-item md-size-33 md-elevation-24">
       <md-card-header>
-       <div class="md-title title">LOGIN</div>
+       <div class="md-title title">FORGOT MY PASSWORD</div>
      </md-card-header>
       <md-card-content class="md-layout-item md-size-100">
         <div class="md-layout-item md-small-size-100">
+          <h3>If you can't remember your password please provide next information</h3>
           <md-field>
             <label>User</label>
             <md-input v-model="user"></md-input>
@@ -15,6 +16,7 @@
         </div>
 
         <div class="md-layout-item md-small-size-100">
+          <h3>Please provide the last password can you remember</h3>
           <md-field>
             <label>Password</label>
             <md-input v-model="pwd" type="password"></md-input>
@@ -22,8 +24,8 @@
         </div>
       </md-card-content>
       <md-card-actions>
-        <md-button type="submit" class="md-primary" @click.native="forgotMyPassword">Forgot my password</md-button>
-        <md-button type="submit" class="md-primary" @click.native="login">Login</md-button>
+        <md-button type="submit" class="md-primary" @click.native="cancel">Cancel</md-button>
+        <md-button type="submit" class="md-primary" @click.native="sendEmail">Login</md-button>
     </md-card-actions>
     </md-card>
 
@@ -35,10 +37,10 @@
 </template>
 
 <script>
-import LoginService from '../services/user-service'
+import MailService from '../services/mail-service'
 
 export default {
-  name: 'Login',
+  name: 'ForgotMyPassword',
   methods: {
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
@@ -49,28 +51,21 @@ export default {
         }
       }
     },
-    forgotMyPassword () {
-        this.$router.push('ForgotMyPassword')
+
+    cancel () {
+      this.$router.push('/')
     },
-    login () {
+
+    sendEmail () {
       if (this.isValid()) {
         let body = {
           uid: this.user,
           password: this.pwd
         }
-        LoginService.login(body).then(data => {
+        MailService.forgotMyPassword(body).then(data => {
           data = JSON.parse(data)
           if (data.status === 'success') {
-
-            setTimeout(_ => {
-              this.$store.dispatch('loadProductCatalogData')
-              this.$store.dispatch('loadProductData')
-              this.$store.dispatch('loadWarehouseData')
-              this.$store.dispatch('loadStockData')
-              this.$store.dispatch('loadCategoryData')
-            }, 1000)
-            localStorage.setItem('tk', data.data.token)
-            this.message = `welcome to chete ${this.user}`
+            this.message = `${this.user} please verify your email we are sending a email `
             this.complete = true
             this.showSnackbar = true
           } else {
@@ -97,7 +92,7 @@ export default {
 
     submit () {
       if (this.complete === true) {
-        this.$router.push('Welcome')
+        this.$router.push('/')
       } else {
         this.showSnackbar = false
       }

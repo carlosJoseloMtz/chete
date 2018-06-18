@@ -71,6 +71,11 @@
 import WarehouseService from '../../services/warehouse-service'
 export default {
   name: 'Warehouses-form',
+  beforeMount: function () {
+    if (localStorage.getItem('tk') === null && localStorage.getItem('tk') === undefined) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     save () {
       let body = {

@@ -16,7 +16,7 @@ module.exports = app => {
   app.set('json spaces', 2)
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-  app.use('/media', express.static('/home/rafa/CALECHE/productsImages'));
+  app.use('/media', express.static('/home/rafa/caleche/productsImages'));
 
   // token stuff (JWT)
   app.set('secret', process.env.AUTH_SECRET || 'CHANGE_ME')

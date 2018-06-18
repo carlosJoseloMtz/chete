@@ -1,5 +1,5 @@
 import HttpClient from './http-client'
-const url = 'http://localhost:3030/admin/api/v1/user/'
+const url = 'http://localhost:3030/admin/api/v1/mail/'
 
 export default {
   getAll () {
@@ -14,6 +14,10 @@ export default {
     return HttpClient.post(url, options)
   },
 
+  forgotMyPassword (options) {
+    return HttpClient.post(`${url}forgotMyPassword`, options)
+  },
+
   delete (id) {
     return HttpClient.delete(url + id)
   },
@@ -21,16 +25,4 @@ export default {
   update (options) {
     return HttpClient.put(url, options)
   },
-
-  login (options) {
-    return HttpClient.post(`${url}login`, options)
-  },
-
-  logout (options) {
-    return HttpClient.delete(`${url}logout/${options}`)
-  },
-
-  active (options) {
-    return HttpClient.put(`${url}active`, options)
-  }
 }

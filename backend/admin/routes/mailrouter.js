@@ -9,16 +9,8 @@ module.exports = app => {
   const mailService = app.get('mailService')
   const userService = app.get('userService')
 
-  app.post(`${BASE}`, (req, res) => {
+  app.post(`${BASE}/forgotMyPassword`, (req, res) => {
       mailService.recoveryPassword(req.body).then(msj => {
-        res.json(success(msj))
-      }).catch(error => {
-        res.status(500).json(failed())
-      })
-  })
-  
-  app.post(`${BASE}/1`, (req, res) => {
-      mailService.recoveryPasswordHtml(req.body).then(msj => {
         res.json(success(msj))
       }).catch(error => {
         res.status(500).json(failed())

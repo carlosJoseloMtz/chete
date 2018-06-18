@@ -11,26 +11,6 @@ class MailService {
 
   async recoveryPassword (user) {
     let userFinded
-    await this.userDao.findOne(user).then(usr => {
-      userFinded = usr
-    })
-    if (userFinded !== null || userFinded !== undefined) {
-        var smtpTransport = mail.config()
-        var mailOptions = {
-          from : `${environment.admin} <${environment.email}>`,
-          to: `${userFinded.email}`,
-          subject: "Recovery Password",
-          text: mails.mail(userFinded)
-        }
-        return smtpTransport.sendMail(mailOptions)
-    }
-    else {
-      return "User not exist"
-    }
-  }
-
-  async recoveryPasswordHtml (user) {
-    let userFinded
     let html1
     await this.userDao.findOne(user).then(usr => {
       userFinded = usr
